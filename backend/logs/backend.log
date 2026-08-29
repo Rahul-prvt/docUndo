@@ -1,0 +1,1121 @@
+2026-08-08T15:11:42 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T15:11:42 WARNING  app.main | Request complete request_id=61fd2732-87c9-4b21-a234-aa00ffcb9f73 method=POST path=/api/v1/triage status=422 duration_ms=1.4 client=127.0.0.1
+2026-08-08T15:12:45 WARNING  app.main | Request complete request_id=3e3f13c7-69d7-490a-a542-2d3d822d2592 method=GET path=/api/v1/doctors/me status=401 duration_ms=2.6 client=127.0.0.1
+2026-08-08T15:12:45 WARNING  app.main | Request complete request_id=1c357cf8-5008-4d08-b86c-207a8d69840c method=GET path=/api/v1/doctors/me status=401 duration_ms=1.2 client=127.0.0.1
+2026-08-08T15:12:45 INFO     app.main | Application shutting down
+2026-08-08T15:12:47 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T15:13:48 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T15:13:48 INFO     app.main | Application shutting down
+2026-08-08T15:13:50 INFO     app.main | Request complete request_id=b6cd25e1-e36e-4f09-a059-4dfb693d6b98 method=GET path=/health status=200 duration_ms=2.0 client=127.0.0.1
+2026-08-08T15:13:50 INFO     app.main | Application shutting down
+2026-08-08T15:13:51 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T15:13:52 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T15:14:05 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T15:14:07 INFO     app.main | Request complete request_id=0f2920b2-bd0e-49d8-a937-be3a3feae3cb method=GET path=/health status=200 duration_ms=0.6 client=127.0.0.1
+2026-08-08T15:15:57 WARNING  app.deps | Doctor authentication rejected: missing or malformed bearer token
+2026-08-08T15:15:57 WARNING  app.main | Request complete request_id=583ba37a-75ff-4118-82da-123d8f218019 method=GET path=/api/v1/doctors/me status=401 duration_ms=2.0 client=127.0.0.1
+2026-08-08T15:15:57 WARNING  app.deps | Doctor authentication rejected: missing or malformed bearer token
+2026-08-08T15:15:57 WARNING  app.main | Request complete request_id=dbde0151-d6ff-4b66-b9e5-c24fd010da76 method=GET path=/api/v1/doctors/me status=401 duration_ms=1.2 client=127.0.0.1
+2026-08-08T15:16:11 INFO     app.main | Application shutting down
+2026-08-08T15:16:15 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T15:16:29 WARNING  app.deps | Doctor authentication rejected: missing or malformed bearer token
+2026-08-08T15:16:29 WARNING  app.main | Request complete request_id=ff8424a4-90bc-40f5-8b52-6c5326e5c7c8 method=GET path=/api/v1/doctors/me status=401 duration_ms=2.7 client=127.0.0.1
+2026-08-08T15:16:29 WARNING  app.deps | Doctor authentication rejected: missing or malformed bearer token
+2026-08-08T15:16:29 WARNING  app.main | Request complete request_id=a6444a14-8799-4121-852c-92ab77c9d88a method=GET path=/api/v1/doctors/me status=401 duration_ms=1.9 client=127.0.0.1
+2026-08-08T15:16:31 WARNING  app.deps | Doctor authentication rejected: missing or malformed bearer token
+2026-08-08T15:16:31 WARNING  app.main | Request complete request_id=e104c936-5288-424d-9575-50fe4f650dcf method=GET path=/api/v1/doctors/me status=401 duration_ms=1.5 client=127.0.0.1
+2026-08-08T15:16:31 WARNING  app.deps | Doctor authentication rejected: missing or malformed bearer token
+2026-08-08T15:16:31 WARNING  app.main | Request complete request_id=807a9795-cf80-4ffd-b636-8c7cb173a5f0 method=GET path=/api/v1/doctors/me status=401 duration_ms=2.5 client=127.0.0.1
+2026-08-08T15:16:34 WARNING  app.deps | Doctor authentication rejected: missing or malformed bearer token
+2026-08-08T15:16:34 WARNING  app.main | Request complete request_id=75b8a00f-1f74-4619-80c3-a9c0578506e6 method=GET path=/api/v1/doctors/me status=401 duration_ms=1.8 client=127.0.0.1
+2026-08-08T15:16:34 WARNING  app.deps | Doctor authentication rejected: missing or malformed bearer token
+2026-08-08T15:16:34 WARNING  app.main | Request complete request_id=44914819-656a-4efc-8fd1-59f673656f2b method=GET path=/api/v1/doctors/me status=401 duration_ms=1.4 client=127.0.0.1
+2026-08-08T15:18:24 INFO     app.routers.search | Doctor search requested specialty=all radius_km=10.0
+2026-08-08T15:18:24 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=10.0
+2026-08-08T15:18:24 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-08T15:18:24 INFO     app.db | Initializing Supabase service-role client
+2026-08-08T15:18:26 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T15:18:26 INFO     app.services.supabase_store | Supabase search doctors completed result_count=0
+2026-08-08T15:18:26 INFO     app.routers.search | Doctor search completed result_count=0
+2026-08-08T15:18:26 INFO     app.main | Request complete request_id=d661f48e-4c7a-4667-a61b-575e56aadab2 method=GET path=/api/v1/search status=200 duration_ms=2387.3 client=127.0.0.1
+2026-08-08T15:18:47 WARNING  app.deps | Doctor authentication rejected: missing or malformed bearer token
+2026-08-08T15:18:47 WARNING  app.main | Request complete request_id=81b442c2-0c45-4cd8-8a0c-540475579ebe method=GET path=/api/v1/doctors/me status=401 duration_ms=2.2 client=127.0.0.1
+2026-08-08T15:18:47 WARNING  app.deps | Doctor authentication rejected: missing or malformed bearer token
+2026-08-08T15:18:47 WARNING  app.main | Request complete request_id=d37e3325-41c1-4764-90a0-bd3a35f5a28f method=GET path=/api/v1/doctors/me status=401 duration_ms=2.3 client=127.0.0.1
+2026-08-08T15:20:01 INFO     app.main | Request complete request_id=d68521ec-3a05-4084-bff8-a2d801c41071 method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=0.3 client=127.0.0.1
+2026-08-08T15:20:01 INFO     app.routers.doctors | Doctor profile requested doctor_id=385004e6-8f2a-4006-92d7-21917179949e
+2026-08-08T15:20:01 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T15:20:01 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T15:20:01 INFO     app.main | Request complete request_id=7c6bb6aa-52db-4dd8-89c8-13fbd6c98279 method=GET path=/api/v1/doctors/me status=200 duration_ms=568.0 client=127.0.0.1
+2026-08-08T15:20:02 INFO     app.routers.doctors | Doctor profile requested doctor_id=385004e6-8f2a-4006-92d7-21917179949e
+2026-08-08T15:20:02 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T15:20:02 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T15:20:02 INFO     app.main | Request complete request_id=fc4d7358-abd7-4daf-a236-faf1ce9af54e method=GET path=/api/v1/doctors/me status=200 duration_ms=130.6 client=127.0.0.1
+2026-08-08T15:20:04 INFO     app.routers.doctors | Doctor profile requested doctor_id=385004e6-8f2a-4006-92d7-21917179949e
+2026-08-08T15:20:04 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T15:20:05 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T15:20:05 INFO     app.main | Request complete request_id=d65d052b-d6c7-4bb5-bcd8-407b326b4a34 method=GET path=/api/v1/doctors/me status=200 duration_ms=149.7 client=127.0.0.1
+2026-08-08T15:20:05 INFO     app.routers.doctors | Doctor profile requested doctor_id=385004e6-8f2a-4006-92d7-21917179949e
+2026-08-08T15:20:05 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T15:20:05 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T15:20:05 INFO     app.main | Request complete request_id=4ca99cad-dc03-4984-8386-6ad43215206d method=GET path=/api/v1/doctors/me status=200 duration_ms=195.4 client=127.0.0.1
+2026-08-08T15:21:18 INFO     app.main | Application shutting down
+2026-08-08T15:21:22 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T15:23:40 INFO     app.main | Request complete request_id=15885eeb-5993-442e-9f3b-3c6be8b6c21c method=OPTIONS path=/api/v1/auth/signup/doctor status=200 duration_ms=0.7 client=127.0.0.1
+2026-08-08T15:23:40 INFO     app.routers.auth | Doctor signup requested email=janfishan@gmail.com specialty=ENT Specialist
+2026-08-08T15:23:40 INFO     app.services.supabase_store | Supabase create doctor specialty=ENT Specialist
+2026-08-08T15:23:40 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-08T15:23:40 INFO     app.db | Initializing Supabase service-role client
+2026-08-08T15:23:42 INFO     httpx | HTTP Request: POST https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors "HTTP/2 201 Created"
+2026-08-08T15:23:42 INFO     app.routers.auth | Doctor signup succeeded doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T15:23:42 INFO     app.main | Request complete request_id=b621aafc-7650-43b1-bde9-b05094f48709 method=POST path=/api/v1/auth/signup/doctor status=201 duration_ms=2689.7 client=127.0.0.1
+2026-08-08T15:23:42 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T15:23:42 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:23:43 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:23:43 INFO     app.main | Request complete request_id=7f3020cc-ee90-4eb7-a8b2-4432a8f5b671 method=GET path=/api/v1/doctors/me status=200 duration_ms=184.0 client=127.0.0.1
+2026-08-08T15:23:43 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T15:23:43 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:23:43 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:23:43 INFO     app.main | Request complete request_id=43cd90fa-65db-4bdb-a6c6-741fe29d55c8 method=GET path=/api/v1/doctors/me status=200 duration_ms=137.0 client=127.0.0.1
+2026-08-08T15:24:05 INFO     app.main | Request complete request_id=fe37bd27-c5ba-4952-bb2d-2139b0ea3979 method=OPTIONS path=/api/v1/search status=200 duration_ms=0.6 client=127.0.0.1
+2026-08-08T15:24:05 INFO     app.routers.search | Doctor search requested specialty=all radius_km=15.0
+2026-08-08T15:24:05 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=15.0
+2026-08-08T15:24:05 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T15:24:05 INFO     app.services.supabase_store | Supabase search doctors completed result_count=0
+2026-08-08T15:24:05 INFO     app.routers.search | Doctor search completed result_count=0
+2026-08-08T15:24:05 INFO     app.main | Request complete request_id=e55acd5f-cfe0-4fa0-a06c-79dcb9c856b2 method=GET path=/api/v1/search status=200 duration_ms=270.2 client=127.0.0.1
+2026-08-08T15:25:29 INFO     app.main | Request complete request_id=c0926e6d-cb8f-4522-97a7-5e6262bc29c8 method=OPTIONS path=/api/v1/auth/login status=200 duration_ms=0.6 client=127.0.0.1
+2026-08-08T15:25:29 INFO     app.routers.auth | Doctor login requested email=janfishan@gmail.com
+2026-08-08T15:25:30 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&email=eq.janfishan%40gmail.com "HTTP/2 200 OK"
+2026-08-08T15:25:30 INFO     app.routers.auth | Doctor login succeeded doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T15:25:30 INFO     app.main | Request complete request_id=6cc96820-4508-4c4f-8c84-a43e463cb77b method=POST path=/api/v1/auth/login status=200 duration_ms=222.8 client=127.0.0.1
+2026-08-08T15:25:30 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T15:25:30 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:25:30 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:25:30 INFO     app.main | Request complete request_id=fb53c2b3-de09-4f24-862c-c9b09487e54f method=GET path=/api/v1/doctors/me status=200 duration_ms=165.7 client=127.0.0.1
+2026-08-08T15:25:30 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T15:25:30 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:25:30 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:25:30 INFO     app.main | Request complete request_id=ded0836f-12fc-4559-8e7d-c2e198f28d05 method=GET path=/api/v1/doctors/me status=200 duration_ms=152.4 client=127.0.0.1
+2026-08-08T15:28:24 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T15:28:25 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:28:25 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:28:25 INFO     app.main | Request complete request_id=03f7323d-f396-47d0-962b-4cd88db9174e method=GET path=/api/v1/doctors/me status=200 duration_ms=604.9 client=127.0.0.1
+2026-08-08T15:28:25 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T15:28:25 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:28:25 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:28:25 INFO     app.main | Request complete request_id=526c2051-e5cd-4530-8707-d24635082039 method=GET path=/api/v1/doctors/me status=200 duration_ms=195.7 client=127.0.0.1
+2026-08-08T15:35:29 INFO     app.main | Request complete request_id=348f3afa-cee5-43a8-b8f2-47a2bd5d1bd6 method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=9.2 client=127.0.0.1
+2026-08-08T15:35:29 INFO     app.main | Request complete request_id=f32bf765-7166-4a2a-b1e1-dfb7b9bf5daa method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=17.9 client=127.0.0.1
+2026-08-08T15:35:29 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T15:35:30 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:35:30 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:35:30 INFO     app.main | Request complete request_id=2cdb294b-7721-4fc1-b9d8-33bbd167c8d3 method=GET path=/api/v1/doctors/me status=200 duration_ms=951.0 client=127.0.0.1
+2026-08-08T15:35:30 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T15:35:30 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:35:30 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T15:35:30 INFO     app.main | Request complete request_id=4159cf3d-d4e4-42b9-a798-d2baf806c2f1 method=GET path=/api/v1/doctors/me status=200 duration_ms=136.4 client=127.0.0.1
+2026-08-08T16:03:28 INFO     app.main | Application shutting down
+2026-08-08T16:03:31 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T16:04:54 INFO     app.main | Application shutting down
+2026-08-08T16:04:58 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T16:05:52 INFO     app.main | Request complete request_id=e5f1cd49-bc43-4c79-8ad9-51ab96d99d16 method=OPTIONS path=/api/v1/auth/login status=200 duration_ms=0.7 client=127.0.0.1
+2026-08-08T16:05:52 INFO     app.routers.auth | Doctor login requested email=janfishan@gmail.com
+2026-08-08T16:05:52 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-08T16:05:53 INFO     app.db | Initializing Supabase service-role client
+2026-08-08T16:05:55 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&email=eq.janfishan%40gmail.com "HTTP/2 200 OK"
+2026-08-08T16:05:55 INFO     app.routers.auth | Doctor login succeeded doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T16:05:55 INFO     app.main | Request complete request_id=47b708b7-7fab-4b5c-a6cf-bee9e64d10aa method=POST path=/api/v1/auth/login status=200 duration_ms=2952.3 client=127.0.0.1
+2026-08-08T16:05:55 INFO     app.main | Request complete request_id=57185c72-72dc-42dd-aa1c-36e4ac7ae6e4 method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=1.3 client=127.0.0.1
+2026-08-08T16:05:55 INFO     app.main | Request complete request_id=c7d2a02a-015f-422a-ad99-96eed0c01ecf method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=5.4 client=127.0.0.1
+2026-08-08T16:05:55 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T16:05:55 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T16:05:55 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T16:05:55 INFO     app.main | Request complete request_id=7b703029-a580-493f-9293-3cd4e06053b0 method=GET path=/api/v1/doctors/me status=200 duration_ms=223.5 client=127.0.0.1
+2026-08-08T16:05:55 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-08T16:05:55 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T16:05:55 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T16:05:55 INFO     app.main | Request complete request_id=725f76a7-7a1a-42f3-aff3-997cf373bd59 method=GET path=/api/v1/doctors/me status=200 duration_ms=127.3 client=127.0.0.1
+2026-08-08T16:06:48 INFO     app.main | Request complete request_id=3349122d-04f5-4d85-b7a9-a50a8b13701a method=OPTIONS path=/api/v1/doctors/me/clinic status=200 duration_ms=0.3 client=127.0.0.1
+2026-08-08T16:06:48 INFO     app.routers.doctors | Clinic upsert requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 address=nattukal , near policestation
+2026-08-08T16:06:48 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-08T16:06:48 INFO     app.services.geocode | Geocode requested address_length=29
+2026-08-08T16:06:50 INFO     httpx | HTTP Request: GET https://nominatim.openstreetmap.org/search?q=nattukal+%2C+near+policestation&format=json&limit=1 "HTTP/1.1 200 OK"
+2026-08-08T16:06:50 WARNING  app.routers.doctors | Clinic upsert geocoding failed doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 address=nattukal , near policestation
+2026-08-08T16:06:50 WARNING  app.main | Request complete request_id=192d8a1d-991c-4bc6-a879-fb3bab32f411 method=POST path=/api/v1/doctors/me/clinic status=422 duration_ms=1599.0 client=127.0.0.1
+2026-08-08T16:08:08 INFO     app.main | Request complete request_id=e579dd24-6a5a-4adf-beba-05cc5ebadcfb method=OPTIONS path=/api/v1/auth/signup/doctor status=200 duration_ms=2.0 client=127.0.0.1
+2026-08-08T16:08:08 INFO     app.routers.auth | Doctor signup requested email=ms@gamail.com specialty=General Practitioner
+2026-08-08T16:08:08 INFO     app.services.supabase_store | Supabase create doctor specialty=General Practitioner
+2026-08-08T16:08:09 INFO     httpx | HTTP Request: POST https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors "HTTP/2 201 Created"
+2026-08-08T16:08:09 INFO     app.routers.auth | Doctor signup succeeded doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b
+2026-08-08T16:08:09 INFO     app.main | Request complete request_id=0df66dbb-63a9-4f5b-a60f-a93cc14c75ce method=POST path=/api/v1/auth/signup/doctor status=201 duration_ms=524.4 client=127.0.0.1
+2026-08-08T16:08:09 INFO     app.routers.doctors | Doctor profile requested doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b
+2026-08-08T16:08:09 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:08:09 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:08:09 INFO     app.main | Request complete request_id=f5245a5b-f024-4c97-8eb0-5e33e511c5cb method=GET path=/api/v1/doctors/me status=200 duration_ms=179.9 client=127.0.0.1
+2026-08-08T16:08:09 INFO     app.routers.doctors | Doctor profile requested doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b
+2026-08-08T16:08:09 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:08:09 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:08:09 INFO     app.main | Request complete request_id=c4820810-7d54-4ecf-910f-13e830b06498 method=GET path=/api/v1/doctors/me status=200 duration_ms=183.5 client=127.0.0.1
+2026-08-08T16:14:13 INFO     app.routers.doctors | Doctor profile requested doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b
+2026-08-08T16:14:14 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:14:14 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:14:14 INFO     app.main | Request complete request_id=68f1b993-7ea7-4c15-91c3-a3c3681cf746 method=GET path=/api/v1/doctors/me status=200 duration_ms=805.4 client=127.0.0.1
+2026-08-08T16:15:34 INFO     app.main | Application shutting down
+2026-08-08T16:15:36 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T16:16:04 INFO     app.main | Request complete request_id=08d55f2a-8dee-45d6-97ed-f193ebd19194 method=OPTIONS path=/api/v1/doctors/me/availability status=200 duration_ms=0.9 client=127.0.0.1
+2026-08-08T16:16:04 INFO     app.routers.doctors | Availability update requested doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b available=True
+2026-08-08T16:16:04 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-08T16:16:04 INFO     app.db | Initializing Supabase service-role client
+2026-08-08T16:16:06 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:16:06 INFO     app.services.supabase_store | Supabase upsert availability doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b available=True
+2026-08-08T16:16:06 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/availability?select=%2A&doctor_id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:16:06 INFO     httpx | HTTP Request: POST https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/availability "HTTP/2 201 Created"
+2026-08-08T16:16:06 INFO     app.main | Request complete request_id=21a46ebc-4bc4-4f24-9e42-04360cb187f2 method=PUT path=/api/v1/doctors/me/availability status=200 duration_ms=2323.8 client=127.0.0.1
+2026-08-08T16:17:23 INFO     app.main | Request complete request_id=b665b4de-e77d-4b5f-8a48-16c452b4d2aa method=OPTIONS path=/api/v1/doctors/me/clinic status=200 duration_ms=0.6 client=127.0.0.1
+2026-08-08T16:17:23 INFO     app.routers.doctors | Clinic upsert requested doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b address=karuvarakund near lulu mall
+2026-08-08T16:17:23 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:17:23 INFO     app.routers.doctors | Clinic upsert using provided coordinates lat=11.131288904015442 lng=76.34577924296835
+2026-08-08T16:17:23 INFO     app.services.supabase_store | Supabase upsert clinic doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b
+2026-08-08T16:17:23 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:17:23 INFO     httpx | HTTP Request: POST https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics "HTTP/2 201 Created"
+2026-08-08T16:17:23 INFO     app.main | Request complete request_id=83be818e-2686-4ba9-8608-a6f64f7fa638 method=POST path=/api/v1/doctors/me/clinic status=201 duration_ms=398.8 client=127.0.0.1
+2026-08-08T16:17:23 INFO     app.main | Request complete request_id=e55d40f7-d2b2-408f-b6ad-0055d078cd60 method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=0.4 client=127.0.0.1
+2026-08-08T16:17:23 INFO     app.routers.doctors | Doctor profile requested doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b
+2026-08-08T16:17:23 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:17:23 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:17:23 INFO     app.main | Request complete request_id=00f2065b-39f1-4822-bcff-c1b00f99fc07 method=GET path=/api/v1/doctors/me status=200 duration_ms=147.6 client=127.0.0.1
+2026-08-08T16:17:26 INFO     app.routers.doctors | Clinic upsert requested doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b address=karuvarakund near lulu mall
+2026-08-08T16:17:26 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:17:26 INFO     app.routers.doctors | Clinic upsert using provided coordinates lat=11.131288904015442 lng=76.34577924296835
+2026-08-08T16:17:26 INFO     app.services.supabase_store | Supabase upsert clinic doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b
+2026-08-08T16:17:26 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:17:26 INFO     httpx | HTTP Request: PATCH https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?doctor_id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:17:26 INFO     app.main | Request complete request_id=eedaa607-ab62-4760-8926-6864605e4635 method=POST path=/api/v1/doctors/me/clinic status=201 duration_ms=218.4 client=127.0.0.1
+2026-08-08T16:17:26 INFO     app.routers.doctors | Doctor profile requested doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b
+2026-08-08T16:17:26 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:17:26 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:17:26 INFO     app.main | Request complete request_id=e3649ce3-f1dc-4b3d-a14a-3f3683672513 method=GET path=/api/v1/doctors/me status=200 duration_ms=138.5 client=127.0.0.1
+2026-08-08T16:17:39 INFO     app.main | Request complete request_id=327ec6ba-9620-42c2-82a7-2d18a0c820c4 method=OPTIONS path=/api/v1/search status=200 duration_ms=0.6 client=127.0.0.1
+2026-08-08T16:17:39 INFO     app.routers.search | Doctor search requested specialty=all radius_km=48.0
+2026-08-08T16:17:39 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=48.0
+2026-08-08T16:17:40 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T16:17:40 ERROR    app.main | Request failed request_id=ab50ac5c-0e66-4b1d-a865-582f31718698 method=GET path=/api/v1/search
+Traceback (most recent call last):
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\main.py", line 47, in log_request
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\routers\search.py", line 33, in search_doctors
+    remote_results = supabase_store.search_doctors(lat, lng, specialty, radius_km)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 93, in search_doctors
+    availability = doctor.get("availability", [{}])[0] if doctor.get("availability") else None
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+KeyError: 0
+2026-08-08T16:18:11 INFO     app.main | Request complete request_id=83fab12e-423a-4d2e-a92b-d3e5aac96827 method=OPTIONS path=/api/v1/search status=200 duration_ms=0.8 client=127.0.0.1
+2026-08-08T16:18:11 INFO     app.routers.search | Doctor search requested specialty=General Practitioner radius_km=48.0
+2026-08-08T16:18:11 INFO     app.services.supabase_store | Supabase search doctors specialty=General Practitioner radius_km=48.0
+2026-08-08T16:18:11 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29&specialty=ilike.%25General+Practitioner%25 "HTTP/2 200 OK"
+2026-08-08T16:18:11 ERROR    app.main | Request failed request_id=7b9d57b6-2ff0-4d00-b075-ab247587ee9f method=GET path=/api/v1/search
+Traceback (most recent call last):
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\main.py", line 47, in log_request
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\routers\search.py", line 33, in search_doctors
+    remote_results = supabase_store.search_doctors(lat, lng, specialty, radius_km)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 93, in search_doctors
+    availability = doctor.get("availability", [{}])[0] if doctor.get("availability") else None
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+KeyError: 0
+2026-08-08T16:18:43 INFO     app.main | Application shutting down
+2026-08-08T16:18:47 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T16:18:55 INFO     app.routers.doctors | Doctor profile requested doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b
+2026-08-08T16:18:55 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-08T16:18:56 INFO     app.db | Initializing Supabase service-role client
+2026-08-08T16:18:58 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:18:58 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:18:58 INFO     app.main | Request complete request_id=cd835aec-6c22-4753-9e7a-9a69c90340cf method=GET path=/api/v1/doctors/me status=200 duration_ms=2150.3 client=127.0.0.1
+2026-08-08T16:18:58 INFO     app.routers.doctors | Doctor profile requested doctor_id=4103095d-8a90-42bd-bd5d-e54bf5dc059b
+2026-08-08T16:18:58 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:18:58 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.4103095d-8a90-42bd-bd5d-e54bf5dc059b "HTTP/2 200 OK"
+2026-08-08T16:18:58 INFO     app.main | Request complete request_id=13e9132e-cb23-4d96-bce0-1a3742019c94 method=GET path=/api/v1/doctors/me status=200 duration_ms=166.1 client=127.0.0.1
+2026-08-08T16:19:04 INFO     app.main | Request complete request_id=95ceb6d6-faf5-4043-aa63-e4ec8c5c02c6 method=OPTIONS path=/api/v1/search status=200 duration_ms=0.5 client=127.0.0.1
+2026-08-08T16:19:04 INFO     app.routers.search | Doctor search requested specialty=all radius_km=10.0
+2026-08-08T16:19:04 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=10.0
+2026-08-08T16:19:05 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T16:19:05 ERROR    app.main | Request failed request_id=d6eda708-0770-4a2c-874d-6b9a313cc1e8 method=GET path=/api/v1/search
+Traceback (most recent call last):
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\main.py", line 47, in log_request
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\routers\search.py", line 33, in search_doctors
+    remote_results = supabase_store.search_doctors(lat, lng, specialty, radius_km)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 93, in search_doctors
+    availability = doctor.get("availability", [{}])[0] if doctor.get("availability") else None
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+KeyError: 0
+2026-08-08T16:20:11 INFO     app.main | Request complete request_id=9d6b3294-909f-434a-9290-a3610f610693 method=OPTIONS path=/api/v1/auth/login status=200 duration_ms=0.8 client=127.0.0.1
+2026-08-08T16:20:11 INFO     app.routers.auth | Doctor login requested email=rahulprvte@gmail.com
+2026-08-08T16:20:11 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&email=eq.rahulprvte%40gmail.com "HTTP/2 200 OK"
+2026-08-08T16:20:11 INFO     app.routers.auth | Doctor login succeeded doctor_id=385004e6-8f2a-4006-92d7-21917179949e
+2026-08-08T16:20:11 INFO     app.main | Request complete request_id=c8ca7f16-e5bb-4aae-a856-88cdd9afce1e method=POST path=/api/v1/auth/login status=200 duration_ms=659.8 client=127.0.0.1
+2026-08-08T16:20:11 INFO     app.routers.doctors | Doctor profile requested doctor_id=385004e6-8f2a-4006-92d7-21917179949e
+2026-08-08T16:20:12 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T16:20:12 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T16:20:12 INFO     app.main | Request complete request_id=3fe59a09-4eb4-475a-9544-b6bb4110ff69 method=GET path=/api/v1/doctors/me status=200 duration_ms=527.8 client=127.0.0.1
+2026-08-08T16:20:12 INFO     app.routers.doctors | Doctor profile requested doctor_id=385004e6-8f2a-4006-92d7-21917179949e
+2026-08-08T16:20:12 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T16:20:12 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T16:20:12 INFO     app.main | Request complete request_id=3960446b-efeb-4011-9123-f5e272acd606 method=GET path=/api/v1/doctors/me status=200 duration_ms=247.1 client=127.0.0.1
+2026-08-08T16:20:27 INFO     app.routers.doctors | Availability update requested doctor_id=385004e6-8f2a-4006-92d7-21917179949e available=True
+2026-08-08T16:20:27 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T16:20:27 INFO     app.services.supabase_store | Supabase upsert availability doctor_id=385004e6-8f2a-4006-92d7-21917179949e available=True
+2026-08-08T16:20:27 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/availability?select=%2A&doctor_id=eq.385004e6-8f2a-4006-92d7-21917179949e "HTTP/2 200 OK"
+2026-08-08T16:20:28 INFO     httpx | HTTP Request: POST https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/availability "HTTP/2 201 Created"
+2026-08-08T16:20:28 INFO     app.main | Request complete request_id=d20e7a5b-664d-4236-a259-00866b99266e method=PUT path=/api/v1/doctors/me/availability status=200 duration_ms=348.8 client=127.0.0.1
+2026-08-08T16:23:13 INFO     app.routers.search | Doctor search requested specialty=all radius_km=10.0
+2026-08-08T16:23:13 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=10.0
+2026-08-08T16:23:13 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T16:23:13 ERROR    app.main | Request failed request_id=7b22c337-aab0-4012-8acc-eb3394c49baa method=GET path=/api/v1/search
+Traceback (most recent call last):
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\main.py", line 47, in log_request
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\routers\search.py", line 33, in search_doctors
+    remote_results = supabase_store.search_doctors(lat, lng, specialty, radius_km)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 93, in search_doctors
+    query = query.ilike("specialty", f"%{specialty}%")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 0
+2026-08-08T16:23:18 INFO     app.main | Request complete request_id=355361e7-1576-478c-8f64-5b1e3e2387ab method=OPTIONS path=/api/v1/search status=200 duration_ms=1.5 client=127.0.0.1
+2026-08-08T16:23:18 INFO     app.routers.search | Doctor search requested specialty=all radius_km=46.0
+2026-08-08T16:23:18 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=46.0
+2026-08-08T16:23:18 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T16:23:18 ERROR    app.main | Request failed request_id=5d067fb6-2227-4898-9bb4-4bb4b6599677 method=GET path=/api/v1/search
+Traceback (most recent call last):
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\main.py", line 47, in log_request
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\routers\search.py", line 33, in search_doctors
+    remote_results = supabase_store.search_doctors(lat, lng, specialty, radius_km)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 93, in search_doctors
+    query = query.ilike("specialty", f"%{specialty}%")
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 0
+2026-08-08T16:23:18 INFO     app.main | Application shutting down
+2026-08-08T16:23:20 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T16:23:38 INFO     app.routers.search | Doctor search requested specialty=all radius_km=46.0
+2026-08-08T16:23:38 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=46.0
+2026-08-08T16:23:38 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-08T16:23:38 INFO     app.db | Initializing Supabase service-role client
+2026-08-08T16:23:40 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T16:23:40 INFO     app.services.supabase_store | Supabase search doctors completed result_count=1
+2026-08-08T16:23:40 INFO     app.routers.search | Doctor search completed result_count=1
+2026-08-08T16:23:40 INFO     app.main | Request complete request_id=e57c15e0-ee27-4141-91e7-b9faa9dfc1e9 method=GET path=/api/v1/search status=200 duration_ms=1896.3 client=127.0.0.1
+2026-08-08T16:25:53 INFO     app.main | Request complete request_id=ef51d88f-a87c-4f82-b234-9002ef7ab033 method=OPTIONS path=/api/v1/search status=200 duration_ms=4.9 client=127.0.0.1
+2026-08-08T16:25:53 INFO     app.routers.search | Doctor search requested specialty=all radius_km=10.0
+2026-08-08T16:25:53 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=10.0
+2026-08-08T16:25:53 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T16:25:53 INFO     app.services.supabase_store | Supabase search doctors completed result_count=0
+2026-08-08T16:25:53 INFO     app.routers.search | Doctor search completed result_count=0
+2026-08-08T16:25:53 INFO     app.main | Request complete request_id=fdf6b009-aa63-4ea8-ba86-ca7e10e527f8 method=GET path=/api/v1/search status=200 duration_ms=555.1 client=127.0.0.1
+2026-08-08T16:25:56 INFO     app.main | Request complete request_id=f21e47e9-da02-4840-b9ed-9a2906682b3f method=OPTIONS path=/api/v1/search status=200 duration_ms=0.5 client=127.0.0.1
+2026-08-08T16:25:56 INFO     app.routers.search | Doctor search requested specialty=all radius_km=50.0
+2026-08-08T16:25:56 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=50.0
+2026-08-08T16:25:56 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T16:25:56 INFO     app.services.supabase_store | Supabase search doctors completed result_count=2
+2026-08-08T16:25:56 INFO     app.routers.search | Doctor search completed result_count=2
+2026-08-08T16:25:56 INFO     app.main | Request complete request_id=34051929-1c62-431f-9354-793c27a3a3df method=GET path=/api/v1/search status=200 duration_ms=75.8 client=127.0.0.1
+2026-08-08T16:27:34 INFO     app.routers.search | Doctor search requested specialty=all radius_km=50.0
+2026-08-08T16:27:34 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=50.0
+2026-08-08T16:27:34 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T16:27:34 INFO     app.services.supabase_store | Supabase search doctors completed result_count=1
+2026-08-08T16:27:34 INFO     app.routers.search | Doctor search completed result_count=1
+2026-08-08T16:27:34 INFO     app.main | Request complete request_id=b6af0bfd-a2df-4cc2-9b54-9a0720b9b0ea method=GET path=/api/v1/search status=200 duration_ms=282.7 client=127.0.0.1
+2026-08-08T16:27:43 INFO     app.routers.search | Doctor search requested specialty=all radius_km=50.0
+2026-08-08T16:27:43 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=50.0
+2026-08-08T16:27:43 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T16:27:43 INFO     app.services.supabase_store | Supabase search doctors completed result_count=2
+2026-08-08T16:27:43 INFO     app.routers.search | Doctor search completed result_count=2
+2026-08-08T16:27:43 INFO     app.main | Request complete request_id=0f90878a-a6f4-4922-8b2a-c557a694064a method=GET path=/api/v1/search status=200 duration_ms=238.8 client=127.0.0.1
+2026-08-08T17:11:52 INFO     app.routers.search | Doctor search requested specialty=all radius_km=10.0
+2026-08-08T17:11:52 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=10.0
+2026-08-08T17:11:53 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T17:11:53 INFO     app.services.supabase_store | Supabase search doctors completed result_count=1
+2026-08-08T17:11:53 INFO     app.routers.search | Doctor search completed result_count=1
+2026-08-08T17:11:53 INFO     app.main | Request complete request_id=f7304e4f-52b7-4f03-9b48-e76319189dcc method=GET path=/api/v1/search status=200 duration_ms=1063.4 client=127.0.0.1
+2026-08-08T17:13:15 INFO     app.main | Request complete request_id=d3cfcf00-c7c0-498c-bf6c-fb477fae2697 method=OPTIONS path=/api/v1/auth/signup/doctor status=200 duration_ms=3.8 client=127.0.0.1
+2026-08-08T17:13:16 INFO     app.routers.auth | Doctor signup requested email=sidharth@gmail.com specialty=Neurologist
+2026-08-08T17:13:16 INFO     app.services.supabase_store | Supabase create doctor specialty=Neurologist
+2026-08-08T17:13:16 INFO     httpx | HTTP Request: POST https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors "HTTP/2 201 Created"
+2026-08-08T17:13:16 INFO     app.routers.auth | Doctor signup succeeded doctor_id=3363f9a0-fea0-4776-8919-1e6ea31d6cd4
+2026-08-08T17:13:16 INFO     app.main | Request complete request_id=cf78a503-29b4-48b8-8512-e42fbe0c8f43 method=POST path=/api/v1/auth/signup/doctor status=201 duration_ms=534.0 client=127.0.0.1
+2026-08-08T17:13:16 INFO     app.main | Request complete request_id=86f76380-f0fd-4877-9d1b-7c162ec2fa5e method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=1.3 client=127.0.0.1
+2026-08-08T17:13:16 INFO     app.main | Request complete request_id=bbebd950-7833-444f-b974-ac3159487db3 method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=3.5 client=127.0.0.1
+2026-08-08T17:13:16 INFO     app.routers.doctors | Doctor profile requested doctor_id=3363f9a0-fea0-4776-8919-1e6ea31d6cd4
+2026-08-08T17:13:16 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.3363f9a0-fea0-4776-8919-1e6ea31d6cd4 "HTTP/2 200 OK"
+2026-08-08T17:13:16 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.3363f9a0-fea0-4776-8919-1e6ea31d6cd4 "HTTP/2 200 OK"
+2026-08-08T17:13:16 INFO     app.main | Request complete request_id=7d9ff6af-5cba-449a-92b0-acfadb103829 method=GET path=/api/v1/doctors/me status=200 duration_ms=190.6 client=127.0.0.1
+2026-08-08T17:13:16 INFO     app.routers.doctors | Doctor profile requested doctor_id=3363f9a0-fea0-4776-8919-1e6ea31d6cd4
+2026-08-08T17:13:16 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.3363f9a0-fea0-4776-8919-1e6ea31d6cd4 "HTTP/2 200 OK"
+2026-08-08T17:13:16 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.3363f9a0-fea0-4776-8919-1e6ea31d6cd4 "HTTP/2 200 OK"
+2026-08-08T17:13:16 INFO     app.main | Request complete request_id=89c9d876-c93a-4909-9e9f-4cebc80c5ec4 method=GET path=/api/v1/doctors/me status=200 duration_ms=157.3 client=127.0.0.1
+2026-08-08T17:17:32 INFO     app.main | Request complete request_id=c6127caa-dd9a-47cd-b469-97cf196b331f method=OPTIONS path=/api/v1/search status=200 duration_ms=0.8 client=127.0.0.1
+2026-08-08T17:17:32 INFO     app.routers.search | Doctor search requested specialty=all radius_km=10.0
+2026-08-08T17:17:32 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=10.0
+2026-08-08T17:17:32 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A%2C+clinics%28%2A%29%2C+availability%28%2A%29 "HTTP/2 200 OK"
+2026-08-08T17:17:32 INFO     app.services.supabase_store | Supabase search doctors completed result_count=1
+2026-08-08T17:17:32 INFO     app.routers.search | Doctor search completed result_count=1
+2026-08-08T17:17:32 INFO     app.main | Request complete request_id=cdfcd459-9094-453e-ac36-c355b5a78139 method=GET path=/api/v1/search status=200 duration_ms=575.0 client=127.0.0.1
+2026-08-08T17:18:44 INFO     app.main | Application shutting down
+2026-08-08T17:18:47 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T17:23:43 INFO     app.main | Application shutting down
+2026-08-08T17:23:45 INFO     app.main | Application starting environment=development debug=True
+2026-08-08T17:25:47 INFO     app.main | Request complete request_id=9f9f6bb8-1885-449c-b796-1908f2d7afd9 method=OPTIONS path=/api/v1/auth/signup/doctor status=200 duration_ms=0.7 client=127.0.0.1
+2026-08-08T17:25:47 INFO     app.routers.auth | Doctor signup requested email=rishika@gmail.com specialty=Pediatrician
+2026-08-08T17:25:47 INFO     app.services.supabase_store | Supabase create doctor specialty=Pediatrician
+2026-08-08T17:25:47 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-08T17:25:47 INFO     app.db | Initializing Supabase service-role client
+2026-08-08T17:25:49 INFO     httpx | HTTP Request: POST https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors "HTTP/2 201 Created"
+2026-08-08T17:25:49 INFO     app.routers.auth | Doctor signup succeeded doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de
+2026-08-08T17:25:49 INFO     app.services.supabase_store | Supabase upsert availability doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de available=False
+2026-08-08T17:25:49 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/availability?select=%2A&doctor_id=eq.034f6eb5-fb1d-4395-ac76-e7536ca880de "HTTP/2 200 OK"
+2026-08-08T17:25:49 INFO     httpx | HTTP Request: POST https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/availability "HTTP/2 201 Created"
+2026-08-08T17:25:49 INFO     app.routers.auth | Seeded availability row doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de
+2026-08-08T17:25:49 INFO     app.services.supabase_store | Supabase upsert clinic stub doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de
+2026-08-08T17:25:50 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.034f6eb5-fb1d-4395-ac76-e7536ca880de "HTTP/2 200 OK"
+2026-08-08T17:25:50 INFO     httpx | HTTP Request: POST https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics "HTTP/2 400 Bad Request"
+2026-08-08T17:25:50 WARNING  app.routers.auth | Failed to seed clinic stub doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de
+2026-08-08T17:25:50 INFO     app.main | Request complete request_id=a4ad219e-58a2-41b2-a509-d17776ea5d9f method=POST path=/api/v1/auth/signup/doctor status=201 duration_ms=2799.7 client=127.0.0.1
+2026-08-08T17:25:50 INFO     app.main | Request complete request_id=d9eb8bd9-8936-4f66-8f6b-86e3a6fae7d3 method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=0.9 client=127.0.0.1
+2026-08-08T17:25:50 INFO     app.main | Request complete request_id=8b9d5901-e5d3-4d0d-afde-4a06528e5273 method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=2.4 client=127.0.0.1
+2026-08-08T17:25:50 INFO     app.routers.doctors | Doctor profile requested doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de
+2026-08-08T17:25:50 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.034f6eb5-fb1d-4395-ac76-e7536ca880de "HTTP/2 200 OK"
+2026-08-08T17:25:50 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.034f6eb5-fb1d-4395-ac76-e7536ca880de "HTTP/2 200 OK"
+2026-08-08T17:25:50 INFO     app.main | Request complete request_id=75e1c7cd-86ff-4199-b1ed-ef4c504246f2 method=GET path=/api/v1/doctors/me status=200 duration_ms=141.1 client=127.0.0.1
+2026-08-08T17:25:50 INFO     app.routers.doctors | Doctor profile requested doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de
+2026-08-08T17:25:50 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.034f6eb5-fb1d-4395-ac76-e7536ca880de "HTTP/2 200 OK"
+2026-08-08T17:25:50 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.034f6eb5-fb1d-4395-ac76-e7536ca880de "HTTP/2 200 OK"
+2026-08-08T17:25:50 INFO     app.main | Request complete request_id=1572b06d-bb6e-47dc-b353-037a409d1bf0 method=GET path=/api/v1/doctors/me status=200 duration_ms=132.0 client=127.0.0.1
+2026-08-08T17:32:50 INFO     app.main | Application shutting down
+2026-08-09T12:56:09 INFO     app.main | Application starting environment=development debug=True
+2026-08-09T13:01:17 INFO     app.routers.auth | Doctor signup requested email=dr@example.com specialty=General Practitioner
+2026-08-09T13:01:17 INFO     app.routers.auth | Doctor signup succeeded doctor_id=doctor-1
+2026-08-09T13:01:17 INFO     app.routers.auth | Seeded availability row doctor_id=doctor-1
+2026-08-09T13:01:17 INFO     app.main | Request complete request_id=c99aa1e8-7a77-4ac5-a3be-b7895fa6285c method=POST path=/api/v1/auth/signup/doctor status=201 duration_ms=15.1 client=testclient
+2026-08-09T13:01:17 INFO     httpx | HTTP Request: POST http://testserver/api/v1/auth/signup/doctor "HTTP/1.1 201 Created"
+2026-08-09T13:01:17 INFO     app.routers.doctors | Doctor profile requested doctor_id=doctor-1
+2026-08-09T13:01:17 INFO     app.main | Request complete request_id=5ad37236-9a4b-4c68-9bd2-51333f965525 method=GET path=/api/v1/doctors/me status=200 duration_ms=1.4 client=testclient
+2026-08-09T13:01:17 INFO     httpx | HTTP Request: GET http://testserver/api/v1/doctors/me "HTTP/1.1 200 OK"
+2026-08-09T13:01:17 INFO     app.routers.auth | Doctor signup requested email=dr2@example.com specialty=Pediatrician
+2026-08-09T13:01:17 INFO     app.routers.auth | Doctor signup succeeded doctor_id=doctor-1
+2026-08-09T13:01:17 INFO     app.routers.auth | Seeded availability row doctor_id=doctor-1
+2026-08-09T13:01:17 INFO     app.main | Request complete request_id=adbb6321-c6d2-45aa-a996-79759dece4bb method=POST path=/api/v1/auth/signup/doctor status=201 duration_ms=1.5 client=testclient
+2026-08-09T13:01:17 INFO     httpx | HTTP Request: POST http://testserver/api/v1/auth/signup/doctor "HTTP/1.1 201 Created"
+2026-08-09T13:01:17 INFO     app.routers.auth | Doctor login requested email=dr2@example.com
+2026-08-09T13:01:17 INFO     app.routers.auth | Doctor login succeeded doctor_id=doctor-1
+2026-08-09T13:01:17 INFO     app.main | Request complete request_id=b35baa9e-4fc2-48d7-b787-27eaf9c666e5 method=POST path=/api/v1/auth/login status=200 duration_ms=4.4 client=testclient
+2026-08-09T13:01:17 INFO     httpx | HTTP Request: POST http://testserver/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-08-09T13:01:17 INFO     app.routers.auth | Doctor signup requested email=drsearch@example.com specialty=General Practitioner
+2026-08-09T13:01:17 INFO     app.routers.auth | Doctor signup succeeded doctor_id=doctor-1
+2026-08-09T13:01:17 INFO     app.routers.auth | Seeded availability row doctor_id=doctor-1
+2026-08-09T13:01:17 INFO     app.main | Request complete request_id=79db6400-27a0-455d-b71b-d6f1cc25f5df method=POST path=/api/v1/auth/signup/doctor status=201 duration_ms=1.4 client=testclient
+2026-08-09T13:01:17 INFO     httpx | HTTP Request: POST http://testserver/api/v1/auth/signup/doctor "HTTP/1.1 201 Created"
+2026-08-09T13:01:17 INFO     app.routers.doctors | Clinic upsert requested doctor_id=doctor-1 address=Palakkad, Kerala
+2026-08-09T13:01:17 INFO     app.services.geocode | Geocode requested address_length=16
+2026-08-09T13:01:18 INFO     httpx | HTTP Request: GET https://nominatim.openstreetmap.org/search?q=Palakkad%2C%20Kerala&format=json&limit=1 "HTTP/1.1 200 OK"
+2026-08-09T13:01:18 INFO     app.services.geocode | Geocode completed match_found=true
+2026-08-09T13:01:18 INFO     app.routers.doctors | Clinic upsert geocoding succeeded lat=10.7873692 lng=76.4742172
+2026-08-09T13:01:18 INFO     app.main | Request complete request_id=464ec7bd-85fa-49fb-8091-854bc863104d method=POST path=/api/v1/doctors/me/clinic status=201 duration_ms=1143.0 client=testclient
+2026-08-09T13:01:18 INFO     httpx | HTTP Request: POST http://testserver/api/v1/doctors/me/clinic "HTTP/1.1 201 Created"
+2026-08-09T13:01:18 INFO     app.routers.doctors | Availability update requested doctor_id=doctor-1 available=True
+2026-08-09T13:01:18 INFO     app.main | Request complete request_id=5909b373-8722-46a2-b692-5dc1f7f0372d method=PUT path=/api/v1/doctors/me/availability status=200 duration_ms=4.6 client=testclient
+2026-08-09T13:01:18 INFO     httpx | HTTP Request: PUT http://testserver/api/v1/doctors/me/availability "HTTP/1.1 200 OK"
+2026-08-09T13:01:18 INFO     app.routers.search | Doctor search requested specialty=General radius_km=20.0
+2026-08-09T13:01:18 INFO     app.routers.search | Doctor search completed result_count=1
+2026-08-09T13:01:18 INFO     app.main | Request complete request_id=50efcaf0-696c-46a9-a4fb-95e1eced7631 method=GET path=/api/v1/search status=200 duration_ms=3.3 client=testclient
+2026-08-09T13:01:19 INFO     httpx | HTTP Request: GET http://testserver/api/v1/search?lat=10.786&lng=76.6444&specialty=General&radius_km=20 "HTTP/1.1 200 OK"
+2026-08-09T13:15:30 INFO     app.main | Application shutting down
+2026-08-09T13:15:35 INFO     app.main | Application starting environment=development debug=True
+2026-08-09T13:17:43 INFO     app.main | Request complete request_id=6bac579f-9d7b-4941-bf96-5ca436f4210f method=OPTIONS path=/api/v1/chat status=200 duration_ms=6.9 client=127.0.0.1
+2026-08-09T13:17:43 INFO     app.routers.triage | Chat request received messages=2
+2026-08-09T13:17:43 INFO     app.services.groq_client | Creating Groq client model=llama-3.1-8b-instant
+2026-08-09T13:17:44 ERROR    app.routers.triage | Chat request failed
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\routers\triage.py", line 91, in chat_with_assistant
+    client = groq_service.get_client()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\groq_client.py", line 31, in get_client
+    self.client = Groq(api_key=settings.groq_api_key)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\groq\_client.py", line 95, in __init__
+    super().__init__(
+  File "C:\new\doctorundo\.venv\Lib\site-packages\groq\_base_client.py", line 795, in __init__
+    self._client = http_client or SyncHttpxClientWrapper(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Client.__init__() got an unexpected keyword argument 'proxies'
+2026-08-09T13:17:44 INFO     app.main | Request complete request_id=627b5b78-371c-41bc-bae2-fcd6af2904ed method=POST path=/api/v1/chat status=200 duration_ms=722.5 client=127.0.0.1
+2026-08-09T13:18:16 INFO     app.main | Request complete request_id=db23cd49-8d4e-44c9-a805-1b31b45f75ed method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=0.4 client=127.0.0.1
+2026-08-09T13:18:16 INFO     app.main | Request complete request_id=18ba04a1-393c-47b3-a26f-97d15bdf3caf method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=0.3 client=127.0.0.1
+2026-08-09T13:18:16 INFO     app.routers.doctors | Doctor profile requested doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de
+2026-08-09T13:18:16 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-09T13:18:16 INFO     app.db | Initializing Supabase service-role client
+2026-08-09T13:18:19 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.034f6eb5-fb1d-4395-ac76-e7536ca880de "HTTP/2 200 OK"
+2026-08-09T13:18:19 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.034f6eb5-fb1d-4395-ac76-e7536ca880de "HTTP/2 200 OK"
+2026-08-09T13:18:19 INFO     app.main | Request complete request_id=04b0b0d0-6a07-4765-b09c-2e71d26e32f2 method=GET path=/api/v1/doctors/me status=200 duration_ms=3344.8 client=127.0.0.1
+2026-08-09T13:18:19 INFO     app.routers.doctors | Doctor profile requested doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de
+2026-08-09T13:18:19 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.034f6eb5-fb1d-4395-ac76-e7536ca880de "HTTP/2 200 OK"
+2026-08-09T13:18:19 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.034f6eb5-fb1d-4395-ac76-e7536ca880de "HTTP/2 200 OK"
+2026-08-09T13:18:19 INFO     app.main | Request complete request_id=155ae8d9-4433-4110-9092-bd3367814eb2 method=GET path=/api/v1/doctors/me status=200 duration_ms=150.6 client=127.0.0.1
+2026-08-09T13:27:29 INFO     app.routers.doctors | Doctor profile requested doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de
+2026-08-09T13:27:30 ERROR    app.main | Request failed request_id=7cec5bfc-8a68-4654-a5d5-641d68756a7d method=GET path=/api/v1/doctors/me
+Traceback (most recent call last):
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 101, in handle_request
+    raise exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 78, in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_backends\sync.py", line 207, in connect_tcp
+    with map_exceptions(exc_map):
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\clash\anaconda3\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\main.py", line 47, in log_request
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\routers\doctors.py", line 63, in get_doctor_profile
+    doctor = supabase_store.get_doctor_by_id(doctor_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 53, in get_doctor_by_id
+    response = self.client.table("doctors").select("*").eq("id", doctor_id).execute()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\postgrest\_sync\request_builder.py", line 58, in execute
+    r = self.session.request(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\clash\anaconda3\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [Errno 11001] getaddrinfo failed
+2026-08-09T13:27:30 INFO     app.routers.doctors | Doctor profile requested doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de
+2026-08-09T13:27:30 ERROR    app.main | Request failed request_id=f5a704dc-814b-48c9-b545-3104d4837f34 method=GET path=/api/v1/doctors/me
+Traceback (most recent call last):
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 101, in handle_request
+    raise exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 78, in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_backends\sync.py", line 207, in connect_tcp
+    with map_exceptions(exc_map):
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\clash\anaconda3\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\main.py", line 47, in log_request
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\routers\doctors.py", line 63, in get_doctor_profile
+    doctor = supabase_store.get_doctor_by_id(doctor_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 53, in get_doctor_by_id
+    response = self.client.table("doctors").select("*").eq("id", doctor_id).execute()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\postgrest\_sync\request_builder.py", line 58, in execute
+    r = self.session.request(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\clash\anaconda3\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [Errno 11001] getaddrinfo failed
+2026-08-09T13:27:31 INFO     app.routers.doctors | Doctor profile requested doctor_id=034f6eb5-fb1d-4395-ac76-e7536ca880de
+2026-08-09T13:27:31 ERROR    app.main | Request failed request_id=e0e0233d-5e94-436f-ad04-de31ee9c20b4 method=GET path=/api/v1/doctors/me
+Traceback (most recent call last):
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 250, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 256, in handle_request
+    raise exc from None
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 101, in handle_request
+    raise exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 78, in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_sync\connection.py", line 124, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_backends\sync.py", line 207, in connect_tcp
+    with map_exceptions(exc_map):
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\clash\anaconda3\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: [Errno 11001] getaddrinfo failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\main.py", line 47, in log_request
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\routers\doctors.py", line 63, in get_doctor_profile
+    doctor = supabase_store.get_doctor_by_id(doctor_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 53, in get_doctor_by_id
+    response = self.client.table("doctors").select("*").eq("id", doctor_id).execute()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\postgrest\_sync\request_builder.py", line 58, in execute
+    r = self.session.request(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 914, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 249, in handle_request
+    with map_httpcore_exceptions():
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\clash\anaconda3\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "C:\new\doctorundo\.venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: [Errno 11001] getaddrinfo failed
+2026-08-09T14:21:49 INFO     app.main | Application shutting down
+2026-08-09T14:21:53 INFO     app.main | Application starting environment=development debug=True
+2026-08-09T14:22:19 INFO     app.main | Request complete request_id=741eb813-d1f7-4da1-a9c7-629cd5bf9bd4 method=OPTIONS path=/api/v1/chat status=200 duration_ms=0.5 client=127.0.0.1
+2026-08-09T14:22:19 INFO     app.routers.triage | Chat request received messages=2
+2026-08-09T14:22:19 INFO     app.services.groq_client | Creating Groq client model=llama-3.1-8b-instant
+2026-08-09T14:22:20 ERROR    app.routers.triage | Chat request failed
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\routers\triage.py", line 91, in chat_with_assistant
+    client = groq_service.get_client()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\groq_client.py", line 31, in get_client
+    self.client = Groq(api_key=settings.groq_api_key)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\.venv\Lib\site-packages\groq\_client.py", line 95, in __init__
+    super().__init__(
+  File "C:\new\doctorundo\.venv\Lib\site-packages\groq\_base_client.py", line 795, in __init__
+    self._client = http_client or SyncHttpxClientWrapper(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Client.__init__() got an unexpected keyword argument 'proxies'
+2026-08-09T14:22:20 INFO     app.main | Request complete request_id=74a9970e-295f-4683-8881-843fc2e83633 method=POST path=/api/v1/chat status=200 duration_ms=393.6 client=127.0.0.1
+2026-08-09T14:26:51 INFO     app.main | Application shutting down
+2026-08-09T14:26:54 INFO     app.main | Application starting environment=development debug=True
+2026-08-09T14:29:56 INFO     app.main | Application shutting down
+2026-08-09T14:29:58 INFO     app.main | Application starting environment=development debug=True
+2026-08-09T14:30:08 INFO     app.main | Application shutting down
+2026-08-09T14:32:23 INFO     app.main | Application starting environment=development debug=True
+2026-08-09T14:32:33 INFO     app.main | Request complete request_id=6ef09c7d-73c8-4a6d-9c7f-f8d1876c345c method=OPTIONS path=/api/v1/chat status=200 duration_ms=0.8 client=127.0.0.1
+2026-08-09T14:32:33 INFO     app.routers.triage | Chat request received messages=2
+2026-08-09T14:32:37 INFO     app.services.groq_client | Groq OpenAI-compatible client created model=llama-3.1-8b-instant
+2026-08-09T14:32:41 INFO     httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-09T14:32:41 INFO     app.services.groq_client | Groq chat reply received tokens=333
+2026-08-09T14:32:41 INFO     app.routers.triage | Chat reply sent specialty=None
+2026-08-09T14:32:41 INFO     app.main | Request complete request_id=e67bc544-4b1b-4172-a363-fba8ba2c9bbc method=POST path=/api/v1/chat status=200 duration_ms=7684.4 client=127.0.0.1
+2026-08-09T14:36:34 INFO     app.routers.triage | Chat request received messages=4
+2026-08-09T14:36:36 INFO     httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-09T14:36:36 INFO     app.services.groq_client | Groq chat reply received tokens=476
+2026-08-09T14:36:36 INFO     app.routers.triage | Chat reply sent specialty=None
+2026-08-09T14:36:36 INFO     app.main | Request complete request_id=70d3e03e-e9a4-4bb3-ba31-6bc19d7bc87d method=POST path=/api/v1/chat status=200 duration_ms=2112.2 client=127.0.0.1
+2026-08-09T14:37:00 INFO     app.routers.triage | Chat request received messages=6
+2026-08-09T14:37:05 INFO     httpx | HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-08-09T14:37:05 INFO     app.services.groq_client | Groq chat reply received tokens=581
+2026-08-09T14:37:05 INFO     app.routers.triage | Chat reply sent specialty=None
+2026-08-09T14:37:05 INFO     app.main | Request complete request_id=03ff022a-f220-4945-b68f-2d3572ef63fc method=POST path=/api/v1/chat status=200 duration_ms=5594.1 client=127.0.0.1
+2026-08-09T14:59:59 INFO     app.routers.auth | Doctor signup requested email=dr@example.com specialty=General Practitioner
+2026-08-09T14:59:59 INFO     app.routers.auth | Doctor signup succeeded doctor_id=doctor-1
+2026-08-09T14:59:59 INFO     app.routers.auth | Seeded availability row doctor_id=doctor-1
+2026-08-09T14:59:59 INFO     app.main | Request complete request_id=71cf8fff-d9f1-4ea0-811c-3633a12fcbe8 method=POST path=/api/v1/auth/signup/doctor status=201 duration_ms=28.8 client=testclient
+2026-08-09T14:59:59 INFO     httpx | HTTP Request: POST http://testserver/api/v1/auth/signup/doctor "HTTP/1.1 201 Created"
+2026-08-09T14:59:59 INFO     app.routers.doctors | Doctor profile requested doctor_id=doctor-1
+2026-08-09T14:59:59 INFO     app.main | Request complete request_id=107c500e-49fc-465b-b3d4-fd4d6d670fc5 method=GET path=/api/v1/doctors/me status=200 duration_ms=1.3 client=testclient
+2026-08-09T14:59:59 INFO     httpx | HTTP Request: GET http://testserver/api/v1/doctors/me "HTTP/1.1 200 OK"
+2026-08-09T14:59:59 INFO     app.routers.auth | Doctor signup requested email=dr2@example.com specialty=Pediatrician
+2026-08-09T14:59:59 INFO     app.routers.auth | Doctor signup succeeded doctor_id=doctor-1
+2026-08-09T14:59:59 INFO     app.routers.auth | Seeded availability row doctor_id=doctor-1
+2026-08-09T14:59:59 INFO     app.main | Request complete request_id=4d773351-4fa6-4820-a5be-11a1f35247a7 method=POST path=/api/v1/auth/signup/doctor status=201 duration_ms=2.1 client=testclient
+2026-08-09T14:59:59 INFO     httpx | HTTP Request: POST http://testserver/api/v1/auth/signup/doctor "HTTP/1.1 201 Created"
+2026-08-09T14:59:59 INFO     app.routers.auth | Doctor login requested email=dr2@example.com
+2026-08-09T14:59:59 INFO     app.routers.auth | Doctor login succeeded doctor_id=doctor-1
+2026-08-09T14:59:59 INFO     app.main | Request complete request_id=b2b6bc39-2c31-4150-9cfc-c14da468e486 method=POST path=/api/v1/auth/login status=200 duration_ms=5.6 client=testclient
+2026-08-09T14:59:59 INFO     httpx | HTTP Request: POST http://testserver/api/v1/auth/login "HTTP/1.1 200 OK"
+2026-08-09T14:59:59 INFO     app.routers.auth | Doctor signup requested email=drsearch@example.com specialty=General Practitioner
+2026-08-09T14:59:59 INFO     app.routers.auth | Doctor signup succeeded doctor_id=doctor-1
+2026-08-09T14:59:59 INFO     app.routers.auth | Seeded availability row doctor_id=doctor-1
+2026-08-09T14:59:59 INFO     app.main | Request complete request_id=cbfe2e75-643e-4a2b-9495-db1ea5ed9dc8 method=POST path=/api/v1/auth/signup/doctor status=201 duration_ms=2.7 client=testclient
+2026-08-09T14:59:59 INFO     httpx | HTTP Request: POST http://testserver/api/v1/auth/signup/doctor "HTTP/1.1 201 Created"
+2026-08-09T14:59:59 INFO     app.routers.doctors | Clinic upsert requested doctor_id=doctor-1 address=Palakkad, Kerala
+2026-08-09T14:59:59 INFO     app.services.geocode | Geocode requested address_length=16
+2026-08-09T15:00:02 INFO     httpx | HTTP Request: GET https://nominatim.openstreetmap.org/search?q=Palakkad%2C%20Kerala&format=json&limit=1 "HTTP/1.1 200 OK"
+2026-08-09T15:00:02 INFO     app.services.geocode | Geocode completed match_found=true
+2026-08-09T15:00:02 INFO     app.routers.doctors | Clinic upsert geocoding succeeded lat=10.7873692 lng=76.4742172
+2026-08-09T15:00:02 INFO     app.main | Request complete request_id=784899dd-5dbc-45a6-a5bf-aab55a5d6e50 method=POST path=/api/v1/doctors/me/clinic status=201 duration_ms=2766.2 client=testclient
+2026-08-09T15:00:02 INFO     httpx | HTTP Request: POST http://testserver/api/v1/doctors/me/clinic "HTTP/1.1 201 Created"
+2026-08-09T15:00:02 INFO     app.routers.doctors | Availability update requested doctor_id=doctor-1 available=True
+2026-08-09T15:00:02 INFO     app.main | Request complete request_id=31c902c8-9626-4d49-9bb0-e4a961caaeb7 method=PUT path=/api/v1/doctors/me/availability status=200 duration_ms=5.3 client=testclient
+2026-08-09T15:00:02 INFO     httpx | HTTP Request: PUT http://testserver/api/v1/doctors/me/availability "HTTP/1.1 200 OK"
+2026-08-09T15:00:02 INFO     app.routers.search | Doctor search requested specialty=General radius_km=20.0
+2026-08-09T15:00:02 INFO     app.routers.search | Doctor search completed result_count=1
+2026-08-09T15:00:02 INFO     app.main | Request complete request_id=a3a6cc7c-d1f8-420f-b00e-e87741f22062 method=GET path=/api/v1/search status=200 duration_ms=3.1 client=testclient
+2026-08-09T15:00:02 INFO     httpx | HTTP Request: GET http://testserver/api/v1/search?lat=10.786&lng=76.6444&specialty=General&radius_km=20 "HTTP/1.1 200 OK"
+2026-08-09T17:09:35 INFO     app.main | Application shutting down
+2026-08-09T17:09:41 INFO     app.main | Application starting environment=development debug=True
+2026-08-09T17:12:44 WARNING  app.main | Request complete request_id=178bebf9-5139-437b-b3b8-401eaf408476 method=OPTIONS path=/api/v1/auth/login status=400 duration_ms=3.7 client=127.0.0.1
+2026-08-09T17:12:55 WARNING  app.main | Request complete request_id=3a2dcf0d-b467-4eb4-881b-565cd306a370 method=OPTIONS path=/api/v1/auth/login status=400 duration_ms=0.8 client=127.0.0.1
+2026-08-09T17:13:27 WARNING  app.main | Request complete request_id=6a80dc8f-2ace-4e51-859a-a26d32d52e84 method=OPTIONS path=/api/v1/auth/login status=400 duration_ms=2.3 client=127.0.0.1
+2026-08-09T17:17:40 INFO     app.main | Application shutting down
+2026-08-09T17:17:48 INFO     app.main | Application starting environment=development debug=True
+2026-08-09T17:18:03 WARNING  app.main | Request complete request_id=21eb97ab-b525-413e-afbf-054de3e92748 method=OPTIONS path=/api/v1/auth/login status=400 duration_ms=0.8 client=127.0.0.1
+2026-08-09T17:18:15 WARNING  app.main | Request complete request_id=e2dd3e1b-8197-4595-9621-ccab1a5b47fc method=OPTIONS path=/api/v1/auth/login status=400 duration_ms=0.5 client=127.0.0.1
+2026-08-09T17:18:43 INFO     app.main | Request complete request_id=2de52e17-476b-4533-992d-025605e178ca method=OPTIONS path=/api/v1/auth/login status=200 duration_ms=6.1 client=127.0.0.1
+2026-08-09T17:18:43 INFO     app.routers.auth | Doctor login requested email=janfishan@gmail.com
+2026-08-09T17:18:43 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-09T17:18:44 INFO     app.db | Initializing Supabase service-role client
+2026-08-09T17:18:47 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&email=eq.janfishan%40gmail.com "HTTP/2 200 OK"
+2026-08-09T17:18:47 INFO     app.routers.auth | Doctor login succeeded doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-09T17:18:47 INFO     app.main | Request complete request_id=ad0bba1b-de98-4387-b328-2ba70f5015ee method=POST path=/api/v1/auth/login status=200 duration_ms=4548.6 client=127.0.0.1
+2026-08-09T17:18:47 INFO     app.main | Request complete request_id=ca277608-c3ec-4a73-a592-3a5c43be3947 method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=0.7 client=127.0.0.1
+2026-08-09T17:18:47 INFO     app.main | Request complete request_id=5707a417-d6ec-4dc2-9dc5-9ba1d0e3f23a method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=0.7 client=127.0.0.1
+2026-08-09T17:18:47 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-09T17:18:48 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:18:48 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:18:48 INFO     app.main | Request complete request_id=1425b663-0cf2-452d-aeea-99c271e1aa15 method=GET path=/api/v1/doctors/me status=200 duration_ms=177.6 client=127.0.0.1
+2026-08-09T17:18:48 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-09T17:18:48 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:18:48 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:18:48 INFO     app.main | Request complete request_id=7d90b929-4c15-4f2b-ba2a-d2d0b965ec16 method=GET path=/api/v1/doctors/me status=200 duration_ms=161.8 client=127.0.0.1
+2026-08-09T17:19:44 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-09T17:19:44 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:19:44 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:19:44 INFO     app.main | Request complete request_id=5f97bf5b-5655-494c-bda3-5a3c3c99ac46 method=GET path=/api/v1/doctors/me status=200 duration_ms=485.9 client=127.0.0.1
+2026-08-09T17:19:44 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-09T17:19:44 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:19:44 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:19:44 INFO     app.main | Request complete request_id=a6309340-7147-4bdc-839c-0b504cc9d393 method=GET path=/api/v1/doctors/me status=200 duration_ms=143.3 client=127.0.0.1
+2026-08-09T17:20:57 WARNING  app.main | Request complete request_id=80cc49c6-501a-4215-8152-1b446eea73ed method=OPTIONS path=/api/v1/auth/login status=400 duration_ms=0.6 client=127.0.0.1
+2026-08-09T17:21:32 WARNING  app.main | Request complete request_id=e361d90c-001d-4b61-b943-0d102b30a1fb method=OPTIONS path=/api/v1/auth/login status=400 duration_ms=0.4 client=127.0.0.1
+2026-08-09T17:21:47 INFO     app.main | Application shutting down
+2026-08-09T17:21:52 INFO     app.main | Application starting environment=development debug=True
+2026-08-09T17:22:00 WARNING  app.main | Request complete request_id=0e328d58-f24d-4eff-ab0c-bbe3b0c9e2e7 method=OPTIONS path=/api/v1/auth/login status=400 duration_ms=0.8 client=127.0.0.1
+2026-08-09T17:23:37 WARNING  app.main | Request complete request_id=c02d77949f99d1612a7225380818ecdc method=GET path=/favicon.ico status=404 duration_ms=38.1 client=117.247.219.37
+2026-08-09T17:23:38 WARNING  app.main | Request complete request_id=0266d3beb9da534d55ed931679f2ae6d method=GET path=/ status=404 duration_ms=0.7 client=117.247.219.37
+2026-08-09T17:25:48 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-09T17:25:48 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-09T17:25:49 INFO     app.db | Initializing Supabase service-role client
+2026-08-09T17:25:51 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:25:51 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:25:51 INFO     app.main | Request complete request_id=282cddd0-28f5-4386-97b3-2b97da585fd7 method=GET path=/api/v1/doctors/me status=200 duration_ms=2686.0 client=127.0.0.1
+2026-08-09T17:25:51 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-09T17:25:51 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:25:51 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:25:51 INFO     app.main | Request complete request_id=d9cfe453-450d-425b-a58a-f80d60178505 method=GET path=/api/v1/doctors/me status=200 duration_ms=144.9 client=127.0.0.1
+2026-08-09T17:25:51 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-09T17:25:51 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:25:51 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:25:51 INFO     app.main | Request complete request_id=8e28a52f-9c98-40d3-bbc6-b4221366a312 method=GET path=/api/v1/doctors/me status=200 duration_ms=156.0 client=127.0.0.1
+2026-08-09T17:26:01 WARNING  app.main | Request complete request_id=6fa53f8062ec228ebec8ac347d046a71 method=GET path=/ status=404 duration_ms=0.8 client=117.247.219.37
+2026-08-09T17:26:05 WARNING  app.main | Request complete request_id=2dddabe4e5868a9acb3cd93a6489f47e method=GET path=/ status=404 duration_ms=1.0 client=117.247.219.37
+2026-08-09T17:29:19 WARNING  app.main | Request complete request_id=5543e8747e8b0b20a20eade6a73c4f38 method=GET path=/ status=404 duration_ms=22.5 client=117.247.219.37
+2026-08-09T17:29:35 INFO     app.main | Request complete request_id=947c7ebf-6851-40d7-905e-011348b07da2 method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=8.0 client=127.0.0.1
+2026-08-09T17:29:35 INFO     app.main | Request complete request_id=01edec32-982a-40c9-a38b-4b133a63452b method=OPTIONS path=/api/v1/doctors/me status=200 duration_ms=11.2 client=127.0.0.1
+2026-08-09T17:29:35 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-09T17:29:36 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:29:36 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:29:36 INFO     app.main | Request complete request_id=4c594a07-3194-4d79-86c5-a944fc7d2bca method=GET path=/api/v1/doctors/me status=200 duration_ms=765.4 client=127.0.0.1
+2026-08-09T17:29:36 INFO     app.routers.doctors | Doctor profile requested doctor_id=ad5bed97-bb27-4cb2-9273-24ccea4ba5b7
+2026-08-09T17:29:36 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:29:36 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
+2026-08-09T17:29:36 INFO     app.main | Request complete request_id=dc1a72a8-4c98-43ca-9a10-0dc159992cf0 method=GET path=/api/v1/doctors/me status=200 duration_ms=163.0 client=127.0.0.1
