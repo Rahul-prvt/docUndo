@@ -9,8 +9,15 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+# Python virtualenv lib folders (scoped to avoid catching frontend/src/lib)
+backend/lib/
+backend/lib64/
+.venv/lib/
+.venv/lib64/
+venv/lib/
+venv/lib64/
+# Explicitly keep frontend source lib tracked
+!frontend/src/lib/
 parts/
 sdist/
 var/

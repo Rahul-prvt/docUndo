@@ -1119,3 +1119,170 @@ TypeError: Client.__init__() got an unexpected keyword argument 'proxies'
 2026-08-09T17:29:36 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/doctors?select=%2A&id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
 2026-08-09T17:29:36 INFO     httpx | HTTP Request: GET https://cojqrbvczpzbvcewgxgf.supabase.co/rest/v1/clinics?select=%2A&doctor_id=eq.ad5bed97-bb27-4cb2-9273-24ccea4ba5b7 "HTTP/2 200 OK"
 2026-08-09T17:29:36 INFO     app.main | Request complete request_id=dc1a72a8-4c98-43ca-9a10-0dc159992cf0 method=GET path=/api/v1/doctors/me status=200 duration_ms=163.0 client=127.0.0.1
+2026-08-29T19:40:33 INFO     app.main | Application starting environment=development debug=True
+2026-08-29T19:46:51 INFO     app.routers.search | Doctor search requested specialty=all radius_km=10.0
+2026-08-29T19:46:51 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=10.0
+2026-08-29T19:46:51 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-29T19:46:51 INFO     app.db | Initializing Supabase service-role client
+2026-08-29T19:46:51 ERROR    app.main | Request failed request_id=072c5027-99ed-43bb-85fc-6cf47c4ec7a3 method=GET path=/api/v1/search
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\main.py", line 47, in log_request
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\routers\search.py", line 33, in search_doctors
+    remote_results = supabase_store.search_doctors(lat, lng, specialty, radius_km)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 104, in search_doctors
+    query = self.client.table("doctors").select("*, clinics(*), availability(*)")
+            ^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 34, in client
+    self._client = get_supabase_client()
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\db.py", line 20, in get_supabase_client
+    return create_client(
+           ^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\supabase\_sync\client.py", line 299, in create_client
+    return SyncClient.create(
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\supabase\_sync\client.py", line 102, in create
+    return cls(supabase_url, supabase_key, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\supabase\_sync\client.py", line 80, in __init__
+    self.auth = self._init_supabase_auth_client(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\supabase\_sync\client.py", line 221, in _init_supabase_auth_client
+    return SyncSupabaseAuthClient(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\supabase\_sync\auth_client.py", line 31, in __init__
+    SyncGoTrueClient.__init__(
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\gotrue\_sync\gotrue_client.py", line 101, in __init__
+    SyncGoTrueBaseAPI.__init__(
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 28, in __init__
+    self._http_client = http_client or SyncClient(
+                                       ^^^^^^^^^^^
+TypeError: Client.__init__() got an unexpected keyword argument 'proxy'
+2026-08-29T20:05:37 INFO     app.routers.search | Doctor search requested specialty=all radius_km=10.0
+2026-08-29T20:05:37 INFO     app.services.supabase_store | Supabase search doctors specialty=all radius_km=10.0
+2026-08-29T20:05:37 INFO     app.services.supabase_store | Creating Supabase client
+2026-08-29T20:05:37 INFO     app.db | Initializing Supabase service-role client
+2026-08-29T20:05:37 ERROR    app.main | Request failed request_id=a0d35106-97ac-4c8e-91b4-107371f7d6d8 method=GET path=/api/v1/search
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
+    message = await recv_stream.receive()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
+    raise EndOfStream
+anyio.EndOfStream
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\new\doctorundo\backend\app\main.py", line 47, in log_request
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\routers\search.py", line 33, in search_doctors
+    remote_results = supabase_store.search_doctors(lat, lng, specialty, radius_km)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 104, in search_doctors
+    query = self.client.table("doctors").select("*, clinics(*), availability(*)")
+            ^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\services\supabase_store.py", line 34, in client
+    self._client = get_supabase_client()
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\app\db.py", line 20, in get_supabase_client
+    return create_client(
+           ^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\supabase\_sync\client.py", line 299, in create_client
+    return SyncClient.create(
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\supabase\_sync\client.py", line 102, in create
+    return cls(supabase_url, supabase_key, options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\supabase\_sync\client.py", line 80, in __init__
+    self.auth = self._init_supabase_auth_client(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\supabase\_sync\client.py", line 221, in _init_supabase_auth_client
+    return SyncSupabaseAuthClient(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\supabase\_sync\auth_client.py", line 31, in __init__
+    SyncGoTrueClient.__init__(
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\gotrue\_sync\gotrue_client.py", line 101, in __init__
+    SyncGoTrueBaseAPI.__init__(
+  File "C:\new\doctorundo\backend\venv\Lib\site-packages\gotrue\_sync\gotrue_base_api.py", line 28, in __init__
+    self._http_client = http_client or SyncClient(
+                                       ^^^^^^^^^^^
+TypeError: Client.__init__() got an unexpected keyword argument 'proxy'
