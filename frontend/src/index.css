@@ -9,6 +9,7 @@
 html { scroll-behavior: smooth; }
 body { margin: 0; min-width: 320px; background: #f5f4ee; }
 button, input, select, textarea { font: inherit; }
+.google-place-autocomplete gmp-place-autocomplete { display: block; width: 100%; }
 
 @layer components {
   .display { font-family: 'Fraunces', Georgia, serif; letter-spacing: -.045em; }

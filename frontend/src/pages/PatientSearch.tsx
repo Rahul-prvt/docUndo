@@ -3,6 +3,7 @@ import { MapView } from "../components/MapView";
 import { DoctorCard } from "../components/DoctorCard";
 import { searchApi } from "../lib/api";
 import { useTranslation } from "../lib/i18n";
+import { PlaceAutocomplete } from "../components/PlaceAutocomplete";
 
 const specialties = ["General Practitioner", "Cardiologist", "Dermatologist", "Pediatrician", "Orthopedist", "Neurologist", "Gynecologist"];
 
@@ -20,8 +21,14 @@ export const PatientSearch: React.FC<PatientSearchProps> = ({ externalSpecialty,
   const [radius, setRadius] = useState(10);
   const [doctors, setDoctors] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searchError, setSearchError] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState<any>(null);
   const [mapCenter, setMapCenter] = useState<[number, number]>([10.786, 76.6444]);
+
+  // Keep latest lat/lng in a ref so geolocation callback can call search
+  // without stale closure issues
+  const latRef = React.useRef(10.786);
+  const lngRef = React.useRef(76.6444);
 
   // Consume specialty pushed from the AI chat widget
   useEffect(() => {
@@ -31,19 +38,41 @@ export const PatientSearch: React.FC<PatientSearchProps> = ({ externalSpecialty,
     }
   }, [externalSpecialty]);
 
+  const runSearch = React.useCallback(async (lat: number, lng: number, spec: string, rad: number) => {
+    setLoading(true);
+    setSearchError("");
+    try {
+      const response = await searchApi.search(lat, lng, spec || undefined, rad);
+      setDoctors(response.data);
+      setSelectedDoctor(null);
+    } catch {
+      setSearchError("Could not load doctors. Please check your connection and try again.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     navigator.geolocation?.getCurrentPosition(
       (p) => {
-        setUserLat(p.coords.latitude);
-        setUserLng(p.coords.longitude);
-        setMapCenter([p.coords.latitude, p.coords.longitude]);
+        const lat = p.coords.latitude;
+        const lng = p.coords.longitude;
+        latRef.current = lat;
+        lngRef.current = lng;
+        setUserLat(lat);
+        setUserLng(lng);
+        setMapCenter([lat, lng]);
         setLocationName(t("search.current_location"));
+        // Auto-search with real location
+        void runSearch(lat, lng, "", 10);
       },
       () => {
         setLocationName(t("search.default_location"));
+        // Auto-search with default Palakkad location
+        void runSearch(latRef.current, lngRef.current, "", 10);
       }
     );
-  }, []);
+  }, [runSearch]);
 
   const handleMapClick = (lat: number, lng: number) => {
     setUserLat(lat);
@@ -52,17 +81,17 @@ export const PatientSearch: React.FC<PatientSearchProps> = ({ externalSpecialty,
     setLocationName(t("search.selected_on_map"));
   };
 
+  const handlePlaceSelected = React.useCallback((place: { address: string; lat: number; lng: number }) => {
+    latRef.current = place.lat;
+    lngRef.current = place.lng;
+    setUserLat(place.lat);
+    setUserLng(place.lng);
+    setMapCenter([place.lat, place.lng]);
+    setLocationName(place.address);
+  }, []);
+
   const handleSearch = async () => {
-    setLoading(true);
-    try {
-      const response = await searchApi.search(userLat, userLng, specialty || undefined, radius);
-      setDoctors(response.data);
-      setSelectedDoctor(null);
-    } catch (err) {
-      console.error("Search failed:", err);
-    } finally {
-      setLoading(false);
-    }
+    void runSearch(userLat, userLng, specialty, radius);
   };
 
   return (
@@ -88,10 +117,8 @@ export const PatientSearch: React.FC<PatientSearchProps> = ({ externalSpecialty,
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-[1.1fr_1.3fr_1fr_auto] lg:items-end">
           <div>
             <label className="field-label">{t("search.near_you")}</label>
-            <div className="field flex items-center gap-2 text-[#53615c]">
-              <span className="text-[#58947d]">●</span>
-              <span>{locationName}</span>
-            </div>
+            <PlaceAutocomplete id="patient-location" label="" initialValue={locationName} onPlaceSelected={handlePlaceSelected} />
+            <p className="mt-1 truncate text-xs text-[#718079]">{locationName}</p>
           </div>
           <div>
             <label className="field-label">{t("search.i_need_a")}</label>
@@ -170,6 +197,11 @@ export const PatientSearch: React.FC<PatientSearchProps> = ({ externalSpecialty,
               </div>
             )}
           </>
+        )}
+        {searchError && (
+          <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {searchError}
+          </div>
         )}
       </section>
     </div>

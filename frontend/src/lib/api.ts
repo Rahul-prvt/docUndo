@@ -18,6 +18,10 @@ api.interceptors.request.use((config) => {
   } else {
     delete config.headers.Authorization;
   }
+  const adminKey = typeof window !== "undefined" ? localStorage.getItem("admin_key") : null;
+  if (adminKey && !config.headers["X-Admin-Key"]) {
+    config.headers["X-Admin-Key"] = adminKey;
+  }
   return config;
 });
 
@@ -54,7 +58,19 @@ export const triageApi = {
 
 // Admin endpoints
 export const adminApi = {
-  listPending: () => api.get("/admin/doctors/pending"),
-  verifyDoctor: (doctorId: string, verified: boolean) =>
-    api.post(`/admin/doctors/${doctorId}/verify`, { verified }),
+  listPending: (adminKey?: string) =>
+    api.get("/admin/doctors/pending", {
+      headers: adminKey ? { "X-Admin-Key": adminKey } : undefined,
+    }),
+  verifyDoctor: (
+    doctorId: string,
+    verified: boolean,
+    adminNotes?: string,
+    adminKey?: string
+  ) =>
+    api.post(
+      `/admin/doctors/${doctorId}/verify`,
+      { verified, admin_notes: adminNotes },
+      { headers: adminKey ? { "X-Admin-Key": adminKey } : undefined }
+    ),
 };
