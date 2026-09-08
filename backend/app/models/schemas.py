@@ -49,6 +49,7 @@ class ClinicLocationCreate(BaseModel):
     name: Optional[str] = None
     address: str
     opening_hours: Optional[str] = None
+    phone: Optional[str] = None
     lat: Optional[float] = None
     lng: Optional[float] = None
 
@@ -62,6 +63,7 @@ class ClinicLocationResponse(BaseModel):
     lat: Optional[float] = None
     lng: Optional[float] = None
     opening_hours: Optional[str] = None
+    phone: Optional[str] = None
 
 
 class DoctorProfileResponse(BaseModel):

@@ -37,9 +37,10 @@ def build_doctor_response(doctor: dict, clinic: dict | None = None) -> DoctorWit
             doctor_id=str(clinic["doctor_id"]),
             name=clinic.get("name"),
             address=clinic.get("address"),
-            lat=clinic.get("lat"),        # May be None for stub clinics
-            lng=clinic.get("lng"),        # May be None for stub clinics
+            lat=clinic.get("lat"),
+            lng=clinic.get("lng"),
             opening_hours=clinic.get("opening_hours"),
+            phone=clinic.get("phone"),
         )
     return DoctorWithClinicResponse(
         id=str(doctor["id"]),
@@ -125,6 +126,7 @@ async def add_clinic(
         "lat": lat,
         "lng": lng,
         "opening_hours": request.opening_hours,
+        "phone": request.phone,
     })
 
 

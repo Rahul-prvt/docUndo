@@ -4,17 +4,19 @@ import { useAuthStore } from "../lib/store";
 import { useTranslation } from "../lib/i18n";
 import { AvailabilityToggle } from "../components/AvailabilityToggle";
 import { MapView } from "../components/MapView";
+import { PlaceAutocomplete } from "../components/PlaceAutocomplete";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface ClinicForm {
   name: string;
   address: string;
   opening_hours: string;
+  phone: string;
   lat?: number;
   lng?: number;
 }
 
-const EMPTY_CLINIC: ClinicForm = { name: "", address: "", opening_hours: "" };
+const EMPTY_CLINIC: ClinicForm = { name: "", address: "", opening_hours: "", phone: "" };
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export const DoctorDashboard: React.FC = () => {
@@ -34,6 +36,16 @@ export const DoctorDashboard: React.FC = () => {
   const [clinicError, setClinicError] = useState("");
   const [clinicSuccess, setClinicSuccess] = useState("");
 
+  const handlePlaceSelected = React.useCallback((place: { address: string; lat: number; lng: number; name?: string }) => {
+    setClinicForm((form) => ({
+      ...form,
+      address: place.address,
+      lat: place.lat,
+      lng: place.lng,
+      name: form.name || place.name || "",
+    }));
+  }, []);
+
   // ── Load doctor profile ──────────────────────────────────────────────────
   const loadDoctorData = async () => {
     if (!user_id) { setLoading(false); return; }
@@ -47,6 +59,7 @@ export const DoctorDashboard: React.FC = () => {
           name: res.data.clinic.name || "",
           address: res.data.clinic.address || "",
           opening_hours: res.data.clinic.opening_hours || "",
+          phone: res.data.clinic.phone || "",
           lat: res.data.clinic.lat,
           lng: res.data.clinic.lng,
         });
@@ -180,21 +193,21 @@ export const DoctorDashboard: React.FC = () => {
               />
             </div>
 
-            <div>
-              <label className="field-label">
-                {t("dash.full_address")} <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                id="clinic-address"
-                className="field mt-1 w-full resize-none"
-                rows={3}
-                placeholder="e.g. 24 Gandhi Road, Palakkad, Kerala 678001"
-                value={clinicForm.address}
-                required
-                onChange={(e) => setClinicForm((f) => ({ ...f, address: e.target.value }))}
-              />
-              <p className="mt-1 text-xs text-[#a8b3ac]">{t("dash.address_hint")}</p>
-            </div>
+            <PlaceAutocomplete
+              id="clinic-address"
+              label={`${t("dash.full_address")} *`}
+              hint={`${t("dash.address_hint")} Select a result to confirm the location.`}
+              initialValue={clinicForm.address}
+              onPlaceSelected={handlePlaceSelected}
+            />
+            <textarea
+              className="field w-full resize-none"
+              rows={2}
+              placeholder="Selected address (or enter a manual address)"
+              value={clinicForm.address}
+              required
+              onChange={(e) => setClinicForm((form) => ({ ...form, address: e.target.value, lat: undefined, lng: undefined }))}
+            />
 
             <div>
               <label className="field-label">{t("dash.opening_hours")} <span className="text-[#a8b3ac]">{t("dash.optional")}</span></label>
@@ -205,6 +218,19 @@ export const DoctorDashboard: React.FC = () => {
                 value={clinicForm.opening_hours}
                 onChange={(e) => setClinicForm((f) => ({ ...f, opening_hours: e.target.value }))}
               />
+            </div>
+
+            <div>
+              <label className="field-label">Phone Number <span className="text-[#a8b3ac]">{t("dash.optional")}</span></label>
+              <input
+                id="clinic-phone"
+                className="field mt-1 w-full"
+                type="tel"
+                placeholder="e.g. +91 98765 43210"
+                value={clinicForm.phone}
+                onChange={(e) => setClinicForm((f) => ({ ...f, phone: e.target.value }))}
+              />
+              <p className="mt-1 text-xs text-[#a8b3ac]">Patients will see a "Call clinic" button on your profile.</p>
             </div>
 
             {clinicError && (

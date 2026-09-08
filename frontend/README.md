@@ -18,6 +18,7 @@ Create `.env.local`:
 
 ```
 VITE_API_URL=http://localhost:8000/api/v1
+VITE_GOOGLE_MAPS_API_KEY=your_browser_restricted_google_maps_key
 ```
 
 ### Development
