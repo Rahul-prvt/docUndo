@@ -4,6 +4,23 @@ type Translations = Record<string, Record<string, string>>;
 
 const translations: Translations = {
   en: {
+    "common.retry": "Try again",
+    "search.failed": "Could not load doctors. Check your connection and try again.",
+    "search.location_failed": "Your location is unavailable. Search for an address or select a point on the map.",
+    "search.location_label": "Search location",
+    "search.locating": "Finding your location…",
+    "search.use_location": "Use my current location",
+    "search.filters_changed": "Filters changed. Select Search care to update results.",
+    "search.results_summary": "{count} doctors found within {radius} km",
+    "search.result_view": "Results view",
+    "search.list": "List",
+    "search.map": "Map",
+    "search.no_results": "No doctors found in this area",
+    "search.no_results_hint": "Try a different location, a wider distance, or another specialty.",
+    "search.expand": "Search all specialties within 50 km",
+    "search.contact_guidance": "Contact the clinic to confirm hours, fees, and appointment availability.",
+    "doc.no_phone": "No clinic phone number has been added yet.",
+
     // Nav
     "nav.for_patients": "For Patients",
     "nav.for_doctors": "For doctors",
@@ -148,6 +165,23 @@ const translations: Translations = {
     "auth.signup_create_profile": "Create your profile",
   },
   ml: {
+    "common.retry": "വീണ്ടും ശ്രമിക്കുക",
+    "search.failed": "ഡോക്ടർമാരെ കണ്ടെത്താനായില്ല. ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിച്ച് വീണ്ടും ശ്രമിക്കുക.",
+    "search.location_failed": "നിങ്ങളുടെ സ്ഥാനം ലഭ്യമല്ല. വിലാസം തിരയുക അല്ലെങ്കിൽ മാപ്പിൽ സ്ഥലം തിരഞ്ഞെടുക്കുക.",
+    "search.location_label": "തിരയുന്ന സ്ഥലം",
+    "search.locating": "സ്ഥാനം കണ്ടെത്തുന്നു…",
+    "search.use_location": "എന്റെ നിലവിലെ സ്ഥാനം ഉപയോഗിക്കുക",
+    "search.filters_changed": "ഫിൽട്ടറുകൾ മാറിയിരിക്കുന്നു. ഫലങ്ങൾ പുതുക്കാൻ തിരയുക അമർത്തുക.",
+    "search.results_summary": "{radius} കി.മീ. പരിധിയിൽ {count} ഡോക്ടർമാരെ കണ്ടെത്തി",
+    "search.result_view": "ഫലങ്ങൾ കാണുക",
+    "search.list": "പട്ടിക",
+    "search.map": "മാപ്പ്",
+    "search.no_results": "ഈ പ്രദേശത്ത് ഡോക്ടർമാരെ കണ്ടെത്തിയില്ല",
+    "search.no_results_hint": "മറ്റൊരു സ്ഥലം, കൂടുതൽ ദൂരം, അല്ലെങ്കിൽ മറ്റൊരു സ്പെഷ്യാലിറ്റി പരീക്ഷിക്കുക.",
+    "search.expand": "50 കി.മീ. പരിധിയിൽ എല്ലാ സ്പെഷ്യാലിറ്റികളും തിരയുക",
+    "search.contact_guidance": "സമയം, ഫീസ്, അപ്പോയിന്റ്മെന്റ് ലഭ്യത എന്നിവ ഉറപ്പാക്കാൻ ക്ലിനിക്കുമായി ബന്ധപ്പെടുക.",
+    "doc.no_phone": "ക്ലിനിക്കിന്റെ ഫോൺ നമ്പർ ഇതുവരെ ചേർത്തിട്ടില്ല.",
+
     // Nav
     "nav.for_patients": "രോഗികൾക്ക്",
     "nav.for_doctors": "ഡോക്ടർമാർക്ക്",

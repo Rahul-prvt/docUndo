@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { doctorApi } from "../lib/api";
+import { Feedback } from './ui';
 
 interface AvailabilityToggleProps {
   doctorId: string;
@@ -11,36 +12,40 @@ export const AvailabilityToggle: React.FC<AvailabilityToggleProps> = ({
 }) => {
   const [available, setAvailable] = useState(initialAvailable);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
   const toggle = async () => {
     setSaving(true);
+    setError('');
     try {
       const next = !available;
       await doctorApi.toggleAvailability(next);
       setAvailable(next);
     } catch {
-      // silently swallow — could add a toast here
+      setError('Availability could not be saved. Please try again.');
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <button
+    <div className="max-w-sm"><button
       id="availability-toggle"
       onClick={toggle}
       disabled={saving}
+      aria-pressed={available}
       title={available ? "You are visible to patients — click to go offline" : "Click to appear in patient search"}
-      className={`flex items-center gap-2 rounded-full px-4 py-2 text-xs font-bold transition-all duration-200 ${
+      className={`flex min-h-[44px] items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold ${
         available
-          ? "bg-[#e5f5c4] text-[#355b22] hover:bg-[#d2f09a]"
+          ? "bg-[#e8f4ec] text-[#22603d] hover:bg-[#d7ebdf]"
           : "bg-[#e6e8e1] text-[#718079] hover:bg-[#d5d9d2]"
       } disabled:opacity-50`}
     >
       <span
-        className={`h-2 w-2 rounded-full ${available ? "bg-[#52c41a] animate-pulse" : "bg-[#a8b3ac]"}`}
+        className={`h-2 w-2 rounded-full ${available ? "bg-[#23634e]" : "bg-[#718079]"}`}
       />
       {saving ? "Saving…" : available ? "Available now" : "Offline"}
     </button>
+    {error && <div className="mt-2"><Feedback>{error}</Feedback></div>}</div>
   );
 };

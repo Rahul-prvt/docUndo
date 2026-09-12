@@ -1,5 +1,6 @@
 import React from "react";
-import { InfoWindow, Map, Marker } from "@vis.gl/react-google-maps";
+import { InfoWindow, Map, Marker, useApiLoadingStatus } from "@vis.gl/react-google-maps";
+import { LoadingState } from './ui';
 
 interface MapViewProps {
   lat: number;
@@ -16,19 +17,24 @@ export const MapView: React.FC<MapViewProps> = ({ lat, lng, doctors, onDoctorCli
   const [selectedDoctor, setSelectedDoctor] = React.useState<any>(null);
   const safeLat = isValidCoordinate(lat, lng) ? lat : 10.786;
   const safeLng = isValidCoordinate(lat, lng) ? lng : 76.6444;
+  const status = useApiLoadingStatus();
+  const [cameraCenter, setCameraCenter] = React.useState({ lat: safeLat, lng: safeLng });
   const doctorsWithClinics = doctors.filter((doctor) => isValidCoordinate(doctor.clinic?.lat, doctor.clinic?.lng));
 
-  React.useEffect(() => setSelectedDoctor(null), [safeLat, safeLng]);
+  React.useEffect(() => { setSelectedDoctor(null); setCameraCenter({ lat: safeLat, lng: safeLng }); }, [safeLat, safeLng, doctors]);
 
   if (!import.meta.env.VITE_GOOGLE_MAPS_API_KEY) {
-    return <div className="grid h-full min-h-[260px] place-items-center bg-[#e8ece6] p-6 text-center text-sm text-[#53615c]">Google Maps is not configured.</div>;
+    return <div role="status" className="grid h-full min-h-[260px] place-items-center bg-[#eef3f0] p-6 text-center text-sm text-[#53615c]">The map is unavailable. You can still browse doctor results.</div>;
   }
+  if (status === 'FAILED' || status === 'AUTH_FAILURE') return <div role="alert" className="grid h-full place-items-center p-6 text-center text-sm text-[#53665e]">The map could not load. You can still browse doctor results. Refresh the page to try again.</div>;
+  if (status !== 'LOADED') return <LoadingState label="Loading map…" />;
 
   return (
     <Map
-      center={{ lat: safeLat, lng: safeLng }}
+      center={cameraCenter}
+      onCenterChanged={event => setCameraCenter(event.detail.center)}
       defaultZoom={13}
-      gestureHandling="greedy"
+      gestureHandling="cooperative"
       onClick={(event) => {
         const position = (event as unknown as { detail: { latLng: google.maps.LatLngLiteral | null } }).detail.latLng;
         if (position) onMapClick?.(position.lat, position.lng);

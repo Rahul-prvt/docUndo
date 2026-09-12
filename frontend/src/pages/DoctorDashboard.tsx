@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { Feedback, LoadingState } from "../components/ui";
 import { doctorApi } from "../lib/api";
 import { useAuthStore } from "../lib/store";
 import { useTranslation } from "../lib/i18n";
@@ -21,9 +23,8 @@ const EMPTY_CLINIC: ClinicForm = { name: "", address: "", opening_hours: "", pho
 // ── Component ─────────────────────────────────────────────────────────────────
 export const DoctorDashboard: React.FC = () => {
   const { t } = useTranslation();
-  const { user_id, clearToken } = useAuthStore((s) => ({
+  const { user_id } = useAuthStore((s) => ({
     user_id: s.userId,
-    clearToken: s.clearToken,
   }));
 
   const [loading, setLoading] = useState(true);
@@ -85,10 +86,11 @@ export const DoctorDashboard: React.FC = () => {
     setClinicSuccess("");
     try {
       await doctorApi.addClinic(clinicForm);
-      setClinicSuccess("Clinic location saved! It will appear on the patient map.");
+      setClinicSuccess("Clinic details saved. Set your availability above when you are ready to see patients.");
       // Refresh to get geocoded lat/lng back
       const res = await doctorApi.getProfile();
       setDoctor(res.data);
+      setClinicForm({ ...EMPTY_CLINIC, ...res.data.clinic });
     } catch (err: any) {
       setClinicError(
         err.response?.data?.detail ||
@@ -99,21 +101,19 @@ export const DoctorDashboard: React.FC = () => {
     }
   };
 
-  const handleLogout = () => { clearToken(); window.location.assign("/"); };
-
   // ── Render ───────────────────────────────────────────────────────────────
+  if (!user_id) return <Navigate to="/doctor/login" replace />;
+
   if (loading) {
     return (
-      <div className="flex h-80 items-center justify-center">
-        <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#23634e] border-t-transparent" />
-      </div>
+      <LoadingState label="Loading your practice…" />
     );
   }
 
   if (error) {
     return (
       <div className="mx-auto max-w-7xl px-5 py-10">
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">{error}</div>
+        <Feedback>{error}<button onClick={() => void loadDoctorData()} className="btn-secondary mt-3 block">Try again</button></Feedback>
       </div>
     );
   }
@@ -133,39 +133,32 @@ export const DoctorDashboard: React.FC = () => {
     : [];
 
   return (
-    <div className="mx-auto max-w-7xl px-5 py-10 lg:px-8">
+    <div className="page-container">
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="eyebrow text-[#718079]">{t("dash.overview")}</p>
-          <h1 className="display mt-1 text-4xl">
-            {t("dash.welcome")} <span className="text-[#23634e]">{doctor?.name?.split(" ")[0] ?? "Doctor"}.</span>
+          <h1 className="page-title mt-1">
+            {t("dash.welcome")} <span className="text-[#23634e]">{doctor?.name?.replace(/^Dr\.?\s+/i, '').split(" ")[0] ?? "Doctor"}.</span>
           </h1>
         </div>
         <div className="flex items-center gap-3">
           {doctor && <AvailabilityToggle doctorId={user_id!} initialAvailable={doctor?.availability?.available ?? false} />}
-          <button onClick={handleLogout} className="btn-secondary text-xs">{t("dash.signout")}</button>
         </div>
       </div>
 
-      {/* ── Stats row (placeholder) ─────────────────────────────────────────── */}
-      <div className="mb-8 grid gap-4 sm:grid-cols-3">
-        {[
-          { label: t("dash.appts_today"), value: "—" },
-          { label: t("dash.patients_week"), value: "—" },
-          { label: t("dash.followups"), value: "—" },
-        ].map(({ label, value }) => (
-          <div key={label} className="panel p-6">
-            <p className="eyebrow text-[#718079]">{label}</p>
-            <p className="display mt-2 text-4xl text-[#12201e]">{value}</p>
-          </div>
+      <div className="mb-6 grid divide-y divide-[#dce3df] rounded-xl border border-[#dce3df] bg-white sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        {[{ label: "Clinic location", value: hasClinic ? "Location saved" : "Setup needed" },
+          { label: "License verification", value: doctor?.license_verified ? "Verified" : "Pending review" },
+          { label: "Consultation fee", value: doctor?.consult_fee != null ? `₹${doctor.consult_fee}` : "Not provided" }].map(item => (
+          <div key={item.label} className="flex items-center justify-between gap-3 p-4 sm:block sm:p-5"><p className="text-xs font-medium text-[#53665e]">{item.label}</p><p className="text-sm font-semibold sm:mt-2 sm:text-lg">{item.value}</p></div>
         ))}
       </div>
 
       {/* ── Clinic setup ────────────────────────────────────────────────────── */}
       <div className="panel overflow-hidden">
         {/* section header */}
-        <div className="flex items-center justify-between border-b border-[#e6e8e1] px-6 py-4">
+        <div className="flex flex-wrap gap-3 items-center justify-between border-b border-[#e6e8e1] px-6 py-4">
           <div>
             <p className="eyebrow text-[#718079]">{t("dash.clinic_location")}</p>
             <h2 className="mt-0.5 text-lg font-bold">
@@ -173,7 +166,7 @@ export const DoctorDashboard: React.FC = () => {
             </h2>
           </div>
           {hasClinic && (
-            <span className="rounded-full bg-[#e5f5c4] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[#355b22]">
+            <span className="badge badge-success">
             {t("dash.listed")}
             </span>
           )}
@@ -181,9 +174,9 @@ export const DoctorDashboard: React.FC = () => {
 
         <div className="grid lg:grid-cols-[1fr_1.4fr]">
           {/* ── Form column ─────────────────────────────────────────────────── */}
-          <form onSubmit={handleClinicSave} className="space-y-4 border-b border-[#e6e8e1] p-6 lg:border-b-0 lg:border-r">
+          <form onSubmit={handleClinicSave} onChange={() => { setClinicSuccess(''); setClinicError(''); }} className="space-y-4 border-b border-[#e6e8e1] p-5 sm:p-6 lg:border-b-0 lg:border-r">
             <div>
-              <label className="field-label">{t("dash.clinic_name")} <span className="text-[#a8b3ac]">{t("dash.optional")}</span></label>
+              <label htmlFor="clinic-name" className="field-label">{t("dash.clinic_name")} <span className="text-[#53665e]">{t("dash.optional")}</span></label>
               <input
                 id="clinic-name"
                 className="field mt-1 w-full"
@@ -200,7 +193,9 @@ export const DoctorDashboard: React.FC = () => {
               initialValue={clinicForm.address}
               onPlaceSelected={handlePlaceSelected}
             />
+            <label htmlFor="manual-address" className="field-label">Confirm full address</label>
             <textarea
+              id="manual-address"
               className="field w-full resize-none"
               rows={2}
               placeholder="Selected address (or enter a manual address)"
@@ -210,7 +205,7 @@ export const DoctorDashboard: React.FC = () => {
             />
 
             <div>
-              <label className="field-label">{t("dash.opening_hours")} <span className="text-[#a8b3ac]">{t("dash.optional")}</span></label>
+              <label htmlFor="clinic-hours" className="field-label">{t("dash.opening_hours")} <span className="text-[#53665e]">{t("dash.optional")}</span></label>
               <input
                 id="clinic-hours"
                 className="field mt-1 w-full"
@@ -221,7 +216,7 @@ export const DoctorDashboard: React.FC = () => {
             </div>
 
             <div>
-              <label className="field-label">Phone Number <span className="text-[#a8b3ac]">{t("dash.optional")}</span></label>
+              <label htmlFor="clinic-phone" className="field-label">Phone Number <span className="text-[#53665e]">{t("dash.optional")}</span></label>
               <input
                 id="clinic-phone"
                 className="field mt-1 w-full"
@@ -230,16 +225,16 @@ export const DoctorDashboard: React.FC = () => {
                 value={clinicForm.phone}
                 onChange={(e) => setClinicForm((f) => ({ ...f, phone: e.target.value }))}
               />
-              <p className="mt-1 text-xs text-[#a8b3ac]">Patients will see a "Call clinic" button on your profile.</p>
+              <p className="mt-1 text-xs text-[#53665e]">Patients will see a "Call clinic" button on your profile.</p>
             </div>
 
             {clinicError && (
-              <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+              <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
                 {clinicError}
               </div>
             )}
             {clinicSuccess && (
-              <div className="rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+              <div role="status" className="rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
                 {clinicSuccess}
               </div>
             )}
@@ -262,11 +257,11 @@ export const DoctorDashboard: React.FC = () => {
             </button>
 
             {(clinicForm.lat != null && clinicForm.lng != null) ? (
-              <p className="text-center text-xs text-[#a8b3ac]">
+              <p className="text-center text-xs text-[#53665e]">
                 📍 {t("dash.pinned_at", { lat: clinicForm.lat.toFixed(4), lng: clinicForm.lng.toFixed(4) })}
               </p>
             ) : hasClinic ? (
-              <p className="text-center text-xs text-[#a8b3ac]">
+              <p className="text-center text-xs text-[#53665e]">
                 📍 {clinic.lat.toFixed(4)}, {clinic.lng.toFixed(4)}
               </p>
             ) : null}
@@ -289,8 +284,8 @@ export const DoctorDashboard: React.FC = () => {
                   doctors={[]}
                   onMapClick={(lat, lng) => setClinicForm(f => ({ ...f, lat, lng }))}
                 />
-                <div className="pointer-events-none absolute inset-0 z-[1000] flex flex-col items-center justify-center bg-[#f0f2ee]/80 text-center backdrop-blur-sm">
-                  <div className="mb-4 grid h-16 w-16 place-items-center rounded-2xl bg-[#dceee7] text-3xl">
+                <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex flex-col items-center justify-center rounded-lg border border-[#dce3df] bg-white p-4 text-center">
+                  <div className="mb-2 grid h-9 w-9 place-items-center rounded-lg bg-[#dceee7] text-lg">
                     📍
                   </div>
                   <p className="font-semibold text-[#12201e]">{t("dash.no_location")}</p>

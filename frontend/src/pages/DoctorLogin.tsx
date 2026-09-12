@@ -28,18 +28,18 @@ export const DoctorLogin: React.FC = () => {
   };
 
   return (
-    <div className="grid min-h-screen lg:grid-cols-[1.05fr_.95fr]">
+    <div className="auth-layout">
       {/* Left panel */}
-      <section className="hidden bg-[#12201e] p-12 text-white lg:flex lg:flex-col lg:justify-between">
+      <section className="auth-aside">
         <Link to="/" className="flex items-center gap-3">
           <span className="brand-mark">D</span>
           <strong>DoctorUndo</strong>
         </Link>
         <div>
           <p className="eyebrow text-[#d5ff78]">{t("nav.for_doctors")}</p>
-          <h1 className="display mt-4 max-w-md text-5xl leading-[1.04]">
-            Make every appointment feel considered.
-          </h1>
+          <p className="display mt-4 max-w-md text-4xl leading-tight">
+            Your practice, in one place.
+          </p>
           <p className="mt-5 max-w-md text-[#c5d1cb]">
             A calm, focused home for your practice and the people who count on it.
           </p>
@@ -48,24 +48,24 @@ export const DoctorLogin: React.FC = () => {
       </section>
 
       {/* Right panel – login form */}
-      <section className="flex items-center justify-center px-5 py-10">
+      <section className="auth-form">
         <div className="w-full max-w-md">
-          <Link to="/" className="mb-12 flex items-center gap-3 lg:hidden">
+          <Link to="/" className="mb-12 flex items-center gap-3 md:hidden">
             <span className="brand-mark">D</span>
             <strong>DoctorUndo</strong>
           </Link>
           <p className="eyebrow text-[#718079]">{t("auth.welcome_back")}</p>
-          <h2 className="display mt-2 text-4xl">Your practice awaits.</h2>
+          <h1 tabIndex={-1} className="display mt-2 text-4xl">Log in to your practice</h1>
           <p className="mt-3 text-sm text-[#60706a]">
             Log in to manage your profile and care availability.
           </p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div>
-              <label className="field-label">{t("auth.email")}</label>
+              <label htmlFor="login-email" className="field-label">{t("auth.email")}</label>
               <input
                 className="field"
-                type="email"
+                id="login-email" autoComplete="email" type="email"
                 placeholder="you@clinic.com"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -73,10 +73,10 @@ export const DoctorLogin: React.FC = () => {
               />
             </div>
             <div>
-              <label className="field-label">{t("auth.password")}</label>
+              <label htmlFor="login-password" className="field-label">{t("auth.password")}</label>
               <input
                 className="field"
-                type="password"
+                id="login-password" autoComplete="current-password" type="password"
                 placeholder="••••••••"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
@@ -84,7 +84,7 @@ export const DoctorLogin: React.FC = () => {
                 minLength={8}
               />
             </div>
-            {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+            {error && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
             <button className="btn-primary w-full py-3" disabled={loading}>
               {loading ? "Logging in…" : t("auth.signin") + " →"}
             </button>
