@@ -19,8 +19,8 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({ id, label,
     autocomplete.id = id;
     autocomplete.placeholder = "Search for a clinic, address, or landmark";
     autocomplete.value = initialValue || "";
-    const handleSelect = async (event: Event) => {
-      const prediction = (event as CustomEvent<{ placePrediction: google.maps.places.PlacePrediction }>).detail.placePrediction;
+    const handleSelect = async (event: google.maps.places.PlacePredictionSelectEvent) => {
+      const prediction = event.placePrediction;
       const place = prediction.toPlace();
       await place.fetchFields({ fields: ["displayName", "formattedAddress", "location"] });
       if (!place.location || !place.formattedAddress) return;
