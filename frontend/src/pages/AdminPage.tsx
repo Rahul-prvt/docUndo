@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Modal, Feedback } from "../components/ui";
 import { adminApi } from "../lib/api";
 
 interface PendingDoctor {
@@ -50,7 +51,7 @@ export default function AdminPage() {
         setError("Invalid or expired admin key. Please re-enter your key.");
         setIsKeyPromptOpen(true);
       } else if (err.response?.status === 503) {
-        setError("Supabase database is not configured on the backend.");
+        setError("The verification service is temporarily unavailable. Please try again later.");
       } else {
         setError(err.response?.data?.detail || "Failed to load pending doctors.");
       }
@@ -71,7 +72,7 @@ export default function AdminPage() {
     if (!clean) return;
     localStorage.setItem("admin_key", clean);
     setAdminKey(clean);
-    fetchPendingDoctors(clean);
+    if (clean === adminKey) void fetchPendingDoctors(clean);
   };
 
   const handleClearKey = () => {
@@ -80,6 +81,8 @@ export default function AdminPage() {
     setInputKey("");
     setDoctors([]);
     setIsKeyPromptOpen(true);
+    setError(null);
+    setStatusMsg(null);
   };
 
   const handleConfirmVerification = async () => {
@@ -88,26 +91,27 @@ export default function AdminPage() {
     const doctorId = doctor.id;
 
     setActionLoading((prev) => ({ ...prev, [doctorId]: true }));
-    setNoteModal(null);
 
     try {
       await adminApi.verifyDoctor(doctorId, verified, noteText.trim() || undefined, adminKey);
       setStatusMsg({
         text: verified
-          ? `✓ Dr. ${doctor.name} was successfully verified.`
-          : `✕ Dr. ${doctor.name} was rejected.`,
-        type: verified ? "success" : "error",
+          ? `✓ ${doctor.name} was successfully verified.`
+          : `${doctor.name} was rejected.`,
+        type: "success",
       });
+      setNoteModal(null);
+      setNoteText("");
       // Remove from list
       setDoctors((prev) => prev.filter((d) => d.id !== doctorId));
     } catch (err: any) {
+      setNoteModal(null);
       setStatusMsg({
         text: err.response?.data?.detail || `Failed to update Dr. ${doctor.name}.`,
         type: "error",
       });
     } finally {
       setActionLoading((prev) => ({ ...prev, [doctorId]: false }));
-      setNoteText("");
     }
   };
 
@@ -120,26 +124,26 @@ export default function AdminPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#f8f9f6] px-4 py-8 sm:px-6 lg:px-8">
+    <div className="page-container">
       <div className="mx-auto max-w-6xl">
         {/* Header Breadcrumb / Navigation */}
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="brand-mark">D</span>
               <h1 className="text-2xl font-bold tracking-tight text-[#12201e]">
-                Doctor Verification Console
+                Doctor verification
               </h1>
               <span className="rounded-full bg-[#e6e8e1] px-2.5 py-0.5 text-xs font-semibold text-[#53615c]">
                 Admin
               </span>
             </div>
             <p className="mt-1 text-sm text-[#718079]">
-              Review submitted medical licenses and approve doctors to appear in public search.
+              Review medical licenses and manage registration decisions.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <Link to="/" className="btn-secondary text-xs">
               ← Public App
             </Link>
@@ -174,6 +178,7 @@ export default function AdminPage() {
         {/* Status banner */}
         {statusMsg && (
           <div
+            role={statusMsg.type === "error" ? "alert" : "status"}
             className={`mb-6 flex items-center justify-between rounded-xl p-4 text-sm font-medium ${
               statusMsg.type === "success"
                 ? "border border-[#8ad1af] bg-[#eefaf4] text-[#0f5b3a]"
@@ -190,116 +195,26 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* Admin Key Modal / Prompt */}
-        {isKeyPromptOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-md rounded-2xl border border-[#e6e8e1] bg-white p-6 shadow-xl">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e6e8e1] text-lg">
-                  🔐
-                </div>
-                <div>
-                  <h3 className="font-bold text-[#12201e]">Admin Access Required</h3>
-                  <p className="text-xs text-[#718079]">
-                    Enter the secret key configured in your backend environment.
-                  </p>
-                </div>
-              </div>
-
-              {error && (
-                <p className="mb-4 rounded-lg bg-[#fdf2f2] p-2.5 text-xs font-medium text-[#9c2121]">
-                  {error}
-                </p>
-              )}
-
-              <form onSubmit={handleSaveKey} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-semibold text-[#53615c] mb-1">
-                    Admin Secret Key
-                  </label>
-                  <input
-                    type="password"
-                    value={inputKey}
-                    onChange={(e) => setInputKey(e.target.value)}
-                    placeholder="Enter admin secret key"
-                    className="w-full rounded-xl border border-[#d7dbd3] px-3 py-2 text-sm focus:border-[#12201e] focus:outline-none"
-                    required
-                  />
-                  <p className="mt-1 text-[11px] text-[#718079]">
-                    Default dev key: <code className="bg-[#f0f2eb] px-1 rounded">change-me-in-production</code>
-                  </p>
-                </div>
-
-                <div className="flex gap-2">
-                  <button
-                    type="submit"
-                    disabled={!inputKey.trim()}
-                    className="btn-primary w-full text-center"
-                  >
-                    Authenticate Console
-                  </button>
-                </div>
-              </form>
-            </div>
+        <Modal open={isKeyPromptOpen} onOpenChange={setIsKeyPromptOpen} title="Admin access" description="Enter your administrator key to review the verification queue.">
+          {error && <Feedback>{error}</Feedback>}
+          <form onSubmit={handleSaveKey} className="mt-4 space-y-4">
+            <div><label htmlFor="admin-key" className="field-label">Administrator key</label><input id="admin-key" type="password" autoComplete="off" className="field" value={inputKey} onChange={e => setInputKey(e.target.value)} required /></div>
+            <button type="submit" disabled={loading || !inputKey.trim()} className="btn-primary w-full">{loading ? 'Checking access…' : 'Open verification queue'}</button>
+            <Link to="/" className="btn-ghost w-full">Return to doctor search</Link>
+          </form>
+        </Modal>
+        <Modal open={!!noteModal} onOpenChange={open => { if (!open && !Object.values(actionLoading).some(Boolean)) { setNoteModal(null); setNoteText(''); } }} title={noteModal?.verified ? 'Approve registration' : 'Reject registration'} description={noteModal ? `Review ${noteModal.doctor.name} · License ${noteModal.doctor.license_no}` : undefined}>
+          <label htmlFor="admin-notes" className="field-label">Internal notes (optional)</label>
+          <textarea id="admin-notes" className="field" rows={3} value={noteText} onChange={e => setNoteText(e.target.value)} placeholder="Record the reason for your decision" />
+          <div className="mt-5 flex flex-wrap justify-end gap-2">
+            <button disabled={Object.values(actionLoading).some(Boolean)} onClick={() => { setNoteModal(null); setNoteText(''); }} className="btn-secondary">Cancel</button>
+            <button disabled={Object.values(actionLoading).some(Boolean)} onClick={handleConfirmVerification} className={noteModal?.verified ? 'btn-primary' : 'btn-danger'}>{Object.values(actionLoading).some(Boolean) ? 'Saving…' : noteModal?.verified ? 'Approve registration' : 'Reject registration'}</button>
           </div>
-        )}
+        </Modal>
 
-        {/* Verification Note Modal */}
-        {noteModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-lg rounded-2xl border border-[#e6e8e1] bg-white p-6 shadow-2xl">
-              <h3 className="text-base font-bold text-[#12201e] mb-1">
-                {noteModal.verified ? "Approve Doctor Registration" : "Reject Doctor Registration"}
-              </h3>
-              <p className="text-xs text-[#718079] mb-4">
-                Confirm action for <strong>Dr. {noteModal.doctor.name}</strong> (License:{" "}
-                {noteModal.doctor.license_no}).
-              </p>
-
-              <div className="mb-4">
-                <label className="block text-xs font-semibold text-[#53615c] mb-1">
-                  Admin Internal Notes (Optional)
-                </label>
-                <textarea
-                  value={noteText}
-                  onChange={(e) => setNoteText(e.target.value)}
-                  placeholder={
-                    noteModal.verified
-                      ? "e.g., Medical Council registration verified via official portal on 2026-09."
-                      : "e.g., Invalid license number or unverified qualification."
-                  }
-                  rows={3}
-                  className="w-full rounded-xl border border-[#d7dbd3] p-3 text-sm focus:border-[#12201e] focus:outline-none"
-                />
-              </div>
-
-              <div className="flex justify-end gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setNoteModal(null);
-                    setNoteText("");
-                  }}
-                  className="btn-secondary text-xs"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  onClick={handleConfirmVerification}
-                  className={`rounded-xl px-4 py-2 text-xs font-bold text-white transition ${
-                    noteModal.verified
-                      ? "bg-[#146b44] hover:bg-[#0f5b3a]"
-                      : "bg-[#be2828] hover:bg-[#9c2121]"
-                  }`}
-                >
-                  Confirm {noteModal.verified ? "Approval" : "Rejection"}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
+        {error && !isKeyPromptOpen && <div className="mb-5"><Feedback>{error}<button onClick={() => void fetchPendingDoctors()} className="btn-secondary mt-3 block">Try again</button></Feedback></div>}
+        {!adminKey && !isKeyPromptOpen && <div className="panel empty-state"><h2 className="text-lg font-bold">Console locked</h2><button onClick={() => setIsKeyPromptOpen(true)} className="btn-primary mt-4">Enter administrator key</button></div>}
+        {adminKey && !error && <>
         {/* Summary Stats & Search */}
         <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div className="rounded-2xl border border-[#e6e8e1] bg-white p-5 shadow-sm">
@@ -309,19 +224,19 @@ export default function AdminPage() {
           </div>
 
           <div className="sm:col-span-2 rounded-2xl border border-[#e6e8e1] bg-white p-5 shadow-sm flex flex-col justify-center">
-            <label className="eyebrow text-[#718079] mb-2">Filter Queue</label>
+            <label htmlFor="queue-filter" className="field-label">Search verification queue</label>
             <div className="relative">
               <input
-                type="text"
+                id="queue-filter" type="search"
                 value={searchFilter}
                 onChange={(e) => setSearchFilter(e.target.value)}
                 placeholder="Search by name, license number, specialty, or email..."
-                className="w-full rounded-xl border border-[#d7dbd3] bg-[#f8f9f6] px-4 py-2.5 text-sm focus:border-[#12201e] focus:bg-white focus:outline-none"
+                className="field pr-12"
               />
               {searchFilter && (
                 <button
                   onClick={() => setSearchFilter("")}
-                  className="absolute right-3 top-2.5 text-xs text-[#718079] hover:text-[#12201e]"
+                  aria-label="Clear search" className="btn-ghost absolute right-0 top-0 w-11 px-0"
                 >
                   ✕
                 </button>
@@ -332,16 +247,16 @@ export default function AdminPage() {
 
         {/* Queue List */}
         {loading && doctors.length === 0 ? (
-          <div className="rounded-2xl border border-[#e6e8e1] bg-white p-12 text-center">
+          <div role="status" className="panel empty-state">
             <div className="mx-auto mb-3 h-8 w-8 animate-spin rounded-full border-2 border-[#12201e] border-t-transparent" />
             <p className="text-sm font-semibold text-[#53615c]">Fetching pending verifications...</p>
           </div>
         ) : filteredDoctors.length === 0 ? (
           <div className="rounded-2xl border border-[#e6e8e1] bg-white p-12 text-center shadow-sm">
             <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eefaf4] text-2xl">
-              🎉
+              ✓
             </div>
-            <h3 className="text-base font-bold text-[#12201e]">All Clear!</h3>
+            <h3 className="text-base font-bold text-[#12201e]">{searchFilter ? "No matching registrations" : "Queue up to date"}</h3>
             <p className="mt-1 text-sm text-[#718079]">
               {searchFilter
                 ? "No pending doctors match your search filter."
@@ -357,19 +272,19 @@ export default function AdminPage() {
             )}
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="overflow-hidden rounded-xl border border-[#dce3df] bg-white divide-y divide-[#dce3df]">
             {filteredDoctors.map((doc) => {
               const isActioning = actionLoading[doc.id];
               return (
                 <div
                   key={doc.id}
-                  className="flex flex-col justify-between gap-4 rounded-2xl border border-[#e6e8e1] bg-white p-5 shadow-sm transition hover:shadow-md md:flex-row md:items-center"
+                  className="flex flex-col justify-between gap-4 p-5 hover:bg-[#f8faf9] xl:flex-row xl:items-center"
                 >
                   {/* Doctor Info */}
-                  <div className="space-y-2">
+                  <div className="min-w-0 space-y-2">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="text-lg font-bold text-[#12201e]">
-                        Dr. {doc.name}
+                        {doc.name}
                       </h3>
                       <span className="rounded-full bg-[#12201e] px-2.5 py-0.5 text-xs font-semibold text-white">
                         {doc.specialty}
@@ -391,7 +306,7 @@ export default function AdminPage() {
                           <span className="font-semibold text-[#718079]">Email: </span>
                           <a
                             href={`mailto:${doc.email}`}
-                            className="underline hover:text-[#12201e]"
+                            className="break-all underline hover:text-[#12201e]"
                           >
                             {doc.email}
                           </a>
@@ -409,14 +324,14 @@ export default function AdminPage() {
                     <button
                       onClick={() => setNoteModal({ doctor: doc, verified: false })}
                       disabled={isActioning}
-                      className="rounded-xl border border-[#f4b6b6] bg-white px-3.5 py-2 text-xs font-bold text-[#9c2121] hover:bg-[#fdf2f2] transition disabled:opacity-50"
+                      className="btn-danger"
                     >
                       Reject
                     </button>
                     <button
                       onClick={() => setNoteModal({ doctor: doc, verified: true })}
                       disabled={isActioning}
-                      className="rounded-xl bg-[#146b44] px-4 py-2 text-xs font-bold text-white hover:bg-[#0f5b3a] transition disabled:opacity-50 flex items-center gap-1.5"
+                      className="btn-primary"
                     >
                       {isActioning ? (
                         <span>Saving...</span>
@@ -432,6 +347,7 @@ export default function AdminPage() {
             })}
           </div>
         )}
+        </>}
       </div>
     </div>
   );

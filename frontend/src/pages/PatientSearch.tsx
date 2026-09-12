@@ -1,209 +1,127 @@
-import React, { useEffect, useState } from "react";
-import { MapView } from "../components/MapView";
-import { DoctorCard } from "../components/DoctorCard";
-import { searchApi } from "../lib/api";
-import { useTranslation } from "../lib/i18n";
-import { PlaceAutocomplete } from "../components/PlaceAutocomplete";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { MapView } from '../components/MapView';
+import { DoctorCard } from '../components/DoctorCard';
+import { Feedback, LoadingState, Modal } from '../components/ui';
+import { searchApi } from '../lib/api';
+import { useTranslation } from '../lib/i18n';
+import { PlaceAutocomplete } from '../components/PlaceAutocomplete';
 
-const specialties = ["General Practitioner", "Cardiologist", "Dermatologist", "Pediatrician", "Orthopedist", "Neurologist", "Gynecologist"];
-
-interface PatientSearchProps {
-  externalSpecialty?: string;
-  onSpecialtyConsumed?: () => void;
-}
+const specialties = ['General Practitioner', 'Cardiologist', 'Dermatologist', 'Pediatrician', 'Orthopedist', 'Neurologist', 'Gynecologist', 'Psychiatrist', 'ENT Specialist', 'Ophthalmologist', 'Gastroenterologist'];
+interface PatientSearchProps { externalSpecialty?: string; onSpecialtyConsumed?: () => void }
 
 export const PatientSearch: React.FC<PatientSearchProps> = ({ externalSpecialty, onSpecialtyConsumed }) => {
   const { t } = useTranslation();
-  const [userLat, setUserLat] = useState(10.786);
-  const [userLng, setUserLng] = useState(76.6444);
-  const [locationName, setLocationName] = useState("Palakkad, Kerala");
-  const [specialty, setSpecialty] = useState("");
+  const [location, setLocation] = useState({ lat: 10.786, lng: 76.6444, address: 'Palakkad, Kerala' });
+  const [specialty, setSpecialty] = useState('');
   const [radius, setRadius] = useState(10);
   const [doctors, setDoctors] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [searchError, setSearchError] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [searchError, setSearchError] = useState('');
+  const [locationError, setLocationError] = useState('');
+  const [locating, setLocating] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState<any>(null);
-  const [mapCenter, setMapCenter] = useState<[number, number]>([10.786, 76.6444]);
+  const [mobileView, setMobileView] = useState('list');
+  const [searched, setSearched] = useState({ lat: 10.786, lng: 76.6444, address: 'Palakkad, Kerala', specialty: '', radius: 10 });
+  const requestId = useRef(0);
+  const dirty = location.lat !== searched.lat || location.lng !== searched.lng || specialty !== searched.specialty || radius !== searched.radius;
 
-  // Keep latest lat/lng in a ref so geolocation callback can call search
-  // without stale closure issues
-  const latRef = React.useRef(10.786);
-  const lngRef = React.useRef(76.6444);
+  const runSearch = useCallback(async (place: typeof location, spec: string, rad: number) => {
+    const id = ++requestId.current;
+    setLoading(true);
+    setSearchError('');
+    setSelectedDoctor(null);
+    try {
+      const response = await searchApi.search(place.lat, place.lng, spec || undefined, rad);
+      if (id !== requestId.current) return;
+      setDoctors(response.data);
+      setSearched({ ...place, specialty: spec, radius: rad });
+    } catch {
+      if (id === requestId.current) setSearchError(t('search.failed'));
+    } finally { if (id === requestId.current) setLoading(false); }
+  }, []);
 
-  // Consume specialty pushed from the AI chat widget
+  useEffect(() => { void runSearch({ lat: 10.786, lng: 76.6444, address: 'Palakkad, Kerala' }, '', 10); return () => { requestId.current++; }; }, [runSearch]);
   useEffect(() => {
     if (externalSpecialty) {
       setSpecialty(externalSpecialty);
+      void runSearch(location, externalSpecialty, radius);
       onSpecialtyConsumed?.();
     }
   }, [externalSpecialty]);
 
-  const runSearch = React.useCallback(async (lat: number, lng: number, spec: string, rad: number) => {
-    setLoading(true);
-    setSearchError("");
-    try {
-      const response = await searchApi.search(lat, lng, spec || undefined, rad);
-      setDoctors(response.data);
-      setSelectedDoctor(null);
-    } catch {
-      setSearchError("Could not load doctors. Please check your connection and try again.");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    navigator.geolocation?.getCurrentPosition(
-      (p) => {
-        const lat = p.coords.latitude;
-        const lng = p.coords.longitude;
-        latRef.current = lat;
-        lngRef.current = lng;
-        setUserLat(lat);
-        setUserLng(lng);
-        setMapCenter([lat, lng]);
-        setLocationName(t("search.current_location"));
-        // Auto-search with real location
-        void runSearch(lat, lng, "", 10);
-      },
-      () => {
-        setLocationName(t("search.default_location"));
-        // Auto-search with default Palakkad location
-        void runSearch(latRef.current, lngRef.current, "", 10);
-      }
-    );
-  }, [runSearch]);
-
-  const handleMapClick = (lat: number, lng: number) => {
-    setUserLat(lat);
-    setUserLng(lng);
-    setMapCenter([lat, lng]);
-    setLocationName(t("search.selected_on_map"));
+  const useMyLocation = () => {
+    if (!navigator.geolocation) { setLocationError(t('search.location_failed')); return; }
+    setLocating(true);
+    setLocationError('');
+    navigator.geolocation.getCurrentPosition(p => {
+      const next = { lat: p.coords.latitude, lng: p.coords.longitude, address: t('search.current_location') };
+      setLocation(next);
+      setLocating(false);
+      void runSearch(next, specialty, radius);
+    }, () => { setLocating(false); setLocationError(t('search.location_failed')); }, { timeout: 10000 });
   };
+  const handlePlaceSelected = useCallback((place: typeof location) => { setLocation(place); setLocationError(''); }, []);
 
-  const handlePlaceSelected = React.useCallback((place: { address: string; lat: number; lng: number }) => {
-    latRef.current = place.lat;
-    lngRef.current = place.lng;
-    setUserLat(place.lat);
-    setUserLng(place.lng);
-    setMapCenter([place.lat, place.lng]);
-    setLocationName(place.address);
-  }, []);
+  return <div className="page-container">
+    <section className="mb-7">
+      <p className="eyebrow mb-2 text-[#23634e]">{t('search.hero_eyebrow')}</p>
+      <h1 className="page-title">{t('search.hero_title')}</h1>
+      <p className="mt-3 max-w-2xl text-sm leading-6 text-[#53665e]">{t('search.hero_subtitle')}</p>
+    </section>
 
-  const handleSearch = async () => {
-    void runSearch(userLat, userLng, specialty, radius);
-  };
-
-  return (
-    <div className="mx-auto max-w-7xl px-5 pb-16 pt-8 lg:px-8 lg:pt-14">
-      {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden rounded-[1.75rem] bg-[#12201e] px-6 py-10 text-white sm:px-10 lg:px-14 lg:py-14">
-        <div className="absolute -right-16 -top-16 h-72 w-72 rounded-full bg-[#caff67] opacity-90 blur-[1px]" />
-        <div className="absolute bottom-0 right-44 h-24 w-24 rounded-full border-[18px] border-[#5eaa98] opacity-50" />
-        <div className="relative max-w-2xl">
-          <p className="eyebrow mb-4 text-[#d5ff78]">{t("search.hero_eyebrow")}</p>
-          <h1 className="display text-4xl leading-[1.03] sm:text-5xl lg:text-6xl">{t("search.hero_title")}</h1>
-          <p className="mt-5 max-w-xl text-base leading-7 text-[#c5d1cb]">{t("search.hero_subtitle")}</p>
+    <form aria-label={t('search.btn')} onSubmit={e => { e.preventDefault(); void runSearch(location, specialty, radius); }} className="panel p-4 sm:p-5">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-[1.4fr_1.1fr_.7fr_auto] lg:items-start">
+        <div className="min-w-0">
+          <PlaceAutocomplete id="patient-location" label={t('search.near_you')} initialValue={location.address} onPlaceSelected={handlePlaceSelected} />
         </div>
-        <div className="relative mt-9 grid max-w-2xl grid-cols-3 gap-4 border-t border-white/15 pt-5">
-          <div><strong className="block text-lg">{t("search.feature1_title")}</strong><span className="text-xs text-[#aebeb6]">{t("search.feature1_desc")}</span></div>
-          <div><strong className="block text-lg">{t("search.feature2_title")}</strong><span className="text-xs text-[#aebeb6]">{t("search.feature2_desc")}</span></div>
-          <div><strong className="block text-lg">{t("search.feature3_title")}</strong><span className="text-xs text-[#aebeb6]">{t("search.feature3_desc")}</span></div>
+        <div>
+          <label htmlFor="specialty" className="field-label">{t('auth.specialty')}</label>
+          <select id="specialty" value={specialty} onChange={e => setSpecialty(e.target.value)} className="field">
+            <option value="">{t('search.any_specialty')}</option>
+            {[...new Set([...specialties, ...(specialty ? [specialty] : [])])].map(item => <option key={item}>{item}</option>)}
+          </select>
         </div>
-      </section>
-
-      {/* ── Search bar ───────────────────────────────────────────────────── */}
-      <section className="panel relative z-10 mt-4 mx-2 p-4 sm:mx-6 sm:p-5">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-[1.1fr_1.3fr_1fr_auto] lg:items-end">
-          <div>
-            <label className="field-label">{t("search.near_you")}</label>
-            <PlaceAutocomplete id="patient-location" label="" initialValue={locationName} onPlaceSelected={handlePlaceSelected} />
-            <p className="mt-1 truncate text-xs text-[#718079]">{locationName}</p>
-          </div>
-          <div>
-            <label className="field-label">{t("search.i_need_a")}</label>
-            <select value={specialty} onChange={(e) => setSpecialty(e.target.value)} className="field">
-              <option value="">{t("search.any_specialty")}</option>
-              {specialties.map((item) => <option key={item}>{item}</option>)}
-            </select>
-          </div>
-          <div>
-            <label className="field-label flex justify-between">
-              <span>{t("search.within_km", { radius })}</span>
-              <span className="text-[#12201e]">{radius} km</span>
-            </label>
-            <input type="range" min={1} max={50} value={radius} onChange={(e) => setRadius(+e.target.value)} className="h-2 w-full cursor-pointer accent-[#12201e]" />
-          </div>
-          <button onClick={handleSearch} disabled={loading} className="btn-primary min-h-[43px] whitespace-nowrap">
-            {loading ? t("search.searching") : <>{t("search.btn")} <span>→</span></>}
-          </button>
+        <div>
+          <label htmlFor="radius" className="field-label">{t('search.within_km', { radius })}</label>
+          <input id="radius" type="range" min={1} max={50} value={radius} aria-valuetext={`${radius} km`} onChange={e => setRadius(+e.target.value)} className="w-full accent-[#23634e]" />
         </div>
-      </section>
+        <button type="submit" disabled={loading || locating} className="btn-primary lg:mt-[26px]">{loading ? t('search.searching') : t('search.btn')} <span aria-hidden="true">→</span></button>
+      </div>
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-x-4 border-t border-[#e5ebe7] pt-2">
+        <p className="min-w-0 break-words text-xs text-[#53665e]">{t('search.location_label')}: {location.address}</p>
+        <button type="button" onClick={useMyLocation} disabled={locating || loading} className="btn-ghost px-0 text-xs">{locating ? t('search.locating') : t('search.use_location')}</button>
+      </div>
+      {locationError && <Feedback>{locationError}</Feedback>}
+    </form>
 
-      {/* ── Results (full width now — sidebar removed) ────────────────────── */}
-      <section className="mt-10">
-        <div className="mb-4 flex items-end justify-between">
-          <div>
-            <p className="eyebrow text-[#718079]">{t("search.explore_nearby")}</p>
-            <h2 className="display mt-1 text-3xl">
-              {doctors.length ? t("search.care_options", { count: doctors.length }) : t("search.care_around_you")}
-            </h2>
-          </div>
-          {selectedDoctor && (
-            <button onClick={() => setSelectedDoctor(null)} className="text-sm font-bold underline underline-offset-4">
-              {t("search.all_results")}
-            </button>
-          )}
+    <section className="mt-7" aria-labelledby="results-title">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 id="results-title" className="text-xl font-bold">{t('search.care_around_you')}</h2>
+          <p className="mt-1 text-sm text-[#53665e]" role="status">{loading ? t('search.searching') : searchError ? '' : dirty ? t('search.filters_changed') : t('search.results_summary', { count: doctors.length, radius: searched.radius })}</p>
         </div>
-
-        {selectedDoctor ? (
-          <div className="space-y-5">
-            <DoctorCard doctor={selectedDoctor} onClick={() => undefined} isDetailView />
-            <div className="panel p-5">
-              <p className="eyebrow text-[#718079]">{t("search.next_available")}</p>
-              <h3 className="mt-1 text-xl font-bold">{t("search.choose_time")}</h3>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <button className="rounded-xl border border-[#d7dbd3] bg-[#fffefa] p-4 text-left transition hover:border-[#12201e]">
-                  <strong>{t("search.today")}</strong>
-                  <span className="mt-1 block text-sm text-[#60706a]">9:00 AM · 15 min</span>
-                </button>
-                <button className="rounded-xl border border-[#d7dbd3] bg-[#fffefa] p-4 text-left transition hover:border-[#12201e]">
-                  <strong>{t("search.tomorrow")}</strong>
-                  <span className="mt-1 block text-sm text-[#60706a]">2:00 PM · 15 min</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <>
-            <div className="relative overflow-hidden rounded-[1.25rem] border border-[#d7dbd3] bg-[#e8ece6] p-2" style={{ height: 370 }}>
-              <MapView lat={mapCenter[0]} lng={mapCenter[1]} doctors={doctors} onDoctorClick={setSelectedDoctor} onMapClick={handleMapClick} />
-              <div className="pointer-events-none absolute bottom-4 left-0 right-0 z-[1000] flex justify-center">
-                <div className="rounded-full bg-white/90 px-4 py-1.5 text-xs font-semibold text-gray-700 shadow-sm backdrop-blur-sm">
-                  {t("search.click_map")}
-                </div>
-              </div>
-            </div>
-            {doctors.length > 0 ? (
-              <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {doctors.map((doctor) => <DoctorCard key={doctor.id} doctor={doctor} onClick={() => setSelectedDoctor(doctor)} />)}
-              </div>
-            ) : (
-              <div className="mt-4 rounded-2xl border border-dashed border-[#cbd3c9] px-6 py-12 text-center">
-                <p className="text-2xl mb-2">🩺</p>
-                <p className="font-semibold">{t("search.start_with_search")}</p>
-                <p className="mt-1 text-sm text-[#718079]">{t("search.start_with_search_desc")}</p>
-                <p className="mt-3 text-xs text-[#5eaa98]">Tip: use the AI assistant button at the bottom-right to describe symptoms</p>
-              </div>
-            )}
-          </>
-        )}
-        {searchError && (
-          <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {searchError}
-          </div>
-        )}
-      </section>
-    </div>
-  );
+        <div className="flex gap-1 rounded-lg border border-[#dce3df] bg-white p-1 lg:hidden" aria-label={t('search.result_view')}>
+          {['list', 'map'].map(view => <button key={view} type="button" aria-pressed={mobileView === view} onClick={() => setMobileView(view)} className={`btn-ghost px-5 ${mobileView === view ? 'bg-[#edf4f0]' : ''}`}>{t(`search.${view}`)}</button>)}
+        </div>
+      </div>
+      {searchError && !loading && <div className="mb-4"><Feedback>{searchError}<button className="btn-secondary mt-3 block" onClick={() => void runSearch(location, specialty, radius)}>{t('common.retry')}</button></Feedback></div>}
+      <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
+        <div className={`${mobileView === 'list' ? 'block' : 'hidden'} min-w-0 lg:block`} aria-busy={loading}>
+          {loading ? <div className="panel"><LoadingState label={t('search.searching')} /></div> : searchError ? null : doctors.length ? <div className="space-y-3">{doctors.map(doctor => <DoctorCard key={doctor.id} doctor={doctor} onClick={setSelectedDoctor} />)}</div> : <div className="panel empty-state">
+            <span aria-hidden="true" className="mx-auto mb-4 grid h-12 w-12 place-items-center rounded-full bg-[#edf4f0] text-xl text-[#23634e]">⌕</span>
+            <h3 className="font-bold">{t('search.no_results')}</h3>
+            <p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-[#53665e]">{t('search.no_results_hint')}</p>
+            <button className="btn-secondary mt-5" onClick={() => { setSpecialty(''); setRadius(50); void runSearch(location, '', 50); }}>{t('search.expand')}</button>
+          </div>}
+        </div>
+        <div className={`${mobileView === 'map' ? 'block' : 'hidden'} panel overflow-hidden lg:sticky lg:top-24 lg:block`}>
+          <div className="h-[360px] sm:h-[460px] lg:h-[520px]" aria-label={t('search.map')}><MapView lat={location.lat} lng={location.lng} doctors={searchError || loading ? [] : doctors} onDoctorClick={setSelectedDoctor} onMapClick={(lat, lng) => setLocation({ lat, lng, address: t('search.selected_on_map') })} /></div>
+          <p className="border-t border-[#dce3df] px-4 py-3 text-xs leading-5 text-[#53665e]">{t('search.click_map')}</p>
+        </div>
+      </div>
+    </section>
+    <Modal open={!!selectedDoctor} onOpenChange={open => { if (!open) setSelectedDoctor(null); }} title={t('doc.view_profile')} description={t('search.contact_guidance')}>
+      {selectedDoctor && <DoctorCard doctor={selectedDoctor} isDetailView />}
+    </Modal>
+  </div>;
 };

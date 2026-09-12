@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { doctorApi } from "../lib/api";
 import { useAuthStore } from "../lib/store";
@@ -47,8 +47,11 @@ export const DoctorSignup: React.FC = () => {
     });
   };
 
+  useEffect(() => { document.querySelector<HTMLElement>("h1")?.focus(); }, [step]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (step === 1) { setError(""); setStep(2); return; }
     setLoading(true);
     setError("");
     try {
@@ -76,18 +79,18 @@ export const DoctorSignup: React.FC = () => {
   };
 
   return (
-    <div className="grid min-h-screen lg:grid-cols-[1.05fr_.95fr]">
+    <div className="auth-layout">
       {/* ── Left panel ─────────────────────────────────────────────────── */}
-      <section className="hidden bg-[#12201e] p-12 text-white lg:flex lg:flex-col lg:justify-between">
+      <section className="auth-aside">
         <Link to="/" className="flex items-center gap-3">
           <span className="brand-mark">D</span>
           <strong>DoctorUndo</strong>
         </Link>
         <div>
           <p className="eyebrow text-[#d5ff78]">{t("nav.for_doctors")}</p>
-          <h1 className="display mt-4 max-w-md text-5xl leading-[1.04]">
+          <p className="display mt-4 max-w-md text-4xl leading-tight">
             Build a profile patients trust.
-          </h1>
+          </p>
           <p className="mt-5 max-w-md text-[#c5d1cb]">
             Set up your practice details once — and let patients find you effortlessly.
           </p>
@@ -96,10 +99,10 @@ export const DoctorSignup: React.FC = () => {
       </section>
 
       {/* ── Right panel ─────────────────────────────────────────────────── */}
-      <section className="flex items-center justify-center bg-[#f0f2ee] px-5 py-10">
-        <div className="w-full max-w-md">
+      <section className="auth-form">
+        <div className="w-full max-w-xl">
           {/* Mobile logo */}
-          <Link to="/" className="mb-10 flex items-center gap-3 lg:hidden">
+          <Link to="/" className="mb-10 flex items-center gap-3 md:hidden">
             <span className="brand-mark">D</span>
             <strong>DoctorUndo</strong>
           </Link>
@@ -120,7 +123,7 @@ export const DoctorSignup: React.FC = () => {
           </div>
 
           {error && (
-            <div className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div role="alert" className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
               {error}
             </div>
           )}
@@ -128,58 +131,57 @@ export const DoctorSignup: React.FC = () => {
           <form onSubmit={handleSubmit}>
             {/* ── Step 1: Account ──────────────────────────────────────── */}
             {step === 1 && (
-              <div className="space-y-5">
-                <div>
+              <div className="form-grid">
+                <div className="full-width">
                   <p className="eyebrow text-[#718079]">Step 1 of 2</p>
-                  <h2 className="display mt-1 text-3xl">{t("auth.create_account")}</h2>
+                  <h1 tabIndex={-1} className="display mt-1 text-3xl">{t("auth.create_account")}</h1>
                 </div>
 
                 <div>
-                  <label className="field-label">{t("auth.email")}</label>
-                  <input className="field mt-1" type="email" name="email" placeholder="you@clinic.com"
+                  <label htmlFor="signup-email" className="field-label">{t("auth.email")}</label>
+                  <input className="field mt-1" type="email" id="signup-email" name="email" autoComplete="email" placeholder="you@clinic.com"
                     value={form.email} onChange={handleChange} required />
                 </div>
 
                 <div>
-                  <label className="field-label">{t("auth.password")}</label>
-                  <input className="field mt-1" type="password" name="password" placeholder="Min. 8 characters"
+                  <label htmlFor="signup-password" className="field-label">{t("auth.password")}</label>
+                  <input className="field mt-1" type="password" id="signup-password" name="password" autoComplete="new-password" placeholder="Min. 8 characters"
                     value={form.password} onChange={handleChange} required minLength={8} />
                 </div>
 
                 <div>
-                  <label className="field-label">{t("auth.fullname")}</label>
-                  <input className="field mt-1" type="text" name="name" placeholder="Dr. Sarah Johnson"
+                  <label htmlFor="signup-name" className="field-label">{t("auth.fullname")}</label>
+                  <input className="field mt-1" type="text" id="signup-name" name="name" autoComplete="name" placeholder="Dr. Sarah Johnson"
                     value={form.name} onChange={handleChange} required />
                 </div>
 
                 <div>
-                  <label className="field-label">{t("auth.specialty")}</label>
-                  <select className="field mt-1" name="specialty" value={form.specialty} onChange={handleChange}>
+                  <label htmlFor="signup-specialty" className="field-label">{t("auth.specialty")}</label>
+                  <select className="field mt-1" id="signup-specialty" name="specialty" value={form.specialty} onChange={handleChange}>
                     {SPECIALTIES.map((s) => <option key={s}>{s}</option>)}
                   </select>
                 </div>
 
                 <div>
-                  <label className="field-label">{t("auth.license")}</label>
-                  <input className="field mt-1" type="text" name="license_no" placeholder="MCI/State Council number"
+                  <label htmlFor="signup-license_no" className="field-label">{t("auth.license")}</label>
+                  <input className="field mt-1" type="text" id="signup-license_no" name="license_no" placeholder="MCI/State Council number"
                     value={form.license_no} onChange={handleChange} required />
                 </div>
 
                 <div>
-                  <label className="field-label">{t("auth.fee")}</label>
-                  <input className="field mt-1" type="number" name="consult_fee" placeholder="e.g. 500"
+                  <label htmlFor="signup-consult_fee" className="field-label">{t("auth.fee")}</label>
+                  <input className="field mt-1" type="number" id="signup-consult_fee" name="consult_fee" placeholder="e.g. 500"
                     value={form.consult_fee} onChange={handleChange} min={0} />
                 </div>
 
-                <div>
-                  <label className="field-label">{t("auth.bio")} <span className="text-[#a8b3ac]">{t("dash.optional")}</span></label>
-                  <textarea className="field mt-1 resize-none" name="bio" rows={3}
+                <div className="full-width">
+                  <label htmlFor="signup-bio" className="field-label">{t("auth.bio")} <span className="text-[#53665e]">{t("dash.optional")}</span></label>
+                  <textarea className="field mt-1 resize-none" id="signup-bio" name="bio" rows={3}
                     placeholder="Tell patients about your experience and approach…"
                     value={form.bio} onChange={handleChange} />
                 </div>
 
-                <button type="button" onClick={() => { if (form.email && form.password && form.name && form.license_no) setStep(2); else setError("Please fill in all required fields."); }}
-                  className="btn-primary w-full py-3">
+                <button type="submit" className="btn-primary full-width w-full py-3">
                   Next: Practice details →
                 </button>
               </div>
@@ -187,59 +189,57 @@ export const DoctorSignup: React.FC = () => {
 
             {/* ── Step 2: Practice ─────────────────────────────────────── */}
             {step === 2 && (
-              <div className="space-y-5">
-                <div>
+              <div className="form-grid">
+                <div className="full-width">
                   <p className="eyebrow text-[#718079]">Step 2 of 2</p>
-                  <h2 className="display mt-1 text-3xl">Your practice</h2>
-                  <p className="mt-1 text-sm text-[#60706a]">This appears on your profile. You can update it later.</p>
+                  <h1 tabIndex={-1} className="display mt-1 text-3xl">Your practice</h1>
+                  <p className="mt-1 text-sm text-[#60706a]">Add your clinic details. You will confirm its address on the next screen.</p>
                 </div>
 
                 <div>
-                  <label className="field-label">{t("dash.clinic_name")} <span className="text-[#a8b3ac]">{t("dash.optional")}</span></label>
-                  <input className="field mt-1" type="text" name="clinic_name"
+                  <label htmlFor="signup-clinic_name" className="field-label">{t("dash.clinic_name")} <span className="text-[#53665e]">{t("dash.optional")}</span></label>
+                  <input className="field mt-1" type="text" id="signup-clinic_name" name="clinic_name"
                     placeholder="e.g. Sunrise Health Clinic"
                     value={form.clinic_name} onChange={handleChange} />
                 </div>
 
                 <div>
-                  <label className="field-label">{t("dash.opening_hours")} <span className="text-[#a8b3ac]">{t("dash.optional")}</span></label>
-                  <input className="field mt-1" type="text" name="opening_hours"
+                  <label htmlFor="signup-opening_hours" className="field-label">{t("dash.opening_hours")} <span className="text-[#53665e]">{t("dash.optional")}</span></label>
+                  <input className="field mt-1" type="text" id="signup-opening_hours" name="opening_hours"
                     placeholder="e.g. Mon–Fri 9 AM – 6 PM"
                     value={form.opening_hours} onChange={handleChange} />
                 </div>
 
                 {/* Available days */}
-                <div>
-                  <label className="field-label">{t("auth.days")}</label>
+                <fieldset className="full-width"><legend className="field-label">{t("auth.days")}</legend>
                   <div className="mt-2 flex flex-wrap gap-2">
                     {DAYS.map((day) => (
-                      <button key={day} type="button"
+                      <button key={day} type="button" aria-pressed={form.available_days.includes(day)} aria-label={day}
                         onClick={() => toggleItem("available_days", day)}
-                        className={`rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${form.available_days.includes(day) ? "border-[#23634e] bg-[#23634e] text-white" : "border-[#d7dbd3] bg-white text-[#53615c] hover:border-[#23634e]"}`}
+                        className={`min-h-[44px] rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${form.available_days.includes(day) ? "border-[#23634e] bg-[#23634e] text-white" : "border-[#d7dbd3] bg-white text-[#53615c] hover:border-[#23634e]"}`}
                       >
                         {day.slice(0, 3)}
                       </button>
                     ))}
                   </div>
-                </div>
+                </fieldset>
 
                 {/* Languages */}
-                <div>
-                  <label className="field-label">{t("auth.languages")}</label>
+                <fieldset className="full-width"><legend className="field-label">{t("auth.languages")}</legend>
                   <div className="mt-2 flex flex-wrap gap-2">
                     {LANGS.map((lang) => (
-                      <button key={lang} type="button"
+                      <button key={lang} type="button" aria-pressed={form.languages.includes(lang)}
                         onClick={() => toggleItem("languages", lang)}
-                        className={`rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${form.languages.includes(lang) ? "border-[#23634e] bg-[#23634e] text-white" : "border-[#d7dbd3] bg-white text-[#53615c] hover:border-[#23634e]"}`}
+                        className={`min-h-[44px] rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${form.languages.includes(lang) ? "border-[#23634e] bg-[#23634e] text-white" : "border-[#d7dbd3] bg-white text-[#53615c] hover:border-[#23634e]"}`}
                       >
                         {lang}
                       </button>
                     ))}
                   </div>
-                </div>
+                </fieldset>
 
-                <div className="flex gap-3">
-                  <button type="button" onClick={() => setStep(1)} className="btn-secondary flex-1">
+                <div className="full-width flex flex-wrap gap-3">
+                  <button type="button" disabled={loading} onClick={() => setStep(1)} className="btn-secondary flex-1">
                     ← Back
                   </button>
                   <button type="submit" disabled={loading} className="btn-primary flex-1 py-3">
