@@ -32,7 +32,7 @@ function Navigation() {
             <span className="brand-mark">D</span>
             <span>
               <strong className="block text-[.98rem] tracking-tight">DoctorUndo</strong>
-              <span className="eyebrow block text-[.53rem] text-[#718079]">care, made simple</span>
+              <span className="eyebrow block text-[.53rem] text-[#718079]">{t('app.tagline')}</span>
             </span>
           </Link>
 
@@ -47,7 +47,7 @@ function Navigation() {
           </nav>
           <div className="hidden md:flex items-center gap-2">
             {token
-              ? <button onClick={() => { clearToken(); window.location.assign('/') }} className="btn-secondary text-xs">Sign out</button>
+              ? <button onClick={() => { clearToken(); window.location.assign('/') }} className="btn-secondary text-xs">{t('nav.signout')}</button>
               : <>
                   <Link to="/doctor/login" className="text-sm font-semibold text-[#53615c]">{t('nav.login')}</Link>
                   <Link to="/doctor/signup" className="btn-primary text-xs">{t('nav.for_doctors')} <span aria-hidden>↗</span></Link>
@@ -59,7 +59,7 @@ function Navigation() {
           <button
             className="flex md:hidden items-center justify-center w-10 h-10 rounded-xl bg-[#e6e8e1] text-[#12201e]"
             onClick={() => setMobileOpen(v => !v)}
-            aria-label="Open navigation" aria-expanded={mobileOpen} aria-haspopup="dialog"
+            aria-label={t('app.navigation')} aria-expanded={mobileOpen} aria-haspopup="dialog"
           >
             {mobileOpen
               ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -69,12 +69,12 @@ function Navigation() {
         </div>
       </header>
 
-      <Modal open={mobileOpen} onOpenChange={setMobileOpen} title="Navigation">
+      <Modal open={mobileOpen} onOpenChange={setMobileOpen} title={t('app.navigation')}>
         <nav aria-label="Mobile navigation" className="flex flex-col gap-3">
           <Link to="/" onClick={closeMobile} className="nav-link">{t('nav.find_doctor')}</Link>
           {token && <Link to="/doctor/dashboard" onClick={closeMobile} className="nav-link">{t('nav.my_practice')}</Link>}
           <div className="border-y border-[#dce3df] py-3">
-            <p className="field-label">Language</p>
+            <p className="field-label">{t('app.language')}</p>
             <div className="flex gap-2">
               <button className="btn-secondary flex-1" aria-pressed={lang === 'en'} onClick={() => setLang('en')}>English</button>
               <button className="btn-secondary flex-1" aria-pressed={lang === 'ml'} onClick={() => setLang('ml')}>മലയാളം</button>
@@ -84,7 +84,7 @@ function Navigation() {
             <Link to="/doctor/login" onClick={closeMobile} className="btn-secondary">{t('nav.login')}</Link>
             <Link to="/doctor/signup" onClick={closeMobile} className="btn-primary">{t('nav.for_doctors')}</Link>
           </>}
-          <Link to="/admin" onClick={closeMobile} className="btn-ghost">Admin console</Link>
+          <Link to="/admin" onClick={closeMobile} className="btn-ghost">{t('app.admin_console')}</Link>
         </nav>
       </Modal>
     </>
@@ -94,7 +94,7 @@ function Navigation() {
 
 function AppShell() {
   const navigate = useNavigate()
-  const { lang } = useTranslation()
+  const { t, lang } = useTranslation()
   const location = useLocation()
   const isAdminPage = location.pathname.startsWith('/admin')
   const authPage = location.pathname.includes('/doctor/login') || location.pathname.includes('/doctor/signup')
@@ -107,7 +107,7 @@ function AppShell() {
 
   return (
     <div className="app-shell">
-      <a href="#main-content" className="skip-link">Skip to content</a>
+      <a href="#main-content" className="skip-link">{t('app.skip_to_content')}</a>
       <Navigation />
       <main id="main-content" tabIndex={-1}>
         <Routes>
@@ -116,7 +116,7 @@ function AppShell() {
           <Route path="/doctor/login" element={<DoctorLogin />} />
           <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="*" element={<div className="page-container"><h1 className="page-title">Page not found</h1><Link to="/" className="btn-primary mt-5">Find a doctor</Link></div>} />
+          <Route path="*" element={<div className="page-container"><h1 className="page-title">{t('app.not_found')}</h1><Link to="/" className="btn-primary mt-5">{t('nav.find_doctor')}</Link></div>} />
         </Routes>
       </main>
       {/* Floating AI chat widget — hidden on auth & admin pages */}

@@ -6,6 +6,9 @@ __pycache__/
 build/
 develop-eggs/
 dist/
+test-results/
+playwright-report/
+.venv-regression/
 downloads/
 eggs/
 .eggs/

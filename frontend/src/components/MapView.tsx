@@ -8,20 +8,32 @@ interface MapViewProps {
   doctors: any[];
   onDoctorClick?: (doctor: any) => void;
   onMapClick?: (lat: number, lng: number) => void;
+  locationLabel?: string;
 }
 
 const isValidCoordinate = (lat?: number, lng?: number) =>
   typeof lat === "number" && typeof lng === "number" && Number.isFinite(lat) && Number.isFinite(lng);
 
-export const MapView: React.FC<MapViewProps> = ({ lat, lng, doctors, onDoctorClick, onMapClick }) => {
+export const MapView: React.FC<MapViewProps> = ({ lat, lng, doctors, onDoctorClick, onMapClick, locationLabel = 'Your location' }) => {
   const [selectedDoctor, setSelectedDoctor] = React.useState<any>(null);
   const safeLat = isValidCoordinate(lat, lng) ? lat : 10.786;
   const safeLng = isValidCoordinate(lat, lng) ? lng : 76.6444;
   const status = useApiLoadingStatus();
   const [cameraCenter, setCameraCenter] = React.useState({ lat: safeLat, lng: safeLng });
+  const centeredLocation = React.useRef({ lat: safeLat, lng: safeLng });
   const doctorsWithClinics = doctors.filter((doctor) => isValidCoordinate(doctor.clinic?.lat, doctor.clinic?.lng));
 
-  React.useEffect(() => { setSelectedDoctor(null); setCameraCenter({ lat: safeLat, lng: safeLng }); }, [safeLat, safeLng, doctors]);
+  React.useEffect(() => { setSelectedDoctor(null); }, [doctors]);
+  React.useEffect(() => {
+    const previous = centeredLocation.current;
+    // Ignore GPS jitter below roughly 50 metres, preserving pan and zoom.
+    const metres = Math.hypot((safeLat - previous.lat) * 111320,
+      (safeLng - previous.lng) * 111320 * Math.cos(safeLat * Math.PI / 180));
+    if (metres >= 50) {
+      centeredLocation.current = { lat: safeLat, lng: safeLng };
+      setCameraCenter(centeredLocation.current);
+    }
+  }, [safeLat, safeLng]);
 
   if (!import.meta.env.VITE_GOOGLE_MAPS_API_KEY) {
     return <div role="status" className="grid h-full min-h-[260px] place-items-center bg-[#eef3f0] p-6 text-center text-sm text-[#53615c]">The map is unavailable. You can still browse doctor results.</div>;
@@ -41,7 +53,9 @@ export const MapView: React.FC<MapViewProps> = ({ lat, lng, doctors, onDoctorCli
       }}
       style={{ height: "100%", width: "100%", borderRadius: "inherit" }}
     >
-      <Marker position={{ lat: safeLat, lng: safeLng }} title="Your location" label="You" />
+      <Marker position={{ lat: safeLat, lng: safeLng }} title={locationLabel} icon={{
+        path: 0, scale: 9, fillColor: '#23634e', fillOpacity: 1, strokeColor: '#ffffff', strokeWeight: 3,
+      }} />
       {doctorsWithClinics.map((doctor) => (
         <Marker
           key={doctor.id}
