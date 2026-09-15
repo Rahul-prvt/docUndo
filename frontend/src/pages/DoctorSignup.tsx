@@ -71,7 +71,7 @@ export const DoctorSignup: React.FC = () => {
       setToken(response.data.access_token, response.data.user_id);
       navigate("/doctor/dashboard");
     } catch (err: any) {
-      setError(err.response?.data?.detail || "Signup failed. Please try again.");
+      setError(err.response?.data?.detail || t("auth.signup_failed"));
       setStep(1); // jump back so the user can fix any error
     } finally {
       setLoading(false);
@@ -89,13 +89,13 @@ export const DoctorSignup: React.FC = () => {
         <div>
           <p className="eyebrow text-[#d5ff78]">{t("nav.for_doctors")}</p>
           <p className="display mt-4 max-w-md text-4xl leading-tight">
-            Build a profile patients trust.
+            {t("signup.hero_title")}
           </p>
           <p className="mt-5 max-w-md text-[#c5d1cb]">
-            Set up your practice details once — and let patients find you effortlessly.
+            {t("signup.hero_subtitle")}
           </p>
         </div>
-        <p className="text-sm text-[#91a59b]">Care starts with a clear view.</p>
+        <p className="text-sm text-[#91a59b]">{t("signup.sidebar_caption")}</p>
       </section>
 
       {/* ── Right panel ─────────────────────────────────────────────────── */}
@@ -118,7 +118,7 @@ export const DoctorSignup: React.FC = () => {
               </div>
             ))}
             <p className="ml-2 text-sm text-[#718079]">
-              {step === 1 ? "Your account" : "Your practice"}
+              {step === 1 ? t("signup.step1_label") : t("signup.step2_label")}
             </p>
           </div>
 
@@ -133,7 +133,7 @@ export const DoctorSignup: React.FC = () => {
             {step === 1 && (
               <div className="form-grid">
                 <div className="full-width">
-                  <p className="eyebrow text-[#718079]">Step 1 of 2</p>
+                  <p className="eyebrow text-[#718079]">{t("signup.step1_indicator")}</p>
                   <h1 tabIndex={-1} className="display mt-1 text-3xl">{t("auth.create_account")}</h1>
                 </div>
 
@@ -182,7 +182,7 @@ export const DoctorSignup: React.FC = () => {
                 </div>
 
                 <button type="submit" className="btn-primary full-width w-full py-3">
-                  Next: Practice details →
+                  {t("signup.next_btn")}
                 </button>
               </div>
             )}
@@ -191,9 +191,9 @@ export const DoctorSignup: React.FC = () => {
             {step === 2 && (
               <div className="form-grid">
                 <div className="full-width">
-                  <p className="eyebrow text-[#718079]">Step 2 of 2</p>
-                  <h1 tabIndex={-1} className="display mt-1 text-3xl">Your practice</h1>
-                  <p className="mt-1 text-sm text-[#60706a]">Add your clinic details. You will confirm its address on the next screen.</p>
+                  <p className="eyebrow text-[#718079]">{t("signup.step2_indicator")}</p>
+                  <h1 tabIndex={-1} className="display mt-1 text-3xl">{t("signup.step2_heading")}</h1>
+                  <p className="mt-1 text-sm text-[#60706a]">{t("signup.step2_subtitle")}</p>
                 </div>
 
                 <div>
@@ -240,7 +240,7 @@ export const DoctorSignup: React.FC = () => {
 
                 <div className="full-width flex flex-wrap gap-3">
                   <button type="button" disabled={loading} onClick={() => setStep(1)} className="btn-secondary flex-1">
-                    ← Back
+                    {t("signup.back_btn")}
                   </button>
                   <button type="submit" disabled={loading} className="btn-primary flex-1 py-3">
                     {loading ? (
@@ -249,7 +249,7 @@ export const DoctorSignup: React.FC = () => {
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                         </svg>
-                        Creating profile…
+                        {t("signup.creating")}
                       </span>
                     ) : t("auth.create_profile") + " ↗"}
                   </button>

@@ -21,7 +21,7 @@ export const DoctorLogin: React.FC = () => {
       setToken(response.data.access_token, response.data.user_id);
       navigate("/doctor/dashboard");
     } catch (err: any) {
-      setError(err.response?.data?.detail || "Invalid credentials");
+      setError(err.response?.data?.detail || t("auth.invalid_credentials"));
     } finally {
       setLoading(false);
     }
@@ -36,15 +36,15 @@ export const DoctorLogin: React.FC = () => {
           <strong>DoctorUndo</strong>
         </Link>
         <div>
-          <p className="eyebrow text-[#d5ff78]">{t("nav.for_doctors")}</p>
+          <p className="eyebrow text-[#d5ff78]">{t("login.for_practitioners")}</p>
           <p className="display mt-4 max-w-md text-4xl leading-tight">
-            Your practice, in one place.
+            {t("login.hero_title")}
           </p>
           <p className="mt-5 max-w-md text-[#c5d1cb]">
-            A calm, focused home for your practice and the people who count on it.
+            {t("login.hero_subtitle")}
           </p>
         </div>
-        <p className="text-sm text-[#91a59b]">Care starts with a clear view.</p>
+        <p className="text-sm text-[#91a59b]">{t("login.sidebar_caption")}</p>
       </section>
 
       {/* Right panel – login form */}
@@ -55,9 +55,9 @@ export const DoctorLogin: React.FC = () => {
             <strong>DoctorUndo</strong>
           </Link>
           <p className="eyebrow text-[#718079]">{t("auth.welcome_back")}</p>
-          <h1 tabIndex={-1} className="display mt-2 text-4xl">Log in to your practice</h1>
+          <h1 tabIndex={-1} className="display mt-2 text-4xl">{t("auth.login_heading")}</h1>
           <p className="mt-3 text-sm text-[#60706a]">
-            Log in to manage your profile and care availability.
+            {t("auth.login_subtitle")}
           </p>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-5">
@@ -86,7 +86,7 @@ export const DoctorLogin: React.FC = () => {
             </div>
             {error && <p role="alert" className="rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
             <button className="btn-primary w-full py-3" disabled={loading}>
-              {loading ? "Logging in…" : t("auth.signin") + " →"}
+              {loading ? t("auth.logging_in") : t("auth.log_in_btn")}
             </button>
           </form>
 
