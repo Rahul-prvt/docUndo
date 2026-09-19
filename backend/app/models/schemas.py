@@ -1,12 +1,32 @@
 """Pydantic models for request/response schemas"""
 
-from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List
+from pydantic import BaseModel, EmailStr, Field, model_validator
+from typing import Optional, List, Literal
 from datetime import datetime
 from uuid import UUID
 
 
 # Auth Models
+class OpeningHoursDay(BaseModel):
+    """A single day in a clinic's weekly schedule."""
+    day: Literal["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    is_open: bool
+    start: Optional[str] = None
+    end: Optional[str] = None
+
+    @model_validator(mode="after")
+    def validate_period(self):
+        if not self.is_open:
+            self.start = None
+            self.end = None
+            return self
+        if not self.start or not self.end:
+            raise ValueError("Open days require a start and end time")
+        if self.start >= self.end:
+            raise ValueError("Opening time must be before closing time")
+        return self
+
+
 class DoctorSignupRequest(BaseModel):
     """Doctor signup request"""
     email: EmailStr
@@ -20,6 +40,7 @@ class DoctorSignupRequest(BaseModel):
     languages: Optional[List[str]] = None
     clinic_name: Optional[str] = None
     opening_hours: Optional[str] = None
+    opening_hours_schedule: Optional[List["OpeningHoursDay"]] = None
 
 
 class DoctorLoginRequest(BaseModel):
@@ -42,6 +63,8 @@ class DoctorProfileUpdate(BaseModel):
     bio: Optional[str] = None
     specialty: Optional[str] = None
     consult_fee: Optional[float] = None
+    available_days: Optional[List[str]] = None
+    languages: Optional[List[str]] = None
 
 
 class ClinicLocationCreate(BaseModel):
@@ -49,6 +72,7 @@ class ClinicLocationCreate(BaseModel):
     name: Optional[str] = None
     address: str
     opening_hours: Optional[str] = None
+    opening_hours_schedule: Optional[List[OpeningHoursDay]] = None
     phone: Optional[str] = None
     lat: Optional[float] = None
     lng: Optional[float] = None
@@ -63,18 +87,24 @@ class ClinicLocationResponse(BaseModel):
     lat: Optional[float] = None
     lng: Optional[float] = None
     opening_hours: Optional[str] = None
+    opening_hours_schedule: Optional[List[OpeningHoursDay]] = None
     phone: Optional[str] = None
 
 
 class DoctorProfileResponse(BaseModel):
     """Doctor profile response"""
     id: str
+    email: EmailStr
     name: str
     specialty: str
     license_no: str
     license_verified: bool
     bio: Optional[str]
     consult_fee: Optional[float]
+    available_days: List[str] = Field(default_factory=list)
+    languages: List[str] = Field(default_factory=list)
+    active: bool
+    available: bool
     created_at: datetime
 
 
@@ -104,6 +134,7 @@ class SearchResult(BaseModel):
     specialty: str
     consult_fee: Optional[float]
     available: bool
+    active: bool = True
     distance_km: float
     clinic: Optional[ClinicLocationResponse]
 

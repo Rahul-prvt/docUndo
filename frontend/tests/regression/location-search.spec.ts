@@ -1,5 +1,17 @@
 import { test, expect, openSearch, searchButton, showMap } from '../fixtures/location';
 
+test('doctor cards show all returned active doctors and only label live doctors', async ({ page, location }) => {
+  await page.route('**/api/v1/search**', route => route.fulfill({ json: [
+    { id: 'live', name: 'Dr. Live', specialty: 'General Practitioner', available: true, active: true, distance_km: 1, clinic: { id: 'c1', doctor_id: 'live', address: 'Live clinic', lat: 10.53, lng: 76.22 } },
+    { id: 'offline', name: 'Dr. Offline', specialty: 'General Practitioner', available: false, active: true, distance_km: 2, clinic: { id: 'c2', doctor_id: 'offline', address: 'Offline clinic', lat: 10.54, lng: 76.23 } },
+  ] }));
+  await openSearch(page);
+  await location.resolve();
+  await expect(page.getByRole('heading', { name: 'Dr. Live' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Dr. Offline' })).toBeVisible();
+  await expect(page.getByText('Live', { exact: true })).toHaveCount(1);
+});
+
 test('initial StrictMode render waits for location and issues exactly one search', async ({ page, location }) => {
   await openSearch(page);
   await expect(searchButton(page)).toBeDisabled();

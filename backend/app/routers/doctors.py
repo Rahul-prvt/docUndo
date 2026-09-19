@@ -1,4 +1,5 @@
 """Doctor profile and clinic routers"""
+import json
 import logging
 
 from datetime import datetime, timezone
@@ -9,6 +10,7 @@ from app.models.schemas import (
     ClinicLocationResponse,
     DoctorWithClinicResponse,
     AvailabilityToggle,
+    OpeningHoursDay,
 )
 from app.deps import get_current_doctor_id
 from app.services.supabase_store import supabase_store
@@ -29,9 +31,27 @@ def require_supabase() -> None:
         )
 
 
-def build_doctor_response(doctor: dict, clinic: dict | None = None) -> DoctorWithClinicResponse:
+def parse_opening_hours(value: str | None) -> tuple[str | None, list[OpeningHoursDay] | None]:
+    """Read structured schedules stored in the legacy text column."""
+    if not value:
+        return value, None
+    try:
+        raw = json.loads(value)
+        schedule = [OpeningHoursDay.model_validate(item) for item in raw]
+    except (json.JSONDecodeError, TypeError, ValueError):
+        return value, None
+    parts = [f"{item.day[:3]} {item.start}–{item.end}" for item in schedule if item.is_open]
+    return (", ".join(parts) if parts else "Closed"), schedule
+
+
+def build_doctor_response(
+    doctor: dict,
+    clinic: dict | None = None,
+    available: bool = False,
+) -> DoctorWithClinicResponse:
     clinic_response = None
     if clinic:
+        opening_hours, schedule = parse_opening_hours(clinic.get("opening_hours"))
         clinic_response = ClinicLocationResponse(
             id=str(clinic["id"]),
             doctor_id=str(clinic["doctor_id"]),
@@ -39,17 +59,23 @@ def build_doctor_response(doctor: dict, clinic: dict | None = None) -> DoctorWit
             address=clinic.get("address"),
             lat=clinic.get("lat"),
             lng=clinic.get("lng"),
-            opening_hours=clinic.get("opening_hours"),
+            opening_hours=opening_hours,
+            opening_hours_schedule=schedule,
             phone=clinic.get("phone"),
         )
     return DoctorWithClinicResponse(
         id=str(doctor["id"]),
+        email=doctor["email"],
         name=doctor["name"],
         specialty=doctor["specialty"],
         license_no=doctor["license_no"],
         license_verified=doctor.get("license_verified", False),
         bio=doctor.get("bio"),
         consult_fee=doctor.get("consult_fee"),
+        available_days=doctor.get("available_days") or [],
+        languages=doctor.get("languages") or [],
+        active=bool(doctor.get("license_verified", False)),
+        available=available,
         clinic=clinic_response,
         created_at=doctor.get("created_at") or datetime.now(timezone.utc),
     )
@@ -67,7 +93,8 @@ async def get_doctor_profile(doctor_id: str = Depends(get_current_doctor_id)):
         raise HTTPException(status_code=404, detail="Doctor not found")
 
     clinic = supabase_store.get_clinic_by_doctor_id(doctor_id)
-    return build_doctor_response(doctor, clinic)
+    availability = supabase_store.get_availability_by_doctor_id(doctor_id)
+    return build_doctor_response(doctor, clinic, bool(availability and availability.get("available")))
 
 
 @router.put("/doctors/me", response_model=DoctorWithClinicResponse)
@@ -84,7 +111,8 @@ async def update_doctor_profile(
         logger.warning("Doctor profile update not found doctor_id=%s", doctor_id)
         raise HTTPException(status_code=404, detail="Doctor not found")
     clinic = supabase_store.get_clinic_by_doctor_id(doctor_id)
-    return build_doctor_response(doctor, clinic)
+    availability = supabase_store.get_availability_by_doctor_id(doctor_id)
+    return build_doctor_response(doctor, clinic, bool(availability and availability.get("available")))
 
 
 @router.post(
@@ -120,12 +148,18 @@ async def add_clinic(
     else:
         logger.info("Clinic upsert using provided coordinates lat=%s lng=%s", lat, lng)
 
+    opening_hours = request.opening_hours
+    if request.opening_hours_schedule is not None:
+        opening_hours = json.dumps(
+            [item.model_dump() for item in request.opening_hours_schedule],
+            separators=(",", ":"),
+        )
     return supabase_store.upsert_clinic(doctor_id, {
         "name": request.name,
         "address": request.address,
         "lat": lat,
         "lng": lng,
-        "opening_hours": request.opening_hours,
+        "opening_hours": opening_hours,
         "phone": request.phone,
     })
 
@@ -142,6 +176,12 @@ async def toggle_availability(
     if not doctor:
         logger.warning("Availability update doctor not found doctor_id=%s", doctor_id)
         raise HTTPException(status_code=404, detail="Doctor not found")
+
+    if request.available and not doctor.get("license_verified", False):
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Your account must be verified before you can go live.",
+        )
 
     supabase_store.upsert_availability(doctor_id, request.available)
     return {"available": request.available}

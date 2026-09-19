@@ -1,4 +1,5 @@
 """Authentication routers"""
+import json
 import logging
 
 from fastapi import APIRouter, status, HTTPException
@@ -60,11 +61,15 @@ async def signup_doctor(request: DoctorSignupRequest):
         logger.warning("Failed to seed availability row doctor_id=%s", user_id)
 
     # Seed clinic stub if any clinic info was provided at signup
-    if request.clinic_name or request.opening_hours:
+    if request.clinic_name or request.opening_hours or request.opening_hours_schedule:
         try:
             supabase_store.upsert_clinic_stub(user_id, {
                 "name": request.clinic_name or "",
-                "opening_hours": request.opening_hours or "",
+                "opening_hours": (
+                    json.dumps([item.model_dump() for item in request.opening_hours_schedule], separators=(",", ":"))
+                    if request.opening_hours_schedule is not None
+                    else request.opening_hours or ""
+                ),
             })
             logger.info("Seeded clinic stub doctor_id=%s", user_id)
         except Exception:

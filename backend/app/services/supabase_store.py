@@ -68,6 +68,10 @@ class SupabaseStore:
             return response.data[0]
         return None
 
+    def get_availability_by_doctor_id(self, doctor_id: str) -> Optional[dict[str, Any]]:
+        response = self.client.table("availability").select("*").eq("doctor_id", doctor_id).execute()
+        return response.data[0] if response.data else None
+
     def upsert_clinic(self, doctor_id: str, payload: dict[str, Any]) -> dict[str, Any]:
         logger.info("Supabase upsert clinic doctor_id=%s", doctor_id)
         existing = self.client.table("clinics").select("*").eq("doctor_id", doctor_id).execute()
@@ -112,7 +116,8 @@ class SupabaseStore:
         for doctor in response.data:
             clinic = _first_related(doctor.get("clinics"))
             availability = _first_related(doctor.get("availability"))
-            if not clinic or not availability or not availability.get("available"):
+            # A verified doctor is active and remains discoverable when offline.
+            if not doctor.get("license_verified", False) or not clinic:
                 continue
             if clinic.get("lat") is None or clinic.get("lng") is None:
                 logger.warning("Search skipped doctor with missing clinic coordinates doctor_id=%s", doctor.get("id"))
@@ -124,12 +129,13 @@ class SupabaseStore:
                     "name": doctor["name"],
                     "specialty": doctor["specialty"],
                     "consult_fee": doctor.get("consult_fee"),
-                    "available": availability.get("available", False),
+                    "available": bool(availability and availability.get("available", False)),
                     "distance_km": round(distance_km, 2),
                     "clinic": clinic,
                 })
 
-        results = sorted(results, key=lambda item: item["distance_km"])
+        # Live doctors get a modest ranking preference without hiding offline doctors.
+        results = sorted(results, key=lambda item: (not item["available"], item["distance_km"]))
         logger.info("Supabase search doctors completed result_count=%s", len(results))
         return results
 

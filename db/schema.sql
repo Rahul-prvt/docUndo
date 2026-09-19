@@ -78,6 +78,9 @@ alter table clinics add column if not exists opening_hours text;
 alter table clinics add column if not exists phone         text;
 alter table clinics add column if not exists created_at    timestamptz default now();
 alter table clinics add column if not exists updated_at    timestamptz default now();
+alter table clinics alter column address drop not null;
+alter table clinics alter column lat drop not null;
+alter table clinics alter column lng drop not null;
 
 -- availability
 alter table availability add column if not exists updated_at timestamptz default now();

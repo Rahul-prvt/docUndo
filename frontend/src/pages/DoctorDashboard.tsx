@@ -1,330 +1,144 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { AvailabilityToggle } from "../components/AvailabilityToggle";
+import { MapView } from "../components/MapView";
+import { OpeningHoursEditor, defaultSchedule, scheduleErrors, type OpeningHoursDay } from "../components/OpeningHoursEditor";
+import { PlaceAutocomplete } from "../components/PlaceAutocomplete";
 import { Feedback, LoadingState } from "../components/ui";
 import { doctorApi } from "../lib/api";
 import { useAuthStore } from "../lib/store";
-import { useTranslation } from "../lib/i18n";
-import { AvailabilityToggle } from "../components/AvailabilityToggle";
-import { MapView } from "../components/MapView";
-import { PlaceAutocomplete } from "../components/PlaceAutocomplete";
 
-// ── Types ─────────────────────────────────────────────────────────────────────
-interface ClinicForm {
-  name: string;
-  address: string;
-  opening_hours: string;
-  phone: string;
-  lat?: number;
-  lng?: number;
-}
+const SPECIALTIES = ["General Practitioner", "Cardiologist", "Dermatologist", "Pediatrician", "Orthopedist", "Neurologist", "Gynecologist", "Psychiatrist", "ENT Specialist", "Ophthalmologist", "Gastroenterologist"];
+const LANGUAGES = ["English", "Malayalam", "Hindi", "Tamil", "Arabic", "Urdu"];
 
-const EMPTY_CLINIC: ClinicForm = { name: "", address: "", opening_hours: "", phone: "" };
+interface ProfileForm { name: string; specialty: string; bio: string; consult_fee: string; available_days: string[]; languages: string[]; }
+interface ClinicForm { name: string; address: string; phone: string; lat?: number; lng?: number; opening_hours_schedule: OpeningHoursDay[]; }
 
-// ── Component ─────────────────────────────────────────────────────────────────
+const emptyProfile: ProfileForm = { name: "", specialty: "General Practitioner", bio: "", consult_fee: "", available_days: [], languages: [] };
+const emptyClinic = (): ClinicForm => ({ name: "", address: "", phone: "", opening_hours_schedule: defaultSchedule() });
+const apiError = (error: any, fallback: string) => error?.response?.data?.detail || error?.message || fallback;
+
 export const DoctorDashboard: React.FC = () => {
-  const { t } = useTranslation();
-  const { user_id } = useAuthStore((s) => ({
-    user_id: s.userId,
-  }));
-
-  const [loading, setLoading] = useState(true);
+  const userId = useAuthStore((state) => state.userId);
   const [doctor, setDoctor] = useState<any>(null);
-  const [error, setError] = useState("");
-
-  // clinic form state
-  const [clinicForm, setClinicForm] = useState<ClinicForm>(EMPTY_CLINIC);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [profile, setProfile] = useState<ProfileForm>(emptyProfile);
+  const [clinic, setClinic] = useState<ClinicForm>(emptyClinic);
+  const [profileSaving, setProfileSaving] = useState(false);
   const [clinicSaving, setClinicSaving] = useState(false);
-  const [clinicError, setClinicError] = useState("");
-  const [clinicSuccess, setClinicSuccess] = useState("");
+  const [profileFeedback, setProfileFeedback] = useState<{ tone: "error" | "success"; text: string } | null>(null);
+  const [clinicFeedback, setClinicFeedback] = useState<{ tone: "error" | "success"; text: string } | null>(null);
+  const [hoursErrors, setHoursErrors] = useState<Record<string, string>>({});
 
-  const handlePlaceSelected = React.useCallback((place: { address: string; lat: number; lng: number; name?: string }) => {
-    setClinicForm((form) => ({
-      ...form,
-      address: place.address,
-      lat: place.lat,
-      lng: place.lng,
-      name: form.name || place.name || "",
-    }));
-  }, []);
-
-  // ── Load doctor profile ──────────────────────────────────────────────────
-  const loadDoctorData = async () => {
-    if (!user_id) { setLoading(false); return; }
-    setLoading(true);
-    setError("");
-    try {
-      const res = await doctorApi.getProfile();
-      setDoctor(res.data);
-      if (res.data?.clinic) {
-        setClinicForm({
-          name: res.data.clinic.name || "",
-          address: res.data.clinic.address || "",
-          opening_hours: res.data.clinic.opening_hours || "",
-          phone: res.data.clinic.phone || "",
-          lat: res.data.clinic.lat,
-          lng: res.data.clinic.lng,
-        });
-      }
-    } catch (err: any) {
-      setError(err.message || "Unable to load profile");
-    } finally {
-      setLoading(false);
-    }
+  const populate = (data: any) => {
+    setDoctor(data);
+    setProfile({ name: data.name || "", specialty: data.specialty || "General Practitioner", bio: data.bio || "", consult_fee: data.consult_fee == null ? "" : String(data.consult_fee), available_days: data.available_days || [], languages: data.languages || [] });
+    setClinic({ name: data.clinic?.name || "", address: data.clinic?.address || "", phone: data.clinic?.phone || "", lat: data.clinic?.lat, lng: data.clinic?.lng, opening_hours_schedule: data.clinic?.opening_hours_schedule || defaultSchedule() });
   };
 
-  useEffect(() => { void loadDoctorData(); }, [user_id]);
-
-  // ── Save clinic ──────────────────────────────────────────────────────────
-  const handleClinicSave = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!clinicForm.address.trim()) {
-      setClinicError("Address is required.");
-      return;
-    }
-    setClinicSaving(true);
-    setClinicError("");
-    setClinicSuccess("");
-    try {
-      await doctorApi.addClinic(clinicForm);
-      setClinicSuccess("Clinic details saved. Set your availability above when you are ready to see patients.");
-      // Refresh to get geocoded lat/lng back
-      const res = await doctorApi.getProfile();
-      setDoctor(res.data);
-      setClinicForm({ ...EMPTY_CLINIC, ...res.data.clinic });
-    } catch (err: any) {
-      setClinicError(
-        err.response?.data?.detail ||
-        "Could not save clinic. Check the address and try again."
-      );
-    } finally {
-      setClinicSaving(false);
-    }
+  const load = async () => {
+    if (!userId) return;
+    setLoading(true); setLoadError("");
+    try { populate((await doctorApi.getProfile()).data); }
+    catch (error: any) { setLoadError(apiError(error, "Unable to load your practice.")); }
+    finally { setLoading(false); }
   };
 
-  // ── Render ───────────────────────────────────────────────────────────────
-  if (!user_id) return <Navigate to="/doctor/login" replace />;
+  useEffect(() => { void load(); }, [userId]);
 
-  if (loading) {
-    return (
-      <LoadingState label="Loading your practice…" />
-    );
-  }
+  const saveProfile = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (profileSaving) return;
+    setProfileSaving(true); setProfileFeedback(null);
+    try {
+      const response = await doctorApi.updateProfile({ ...profile, consult_fee: profile.consult_fee === "" ? null : Number(profile.consult_fee) });
+      populate(response.data);
+      setProfileFeedback({ tone: "success", text: "Professional information saved." });
+    } catch (error: any) { setProfileFeedback({ tone: "error", text: apiError(error, "Unable to update professional information. Please try again.") }); }
+    finally { setProfileSaving(false); }
+  };
 
-  if (error) {
-    return (
-      <div className="mx-auto max-w-7xl px-5 py-10">
-        <Feedback>{error}<button onClick={() => void loadDoctorData()} className="btn-secondary mt-3 block">Try again</button></Feedback>
+  const saveClinic = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (clinicSaving) return;
+    const errors = scheduleErrors(clinic.opening_hours_schedule);
+    setHoursErrors(errors);
+    if (!clinic.address.trim()) { setClinicFeedback({ tone: "error", text: "Practice address is required." }); return; }
+    if (Object.keys(errors).length) { setClinicFeedback({ tone: "error", text: "Check the highlighted opening hours before saving." }); return; }
+    setClinicSaving(true); setClinicFeedback(null);
+    try {
+      await doctorApi.addClinic(clinic);
+      populate((await doctorApi.getProfile()).data);
+      setClinicFeedback({ tone: "success", text: "Practice details and opening hours saved." });
+    } catch (error: any) { setClinicFeedback({ tone: "error", text: apiError(error, "Unable to update practice details. Please try again.") }); }
+    finally { setClinicSaving(false); }
+  };
+
+  const completion = useMemo(() => {
+    if (!doctor) return { percent: 0, missing: "" };
+    const fields = [profile.name, profile.specialty, profile.bio, profile.consult_fee, clinic.name, clinic.address, clinic.phone, clinic.opening_hours_schedule.some((day) => day.is_open)];
+    const percent = Math.round(fields.filter(Boolean).length / fields.length * 100);
+    const missing = !clinic.address ? "Add your practice address." : !clinic.opening_hours_schedule.some((day) => day.is_open) ? "Add opening hours." : !profile.bio ? "Add a short biography." : "Your essential profile details are complete.";
+    return { percent, missing };
+  }, [doctor, profile, clinic]);
+
+  if (!userId) return <Navigate to="/doctor/login" replace />;
+  if (loading) return <LoadingState label="Loading your practice…" />;
+  if (loadError) return <div className="page-container"><Feedback>{loadError}<button className="btn-secondary mt-3 block" onClick={() => void load()}>Try again</button></Feedback></div>;
+
+  const hasLocation = typeof clinic.lat === "number" && typeof clinic.lng === "number";
+  const mapDoctors = hasLocation ? [{ id: doctor.id, name: doctor.name, specialty: doctor.specialty, available: doctor.available, clinic: { ...doctor.clinic, ...clinic }, distance_km: 0 }] : [];
+
+  return <main className="page-container">
+    <header className="mb-7 flex flex-wrap items-start justify-between gap-4">
+      <div><p className="eyebrow text-[#718079]">Doctor dashboard</p><h1 className="page-title mt-1">Welcome, {doctor.name.replace(/^Dr\.?\s+/i, "").split(" ")[0]}.</h1><p className="mt-2 text-sm text-[#60706a]">Manage what patients see and when you are available.</p></div>
+      <AvailabilityToggle initialAvailable={doctor.available} active={doctor.active} onChange={(available) => setDoctor((current: any) => ({ ...current, available }))} />
+    </header>
+
+    {!doctor.active && <div className="mb-6"><Feedback>Your license is pending review. You can complete your profile now, but you cannot go live or appear in patient search until verified.</Feedback></div>}
+
+    <section className="mb-6 grid gap-3 sm:grid-cols-3" aria-label="Practice overview">
+      <div className="panel p-4"><p className="text-xs font-semibold text-[#60706a]">Profile completeness</p><p className="mt-1 text-xl font-bold">{completion.percent}%</p><p className="mt-1 text-xs text-[#60706a]">{completion.missing}</p></div>
+      <div className="panel p-4"><p className="text-xs font-semibold text-[#60706a]">Account status</p><p className="mt-1 text-lg font-bold">{doctor.active ? "Active" : "Pending verification"}</p><p className="mt-1 text-xs text-[#60706a]">{doctor.active ? "Visible in patient search" : "Hidden from patient search"}</p></div>
+      <div className="panel p-4"><p className="text-xs font-semibold text-[#60706a]">Live status</p><p className="mt-1 text-lg font-bold">{doctor.available ? "Live now" : "Not live"}</p><p className="mt-1 text-xs text-[#60706a]">Active doctors remain searchable when not live.</p></div>
+    </section>
+
+    <nav className="mb-6 flex gap-2 overflow-x-auto" aria-label="Dashboard sections"><a className="btn-secondary whitespace-nowrap" href="#professional">Professional details</a><a className="btn-secondary whitespace-nowrap" href="#practice">Practice details</a><a className="btn-secondary whitespace-nowrap" href="#hours">Opening hours</a></nav>
+
+    <form id="professional" className="panel mb-6 scroll-mt-24 p-5 sm:p-6" onSubmit={saveProfile} onChange={() => setProfileFeedback(null)}>
+      <div className="mb-5 border-b border-[#e6e8e1] pb-4"><p className="eyebrow text-[#718079]">Profile</p><h2 className="mt-1 text-xl font-bold">Professional information</h2><p className="mt-1 text-sm text-[#60706a]">Your email and registration number are locked because they identify your account and verification record.</p></div>
+      <div className="form-grid">
+        <div><label className="field-label" htmlFor="doctor-name">Display name</label><input id="doctor-name" required className="field" value={profile.name} onChange={(event) => setProfile({ ...profile, name: event.target.value })} /></div>
+        <div><label className="field-label" htmlFor="specialty">Specialty</label><select id="specialty" className="field" value={profile.specialty} onChange={(event) => setProfile({ ...profile, specialty: event.target.value })}>{SPECIALTIES.map((item) => <option key={item}>{item}</option>)}</select></div>
+        <div><label className="field-label" htmlFor="email">Account email</label><input id="email" className="field bg-[#f3f5f3]" value={doctor.email} disabled /></div>
+        <div><label className="field-label" htmlFor="license">Registration number</label><input id="license" className="field bg-[#f3f5f3]" value={doctor.license_no} disabled /></div>
+        <div><label className="field-label" htmlFor="fee">Consultation fee (₹)</label><input id="fee" className="field" type="number" min="0" step="1" value={profile.consult_fee} onChange={(event) => setProfile({ ...profile, consult_fee: event.target.value })} /></div>
+        <div className="full-width"><label className="field-label" htmlFor="bio">Biography</label><textarea id="bio" className="field resize-y" rows={4} value={profile.bio} onChange={(event) => setProfile({ ...profile, bio: event.target.value })} /></div>
+        <fieldset className="full-width"><legend className="field-label">Consultation days</legend><div className="flex flex-wrap gap-2">{defaultSchedule().map(({ day }) => <button type="button" key={day} aria-pressed={profile.available_days.includes(day)} className={profile.available_days.includes(day) ? "btn-primary" : "btn-secondary"} onClick={() => setProfile({ ...profile, available_days: profile.available_days.includes(day) ? profile.available_days.filter((item) => item !== day) : [...profile.available_days, day] })}>{day.slice(0, 3)}</button>)}</div></fieldset>
+        <fieldset className="full-width"><legend className="field-label">Languages</legend><div className="flex flex-wrap gap-2">{LANGUAGES.map((language) => <button type="button" key={language} aria-pressed={profile.languages.includes(language)} className={profile.languages.includes(language) ? "btn-primary" : "btn-secondary"} onClick={() => setProfile({ ...profile, languages: profile.languages.includes(language) ? profile.languages.filter((item) => item !== language) : [...profile.languages, language] })}>{language}</button>)}</div></fieldset>
+        {profileFeedback && <div className="full-width"><Feedback tone={profileFeedback.tone}>{profileFeedback.text}</Feedback></div>}
+        <div className="full-width flex justify-end"><button className="btn-primary min-w-36" disabled={profileSaving}>{profileSaving ? "Saving…" : "Save profile"}</button></div>
       </div>
-    );
-  }
+    </form>
 
-  const clinic = doctor?.clinic;
-  // Stub clinic = exists in DB but has no coordinates yet (created at signup)
-  const hasClinicRecord = !!clinic;
-  const hasClinic = hasClinicRecord && typeof clinic.lat === "number" && typeof clinic.lng === "number";
-
-  const displayLat = clinicForm.lat ?? clinic?.lat;
-  const displayLng = clinicForm.lng ?? clinic?.lng;
-  const hasLocation = typeof displayLat === "number" && typeof displayLng === "number";
-
-  // Fake doctor object for the map — formatted as a search result would be
-  const fakeMapDoctor = hasLocation
-    ? [{ id: "me", name: doctor.name, specialty: doctor.specialty, consult_fee: doctor.consult_fee, distance_km: 0, available: true, clinic: { ...clinic, lat: displayLat, lng: displayLng } }]
-    : [];
-
-  return (
-    <div className="page-container">
-      {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="eyebrow text-[#718079]">{t("dash.overview")}</p>
-          <h1 className="page-title mt-1">
-            {t("dash.welcome")} <span className="text-[#23634e]">{doctor?.name?.replace(/^Dr\.?\s+/i, '').split(" ")[0] ?? "Doctor"}.</span>
-          </h1>
+    <form id="practice" className="panel scroll-mt-24 overflow-hidden" onSubmit={saveClinic} onChange={() => setClinicFeedback(null)}>
+      <div className="border-b border-[#e6e8e1] p-5 sm:p-6"><p className="eyebrow text-[#718079]">Practice</p><h2 className="mt-1 text-xl font-bold">Practice details</h2><p className="mt-1 text-sm text-[#60706a]">These details appear on your patient-facing profile.</p></div>
+      <div className="grid lg:grid-cols-[1fr_1.05fr]">
+        <div className="space-y-5 p-5 sm:p-6 lg:border-r lg:border-[#e6e8e1]">
+          <div><label className="field-label" htmlFor="clinic-name">Practice or clinic name</label><input id="clinic-name" className="field" value={clinic.name} onChange={(event) => setClinic({ ...clinic, name: event.target.value })} /></div>
+          <PlaceAutocomplete id="clinic-address-search" label="Find practice address" hint="Select a result to preserve accurate map coordinates." initialValue={clinic.address} onPlaceSelected={(place) => setClinic({ ...clinic, name: clinic.name || place.name || "", address: place.address, lat: place.lat, lng: place.lng })} />
+          <div><label className="field-label" htmlFor="clinic-address">Confirmed full address *</label><textarea id="clinic-address" required rows={3} className="field resize-y" value={clinic.address} onChange={(event) => setClinic({ ...clinic, address: event.target.value, lat: undefined, lng: undefined })} /></div>
+          <div><label className="field-label" htmlFor="clinic-phone">Practice phone</label><input id="clinic-phone" className="field" type="tel" value={clinic.phone} onChange={(event) => setClinic({ ...clinic, phone: event.target.value })} /></div>
         </div>
-        <div className="flex items-center gap-3">
-          {doctor && <AvailabilityToggle doctorId={user_id!} initialAvailable={doctor?.availability?.available ?? false} />}
-        </div>
+        <div className="min-h-[320px] border-t border-[#e6e8e1] lg:border-t-0"><MapView lat={clinic.lat ?? 10.786} lng={clinic.lng ?? 76.6444} doctors={mapDoctors} onMapClick={(lat, lng) => setClinic({ ...clinic, lat, lng })} /></div>
       </div>
-
-      <div className="mb-6 grid divide-y divide-[#dce3df] rounded-xl border border-[#dce3df] bg-white sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-        {[{ label: "Clinic location", value: hasClinic ? "Location saved" : "Setup needed" },
-          { label: "License verification", value: doctor?.license_verified ? "Verified" : "Pending review" },
-          { label: "Consultation fee", value: doctor?.consult_fee != null ? `₹${doctor.consult_fee}` : "Not provided" }].map(item => (
-          <div key={item.label} className="flex items-center justify-between gap-3 p-4 sm:block sm:p-5"><p className="text-xs font-medium text-[#53665e]">{item.label}</p><p className="text-sm font-semibold sm:mt-2 sm:text-lg">{item.value}</p></div>
-        ))}
+      <div id="hours" className="scroll-mt-24 border-t border-[#e6e8e1] p-5 sm:p-6">
+        <OpeningHoursEditor value={clinic.opening_hours_schedule} errors={hoursErrors} onChange={(opening_hours_schedule) => { setClinic({ ...clinic, opening_hours_schedule }); setHoursErrors({}); }} />
+        {doctor.clinic?.opening_hours && !doctor.clinic?.opening_hours_schedule && <p className="mt-3 rounded-lg bg-amber-50 p-3 text-sm text-amber-800">Legacy hours: {doctor.clinic.opening_hours}. Choose structured hours above to replace this text safely.</p>}
+        {clinicFeedback && <div className="mt-4"><Feedback tone={clinicFeedback.tone}>{clinicFeedback.text}</Feedback></div>}
+        <div className="mt-5 flex justify-end"><button className="btn-primary min-w-44" disabled={clinicSaving}>{clinicSaving ? "Saving…" : "Save practice details"}</button></div>
       </div>
-
-      {/* ── Clinic setup ────────────────────────────────────────────────────── */}
-      <div className="panel overflow-hidden">
-        {/* section header */}
-        <div className="flex flex-wrap gap-3 items-center justify-between border-b border-[#e6e8e1] px-6 py-4">
-          <div>
-            <p className="eyebrow text-[#718079]">{t("dash.clinic_location")}</p>
-            <h2 className="mt-0.5 text-lg font-bold">
-              {hasClinic ? t("dash.clinic_on_map") : hasClinicRecord ? "Complete your clinic setup" : t("dash.add_clinic")}
-            </h2>
-          </div>
-          {hasClinic && (
-            <span className="badge badge-success">
-            {t("dash.listed")}
-            </span>
-          )}
-        </div>
-
-        <div className="grid lg:grid-cols-[1fr_1.4fr]">
-          {/* ── Form column ─────────────────────────────────────────────────── */}
-          <form onSubmit={handleClinicSave} onChange={() => { setClinicSuccess(''); setClinicError(''); }} className="space-y-4 border-b border-[#e6e8e1] p-5 sm:p-6 lg:border-b-0 lg:border-r">
-            <div>
-              <label htmlFor="clinic-name" className="field-label">{t("dash.clinic_name")} <span className="text-[#53665e]">{t("dash.optional")}</span></label>
-              <input
-                id="clinic-name"
-                className="field mt-1 w-full"
-                placeholder="e.g. Sunrise Health Clinic"
-                value={clinicForm.name}
-                onChange={(e) => setClinicForm((f) => ({ ...f, name: e.target.value }))}
-              />
-            </div>
-
-            <PlaceAutocomplete
-              id="clinic-address"
-              label={`${t("dash.full_address")} *`}
-              hint={`${t("dash.address_hint")} Select a result to confirm the location.`}
-              initialValue={clinicForm.address}
-              onPlaceSelected={handlePlaceSelected}
-            />
-            <label htmlFor="manual-address" className="field-label">Confirm full address</label>
-            <textarea
-              id="manual-address"
-              className="field w-full resize-none"
-              rows={2}
-              placeholder="Selected address (or enter a manual address)"
-              value={clinicForm.address}
-              required
-              onChange={(e) => setClinicForm((form) => ({ ...form, address: e.target.value, lat: undefined, lng: undefined }))}
-            />
-
-            <div>
-              <label htmlFor="clinic-hours" className="field-label">{t("dash.opening_hours")} <span className="text-[#53665e]">{t("dash.optional")}</span></label>
-              <input
-                id="clinic-hours"
-                className="field mt-1 w-full"
-                placeholder="e.g. Mon–Sat 9 AM – 6 PM"
-                value={clinicForm.opening_hours}
-                onChange={(e) => setClinicForm((f) => ({ ...f, opening_hours: e.target.value }))}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="clinic-phone" className="field-label">Phone Number <span className="text-[#53665e]">{t("dash.optional")}</span></label>
-              <input
-                id="clinic-phone"
-                className="field mt-1 w-full"
-                type="tel"
-                placeholder="e.g. +91 98765 43210"
-                value={clinicForm.phone}
-                onChange={(e) => setClinicForm((f) => ({ ...f, phone: e.target.value }))}
-              />
-              <p className="mt-1 text-xs text-[#53665e]">Patients will see a "Call clinic" button on your profile.</p>
-            </div>
-
-            {clinicError && (
-              <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-                {clinicError}
-              </div>
-            )}
-            {clinicSuccess && (
-              <div role="status" className="rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
-                {clinicSuccess}
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={clinicSaving}
-              className="btn-primary w-full"
-              id="save-clinic-btn"
-            >
-              {clinicSaving ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                  </svg>
-                  {t("dash.geocoding")}
-                </span>
-              ) : hasClinic ? t("dash.update_btn") : t("dash.save_btn")}
-            </button>
-
-            {(clinicForm.lat != null && clinicForm.lng != null) ? (
-              <p className="text-center text-xs text-[#53665e]">
-                📍 {t("dash.pinned_at", { lat: clinicForm.lat.toFixed(4), lng: clinicForm.lng.toFixed(4) })}
-              </p>
-            ) : hasClinic ? (
-              <p className="text-center text-xs text-[#53665e]">
-                📍 {clinic.lat.toFixed(4)}, {clinic.lng.toFixed(4)}
-              </p>
-            ) : null}
-          </form>
-
-          {/* ── Map preview column ───────────────────────────────────────────── */}
-          <div className="relative min-h-[300px] lg:min-h-[380px]">
-            {hasLocation ? (
-              <MapView
-                lat={displayLat}
-                lng={displayLng}
-                doctors={fakeMapDoctor}
-                onMapClick={(lat, lng) => setClinicForm(f => ({ ...f, lat, lng }))}
-              />
-            ) : (
-              <div className="relative h-full min-h-[300px]">
-                <MapView
-                  lat={10.786}
-                  lng={76.6444}
-                  doctors={[]}
-                  onMapClick={(lat, lng) => setClinicForm(f => ({ ...f, lat, lng }))}
-                />
-                <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex flex-col items-center justify-center rounded-lg border border-[#dce3df] bg-white p-4 text-center">
-                  <div className="mb-2 grid h-9 w-9 place-items-center rounded-lg bg-[#dceee7] text-lg">
-                    📍
-                  </div>
-                  <p className="font-semibold text-[#12201e]">{t("dash.no_location")}</p>
-                  <p className="mt-1 px-6 text-sm text-[#718079]">{t("dash.map_hint")}</p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* ── Profile summary strip ────────────────────────────────────────────── */}
-      {doctor && (
-        <div className="mt-6 panel flex flex-wrap items-center gap-4 p-5">
-          <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[#dceee7] text-lg font-bold text-[#23634e]">
-            {(doctor.name || "D").replace("Dr. ", "").charAt(0)}
-          </div>
-          <div className="min-w-0 flex-1">
-            <p className="font-bold">{doctor.name}</p>
-            <p className="text-sm text-[#60706a]">{doctor.specialty}</p>
-          </div>
-          <div className="flex flex-wrap gap-2 text-xs">
-            {doctor.consult_fee != null && (
-              <span className="rounded-full border border-[#d7dbd3] bg-[#f0f2ee] px-3 py-1 font-semibold">
-                ₹{doctor.consult_fee} consult fee
-              </span>
-            )}
-            <span
-              className={`rounded-full px-3 py-1 font-bold ${
-                doctor.license_verified
-                  ? "bg-[#e5f5c4] text-[#355b22]"
-                  : "bg-amber-50 text-amber-700"
-              }`}
-            >
-              {doctor.license_verified ? "✓ Verified" : "⏳ Verification pending"}
-            </span>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+    </form>
+  </main>;
 };

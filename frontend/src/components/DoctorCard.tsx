@@ -33,9 +33,7 @@ export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor, onClick, isDetai
                 <h3 className="break-words text-base font-bold">{doctor?.name || "Doctor"}</h3>
                 <p className="mt-0.5 text-sm text-[#60706a]">{specialty}</p>
               </div>
-              <span className={`badge ${isAvailable ? "badge-success" : ""}`}>
-                {isAvailable ? t("doc.available") : t("doc.offline")}
-              </span>
+              {isAvailable && <span className="badge badge-success"><span className="h-2 w-2 rounded-full bg-[#238452]" />Live</span>}
             </div>
 
             <div className="mt-4 flex items-center justify-between border-t border-[#e6e8e1] pt-3 text-xs text-[#65736d]">
@@ -83,7 +81,8 @@ export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor, onClick, isDetai
               </a>
             )}
           </div>
-          {doctor?.clinic?.opening_hours && <p className="text-sm text-[#53665e]">{doctor.clinic.opening_hours}</p>}
+          {doctor?.clinic?.name && <p className="text-sm font-semibold text-[#344b40]">{doctor.clinic.name}</p>}
+          {doctor?.clinic?.opening_hours && <p className="text-sm text-[#53665e]">Hours: {doctor.clinic.opening_hours}</p>}
           {!phone && <p className="text-sm text-[#53665e]">{t('doc.no_phone')}</p>}
         </div>
       )}

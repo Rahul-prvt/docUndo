@@ -3,7 +3,8 @@ import logging
 
 from fastapi import APIRouter, Query, HTTPException
 from typing import List
-from app.models.schemas import SearchResult
+from app.models.schemas import SearchResult, ClinicLocationResponse
+from app.routers.doctors import parse_opening_hours
 from app.services.supabase_store import supabase_store
 
 
@@ -39,8 +40,26 @@ async def search_doctors(
             specialty=item["specialty"],
             consult_fee=item.get("consult_fee"),
             available=item["available"],
+            active=True,
             distance_km=item["distance_km"],
-            clinic=item.get("clinic"),
+            clinic=_clinic_response(item.get("clinic")),
         )
         for item in remote_results
     ]
+
+
+def _clinic_response(clinic: dict | None) -> ClinicLocationResponse | None:
+    if not clinic:
+        return None
+    display_hours, schedule = parse_opening_hours(clinic.get("opening_hours"))
+    return ClinicLocationResponse(
+        id=str(clinic["id"]),
+        doctor_id=str(clinic["doctor_id"]),
+        name=clinic.get("name"),
+        address=clinic.get("address"),
+        lat=clinic.get("lat"),
+        lng=clinic.get("lng"),
+        opening_hours=display_hours,
+        opening_hours_schedule=schedule,
+        phone=clinic.get("phone"),
+    )

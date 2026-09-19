@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { doctorApi } from "../lib/api";
 import { useAuthStore } from "../lib/store";
 import { useTranslation } from "../lib/i18n";
+import { OpeningHoursEditor, defaultSchedule, scheduleErrors } from "../components/OpeningHoursEditor";
 
 const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const LANGS = ["English", "Malayalam", "Hindi", "Tamil", "Arabic", "Urdu"];
@@ -31,7 +32,7 @@ export const DoctorSignup: React.FC = () => {
     consult_fee: "",
     // Step 2 — practice
     clinic_name: "",
-    opening_hours: "",
+    opening_hours_schedule: defaultSchedule(),
     available_days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
     languages: ["English", "Malayalam"],
   });
@@ -52,6 +53,10 @@ export const DoctorSignup: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step === 1) { setError(""); setStep(2); return; }
+    if (Object.keys(scheduleErrors(form.opening_hours_schedule)).length) {
+      setError("Check the highlighted opening hours before creating your profile.");
+      return;
+    }
     setLoading(true);
     setError("");
     try {
@@ -64,7 +69,7 @@ export const DoctorSignup: React.FC = () => {
         bio: form.bio || null,
         consult_fee: form.consult_fee ? parseFloat(form.consult_fee) : null,
         clinic_name: form.clinic_name || null,
-        opening_hours: form.opening_hours || null,
+        opening_hours_schedule: form.opening_hours_schedule,
         available_days: form.available_days,
         languages: form.languages,
       });
@@ -203,11 +208,12 @@ export const DoctorSignup: React.FC = () => {
                     value={form.clinic_name} onChange={handleChange} />
                 </div>
 
-                <div>
-                  <label htmlFor="signup-opening_hours" className="field-label">{t("dash.opening_hours")} <span className="text-[#53665e]">{t("dash.optional")}</span></label>
-                  <input className="field mt-1" type="text" id="signup-opening_hours" name="opening_hours"
-                    placeholder="e.g. Mon–Fri 9 AM – 6 PM"
-                    value={form.opening_hours} onChange={handleChange} />
+                <div className="full-width">
+                  <OpeningHoursEditor
+                    value={form.opening_hours_schedule}
+                    errors={scheduleErrors(form.opening_hours_schedule)}
+                    onChange={(opening_hours_schedule) => set("opening_hours_schedule", opening_hours_schedule)}
+                  />
                 </div>
 
                 {/* Available days */}

@@ -41,6 +41,14 @@ class FakeSupabaseStore:
     def get_clinic_by_doctor_id(self, doctor_id: str) -> dict | None:
         return self.clinics.get(doctor_id)
 
+    def get_availability_by_doctor_id(self, doctor_id: str) -> dict | None:
+        if doctor_id not in self.availability:
+            return None
+        return {"doctor_id": doctor_id, "available": self.availability[doctor_id]}
+
+    def upsert_clinic_stub(self, doctor_id: str, payload: dict) -> dict:
+        return self.upsert_clinic(doctor_id, payload)
+
     def upsert_clinic(self, doctor_id: str, payload: dict) -> dict:
         clinic = {
             "id": f"clinic-{doctor_id}",
@@ -66,7 +74,7 @@ class FakeSupabaseStore:
         for doctor_id, doctor in self.doctors.items():
             clinic = self.clinics.get(doctor_id)
             available = self.availability.get(doctor_id, False)
-            if not clinic or not available:
+            if not clinic or not doctor.get("license_verified", False):
                 continue
             if specialty_filter and specialty_filter not in doctor["specialty"].lower():
                 continue
