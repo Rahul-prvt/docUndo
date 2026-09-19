@@ -39,7 +39,6 @@ async def signup_doctor(request: DoctorSignupRequest):
             "license_no": request.license_no,
             "bio": request.bio,
             "consult_fee": request.consult_fee,
-            "available_days": request.available_days or [],
             "languages": request.languages or ["English"],
             "license_verified": False,
         })

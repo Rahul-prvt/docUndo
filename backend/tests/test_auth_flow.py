@@ -78,7 +78,7 @@ def test_dashboard_profile_fields_load_and_persist(fake_supabase):
             "email": "editable@example.com", "password": "secret123",
             "name": "Dr. Editable", "specialty": "Pediatrician",
             "license_no": "EDIT-1", "bio": "Original bio", "consult_fee": 300,
-            "available_days": ["Monday"], "languages": ["English"],
+            "languages": ["English"],
             "clinic_name": "Original Clinic",
             "opening_hours_schedule": [{"day": "Monday", "is_open": True, "start": "09:00", "end": "17:00"}],
         },
@@ -88,15 +88,13 @@ def test_dashboard_profile_fields_load_and_persist(fake_supabase):
     loaded = client.get("/api/v1/doctors/me", headers=headers)
     assert loaded.status_code == 200
     assert loaded.json()["clinic"]["name"] == "Original Clinic"
-    assert loaded.json()["available_days"] == ["Monday"]
 
     updated = client.put("/api/v1/doctors/me", headers=headers, json={
         "name": "Dr. Updated", "bio": "Updated bio", "consult_fee": 450,
-        "available_days": ["Monday", "Tuesday"], "languages": ["English", "Hindi"],
+        "languages": ["English", "Hindi"],
     })
     assert updated.status_code == 200
     reloaded = client.get("/api/v1/doctors/me", headers=headers).json()
     assert reloaded["name"] == "Dr. Updated"
     assert reloaded["consult_fee"] == 450
-    assert reloaded["available_days"] == ["Monday", "Tuesday"]
     assert reloaded["languages"] == ["English", "Hindi"]

@@ -11,10 +11,10 @@ import { useAuthStore } from "../lib/store";
 const SPECIALTIES = ["General Practitioner", "Cardiologist", "Dermatologist", "Pediatrician", "Orthopedist", "Neurologist", "Gynecologist", "Psychiatrist", "ENT Specialist", "Ophthalmologist", "Gastroenterologist"];
 const LANGUAGES = ["English", "Malayalam", "Hindi", "Tamil", "Arabic", "Urdu"];
 
-interface ProfileForm { name: string; specialty: string; bio: string; consult_fee: string; available_days: string[]; languages: string[]; }
+interface ProfileForm { name: string; specialty: string; bio: string; consult_fee: string; languages: string[]; }
 interface ClinicForm { name: string; address: string; phone: string; lat?: number; lng?: number; opening_hours_schedule: OpeningHoursDay[]; }
 
-const emptyProfile: ProfileForm = { name: "", specialty: "General Practitioner", bio: "", consult_fee: "", available_days: [], languages: [] };
+const emptyProfile: ProfileForm = { name: "", specialty: "General Practitioner", bio: "", consult_fee: "", languages: [] };
 const emptyClinic = (): ClinicForm => ({ name: "", address: "", phone: "", opening_hours_schedule: defaultSchedule() });
 const apiError = (error: any, fallback: string) => error?.response?.data?.detail || error?.message || fallback;
 
@@ -33,7 +33,7 @@ export const DoctorDashboard: React.FC = () => {
 
   const populate = (data: any) => {
     setDoctor(data);
-    setProfile({ name: data.name || "", specialty: data.specialty || "General Practitioner", bio: data.bio || "", consult_fee: data.consult_fee == null ? "" : String(data.consult_fee), available_days: data.available_days || [], languages: data.languages || [] });
+    setProfile({ name: data.name || "", specialty: data.specialty || "General Practitioner", bio: data.bio || "", consult_fee: data.consult_fee == null ? "" : String(data.consult_fee), languages: data.languages || [] });
     setClinic({ name: data.clinic?.name || "", address: data.clinic?.address || "", phone: data.clinic?.phone || "", lat: data.clinic?.lat, lng: data.clinic?.lng, opening_hours_schedule: data.clinic?.opening_hours_schedule || defaultSchedule() });
   };
 
@@ -115,7 +115,6 @@ export const DoctorDashboard: React.FC = () => {
         <div><label className="field-label" htmlFor="license">Registration number</label><input id="license" className="field bg-[#f3f5f3]" value={doctor.license_no} disabled /></div>
         <div><label className="field-label" htmlFor="fee">Consultation fee (₹)</label><input id="fee" className="field" type="number" min="0" step="1" value={profile.consult_fee} onChange={(event) => setProfile({ ...profile, consult_fee: event.target.value })} /></div>
         <div className="full-width"><label className="field-label" htmlFor="bio">Biography</label><textarea id="bio" className="field resize-y" rows={4} value={profile.bio} onChange={(event) => setProfile({ ...profile, bio: event.target.value })} /></div>
-        <fieldset className="full-width"><legend className="field-label">Consultation days</legend><div className="flex flex-wrap gap-2">{defaultSchedule().map(({ day }) => <button type="button" key={day} aria-pressed={profile.available_days.includes(day)} className={profile.available_days.includes(day) ? "btn-primary" : "btn-secondary"} onClick={() => setProfile({ ...profile, available_days: profile.available_days.includes(day) ? profile.available_days.filter((item) => item !== day) : [...profile.available_days, day] })}>{day.slice(0, 3)}</button>)}</div></fieldset>
         <fieldset className="full-width"><legend className="field-label">Languages</legend><div className="flex flex-wrap gap-2">{LANGUAGES.map((language) => <button type="button" key={language} aria-pressed={profile.languages.includes(language)} className={profile.languages.includes(language) ? "btn-primary" : "btn-secondary"} onClick={() => setProfile({ ...profile, languages: profile.languages.includes(language) ? profile.languages.filter((item) => item !== language) : [...profile.languages, language] })}>{language}</button>)}</div></fieldset>
         {profileFeedback && <div className="full-width"><Feedback tone={profileFeedback.tone}>{profileFeedback.text}</Feedback></div>}
         <div className="full-width flex justify-end"><button className="btn-primary min-w-36" disabled={profileSaving}>{profileSaving ? "Saving…" : "Save profile"}</button></div>

@@ -5,7 +5,6 @@ import { useAuthStore } from "../lib/store";
 import { useTranslation } from "../lib/i18n";
 import { OpeningHoursEditor, defaultSchedule, scheduleErrors } from "../components/OpeningHoursEditor";
 
-const DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 const LANGS = ["English", "Malayalam", "Hindi", "Tamil", "Arabic", "Urdu"];
 const SPECIALTIES = [
   "General Practitioner", "Cardiologist", "Dermatologist", "Pediatrician",
@@ -33,7 +32,6 @@ export const DoctorSignup: React.FC = () => {
     // Step 2 — practice
     clinic_name: "",
     opening_hours_schedule: defaultSchedule(),
-    available_days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
     languages: ["English", "Malayalam"],
   });
 
@@ -41,7 +39,7 @@ export const DoctorSignup: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     set(e.target.name, e.target.value);
 
-  const toggleItem = (field: "available_days" | "languages", value: string) => {
+  const toggleItem = (field: "languages", value: string) => {
     setForm((f) => {
       const curr = f[field];
       return { ...f, [field]: curr.includes(value) ? curr.filter((v) => v !== value) : [...curr, value] };
@@ -70,7 +68,6 @@ export const DoctorSignup: React.FC = () => {
         consult_fee: form.consult_fee ? parseFloat(form.consult_fee) : null,
         clinic_name: form.clinic_name || null,
         opening_hours_schedule: form.opening_hours_schedule,
-        available_days: form.available_days,
         languages: form.languages,
       });
       setToken(response.data.access_token, response.data.user_id);
@@ -215,20 +212,6 @@ export const DoctorSignup: React.FC = () => {
                     onChange={(opening_hours_schedule) => set("opening_hours_schedule", opening_hours_schedule)}
                   />
                 </div>
-
-                {/* Available days */}
-                <fieldset className="full-width"><legend className="field-label">{t("auth.days")}</legend>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {DAYS.map((day) => (
-                      <button key={day} type="button" aria-pressed={form.available_days.includes(day)} aria-label={day}
-                        onClick={() => toggleItem("available_days", day)}
-                        className={`min-h-[44px] rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${form.available_days.includes(day) ? "border-[#23634e] bg-[#23634e] text-white" : "border-[#d7dbd3] bg-white text-[#53615c] hover:border-[#23634e]"}`}
-                      >
-                        {day.slice(0, 3)}
-                      </button>
-                    ))}
-                  </div>
-                </fieldset>
 
                 {/* Languages */}
                 <fieldset className="full-width"><legend className="field-label">{t("auth.languages")}</legend>

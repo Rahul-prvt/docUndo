@@ -36,7 +36,6 @@ class DoctorSignupRequest(BaseModel):
     license_no: str
     bio: Optional[str] = None
     consult_fee: Optional[float] = None
-    available_days: Optional[List[str]] = None
     languages: Optional[List[str]] = None
     clinic_name: Optional[str] = None
     opening_hours: Optional[str] = None
@@ -63,7 +62,6 @@ class DoctorProfileUpdate(BaseModel):
     bio: Optional[str] = None
     specialty: Optional[str] = None
     consult_fee: Optional[float] = None
-    available_days: Optional[List[str]] = None
     languages: Optional[List[str]] = None
 
 

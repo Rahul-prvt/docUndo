@@ -5,7 +5,7 @@ const schedule = days.map((day, index) => ({ day, is_open: index < 5, start: ind
 const profile = {
   id: 'doctor-1', email: 'doctor@example.com', name: 'Dr. Anjali Rao', specialty: 'Pediatrician',
   license_no: 'REG-101', license_verified: true, active: true, available: false,
-  bio: 'Child health specialist', consult_fee: 500, available_days: ['Monday', 'Tuesday'], languages: ['English', 'Hindi'],
+  bio: 'Child health specialist', consult_fee: 500, languages: ['English', 'Hindi'],
   created_at: '2026-01-01T00:00:00Z',
   clinic: { id: 'clinic-1', doctor_id: 'doctor-1', name: 'Sunrise Clinic', address: 'Palakkad, Kerala', phone: '+91 99999 99999', lat: 10.786, lng: 76.6444, opening_hours: 'Mon 09:00–17:00', opening_hours_schedule: schedule },
 };
@@ -40,6 +40,7 @@ test('loads existing professional, practice, and schedule values', async ({ page
   await expect(page.locator('#clinic-address')).toHaveValue('Palakkad, Kerala');
   await expect(page.locator('#Monday-start')).toHaveValue('09:00');
   await expect(page.locator('#Sunday-start')).toHaveCount(0);
+  await expect(page.getByText('Consultation days', { exact: true })).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 
