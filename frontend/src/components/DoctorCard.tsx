@@ -8,6 +8,47 @@ interface DoctorCardProps {
   className?: string;
 }
 
+interface StoredHoursDay {
+  day?: string;
+  is_open?: boolean;
+  start?: string | null;
+  end?: string | null;
+}
+
+const shortDay = (day: string) => day.slice(0, 3);
+
+const displayTime = (value: string) => {
+  const [hours, minutes] = value.split(":").map(Number);
+  if (!Number.isFinite(hours) || !Number.isFinite(minutes)) return value;
+  return `${hours % 12 || 12}:${String(minutes).padStart(2, "0")} ${hours >= 12 ? "PM" : "AM"}`;
+};
+
+export const formatOpeningHours = (value?: string | null) => {
+  if (!value) return "";
+  try {
+    const parsed = JSON.parse(value) as StoredHoursDay[];
+    if (!Array.isArray(parsed)) return value;
+    const openDays = parsed.filter((item) => item.is_open && item.day && item.start && item.end);
+    if (!openDays.length) return "Closed";
+
+    const groups: Array<{ first: string; last: string; start: string; end: string }> = [];
+    for (const item of openDays) {
+      const previous = groups[groups.length - 1];
+      if (previous && previous.start === item.start && previous.end === item.end) {
+        previous.last = item.day!;
+      } else {
+        groups.push({ first: item.day!, last: item.day!, start: item.start!, end: item.end! });
+      }
+    }
+    return groups.map((group) => {
+      const days = group.first === group.last ? shortDay(group.first) : `${shortDay(group.first)}–${shortDay(group.last)}`;
+      return `${days} ${displayTime(group.start)}–${displayTime(group.end)}`;
+    }).join(", ");
+  } catch {
+    return value;
+  }
+};
+
 export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor, onClick, isDetailView = false, className = "" }) => {
   const { t } = useTranslation();
   const isAvailable = doctor?.available ?? false;
@@ -15,6 +56,7 @@ export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor, onClick, isDetai
   const address = doctor?.clinic?.address || "Clinic address to be confirmed";
   const distance = doctor?.distance_km != null ? `${doctor.distance_km.toFixed(1)} km` : "Nearby";
   const phone = doctor?.clinic?.phone || null;
+  const openingHours = formatOpeningHours(doctor?.clinic?.opening_hours);
 
   return (
     <article
@@ -82,7 +124,7 @@ export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor, onClick, isDetai
             )}
           </div>
           {doctor?.clinic?.name && <p className="text-sm font-semibold text-[#344b40]">{doctor.clinic.name}</p>}
-          {doctor?.clinic?.opening_hours && <p className="text-sm text-[#53665e]">Hours: {doctor.clinic.opening_hours}</p>}
+          {openingHours && <p className="text-sm text-[#53665e]">Hours: {openingHours}</p>}
           {!phone && <p className="text-sm text-[#53665e]">{t('doc.no_phone')}</p>}
         </div>
       )}

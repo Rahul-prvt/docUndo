@@ -3,6 +3,9 @@ uvicorn[standard]==0.30.6
 pydantic==2.9.2
 pydantic-settings==2.5.2
 supabase==2.7.4
+# supabase 2.7.4 imports DEFAULT_FUNCTION_CLIENT_TIMEOUT, which is absent
+# from supafunc 0.4.7 even though that release satisfies its broad metadata.
+supafunc==0.5.1
 httpx==0.27.2
 requests==2.32.3
 openai>=1.50.0
