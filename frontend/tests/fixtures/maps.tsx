@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 // Replace the external SDK only. Real MapView and PlaceAutocomplete still render.
 export const APIProvider = ({ children }: { children: React.ReactNode }) => <>{children}</>;
-export const useApiLoadingStatus = () => 'LOADED';
+export const useApiLoadingStatus = () => (window as any).__mapStatus || 'LOADED';
 class PlaceAutocompleteElement extends HTMLElement {
   input = document.createElement('input');
   constructor() {

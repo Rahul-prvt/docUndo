@@ -12,6 +12,14 @@ export const api = axios.create({
 // Read the persisted session for every request. This makes a page refresh
 // safe: Axios defaults are recreated on refresh, while localStorage survives.
 api.interceptors.request.use((config) => {
+  // Discovery is public. JSON/auth/admin headers add an unnecessary CORS
+  // preflight to this GET and do not change its results.
+  if (config.method === 'get' && config.url === '/search') {
+    config.headers.delete('Content-Type');
+    config.headers.delete('Authorization');
+    config.headers.delete('X-Admin-Key');
+    return config;
+  }
   const token = typeof window !== "undefined" ? localStorage.getItem("auth_token") : null;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -43,9 +51,11 @@ export const doctorApi = {
 
 // Search endpoints
 export const searchApi = {
-  search: (lat: number, lng: number, specialty?: string, radius_km?: number) =>
+  search: (lat: number, lng: number, specialty?: string, radius_km?: number, signal?: AbortSignal) =>
     api.get("/search", {
       params: { lat, lng, specialty, radius_km },
+      signal,
+      timeout: 15000,
     }),
 };
 

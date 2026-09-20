@@ -19,15 +19,21 @@ export function useDoctorSearch() {
   const placeRef = useRef(place);
   const operation = useRef(0);
   const busyRef = useRef(false);
+  const request = useRef<AbortController | null>(null);
   const initialReading = useRef<Promise<Coordinates> | null>(null);
 
   const updateFilters = useCallback((patch: Partial<Filters>) => {
     filtersRef.current = { ...filtersRef.current, ...patch };
+    filtersRef.current.specialty = filtersRef.current.specialty.trim().replace(/\s+/g, ' ');
     setFilters(filtersRef.current);
   }, []);
 
   const performSearch = useCallback(async (options: { initial?: boolean; refresh?: boolean } = {}) => {
-    if (busyRef.current) return;
+    // While GPS resolves, it will apply the latest draft filters. Once HTTP is
+    // in flight, an AI filter can supersede it without requesting GPS again.
+    if (busyRef.current && !(options.refresh === false && request.current)) return;
+    request.current?.abort();
+    request.current = null;
     busyRef.current = true;
     const id = ++operation.current;
     setLocationFailure(null);
@@ -38,7 +44,7 @@ export function useDoctorSearch() {
         // StrictMode replays mount effects. Both effect runs share the reading;
         // only the current operation is allowed to issue the doctor request.
         const reading = options.initial
-          ? (initialReading.current ??= getCurrentUserLocation())
+          ? (initialReading.current ??= getCurrentUserLocation({ initial: true }))
           : getCurrentUserLocation();
         const coordinates = await reading;
         if (id !== operation.current) return;
@@ -50,7 +56,8 @@ export function useDoctorSearch() {
       setPlace(next);
       setPhase('searching');
       const appliedFilters = { ...filtersRef.current };
-      const response = await searchApi.search(next.lat, next.lng, appliedFilters.specialty || undefined, appliedFilters.radius);
+      request.current = new AbortController();
+      const response = await searchApi.search(next.lat, next.lng, appliedFilters.specialty || undefined, appliedFilters.radius, request.current.signal);
       if (id !== operation.current) return;
       // Commit the location, filters and doctor results as one snapshot.
       setResults({ place: next, filters: appliedFilters, doctors: response.data });
@@ -66,16 +73,20 @@ export function useDoctorSearch() {
         placeRef.current = null;
         setPlace(null);
       } else setPhase('search-error');
-    } finally { if (id === operation.current) busyRef.current = false; }
+    } finally {
+      if (id === operation.current) { busyRef.current = false; request.current = null; }
+    }
   }, []);
 
   useEffect(() => {
     void performSearch({ initial: true });
-    return () => { operation.current++; busyRef.current = false; };
+    return () => { operation.current++; busyRef.current = false; request.current?.abort(); request.current = null; };
   }, [performSearch]);
 
   const changeMode = useCallback((next: 'device' | 'manual') => {
     operation.current++;
+    request.current?.abort();
+    request.current = null;
     busyRef.current = false;
     modeRef.current = next;
     setMode(next);
@@ -88,6 +99,8 @@ export function useDoctorSearch() {
   const selectPlace = useCallback((next: Coordinates & { address: string }) => {
     // An intentional manual choice supersedes any pending GPS/API response.
     operation.current++;
+    request.current?.abort();
+    request.current = null;
     busyRef.current = false;
     modeRef.current = 'manual';
     setMode('manual');

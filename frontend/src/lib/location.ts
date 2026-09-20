@@ -7,8 +7,8 @@ export class LocationError extends Error {
 
 export const LOCATION_TIMEOUT_MS = 10000;
 
-/** One fresh reading, never a watch or a cached/default coordinate. */
-export function getCurrentUserLocation(): Promise<Coordinates> {
+/** One reading; only initial discovery may reuse a recent browser position. */
+export function getCurrentUserLocation(options: { initial?: boolean } = {}): Promise<Coordinates> {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) { reject(new LocationError('unsupported')); return; }
     let settled = false;
@@ -30,7 +30,7 @@ export function getCurrentUserLocation(): Promise<Coordinates> {
         }
         finish({ lat, lng });
       }, error => finish(undefined, error.code === 1 ? 'denied' : error.code === 3 ? 'timeout' : 'unavailable'), {
-        maximumAge: 0,
+        maximumAge: options.initial ? 30000 : 0,
         enableHighAccuracy: true,
         timeout: LOCATION_TIMEOUT_MS,
       });

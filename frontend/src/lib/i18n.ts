@@ -4,6 +4,7 @@ type Translations = Record<string, Record<string, string>>;
 
 const translations: Translations = {
   en: {
+    "search.refreshing_results": "Previous results remain visible until the search succeeds.",
     "search.previous_results": "Showing previous results. Choose a location and search to update.",
     "search.device_location": "Current device location",
     "search.manual_location": "Choose another area",
@@ -311,6 +312,7 @@ const translations: Translations = {
   },
 
   ml: {
+    "search.refreshing_results": "തിരച്ചിൽ വിജയിക്കുന്നതുവരെ മുൻ ഫലങ്ങൾ കാണിക്കുന്നു.",
     "search.previous_results": "മുൻ ഫലങ്ങൾ കാണിക്കുന്നു. പുതുക്കാൻ സ്ഥലം തിരഞ്ഞെടുത്ത് തിരയുക.",
     "search.device_location": "ഉപകരണത്തിന്റെ നിലവിലെ സ്ഥാനം",
     "search.manual_location": "മറ്റൊരു പ്രദേശം തിരഞ്ഞെടുക്കുക",

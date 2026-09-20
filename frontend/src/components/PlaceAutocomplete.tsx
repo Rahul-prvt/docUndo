@@ -22,6 +22,7 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({ id, label,
   React.useEffect(() => {
     if (!places || !containerRef.current) return;
     let active = true;
+    let selection = 0;
     const autocomplete = new places.PlaceAutocompleteElement({ includedRegionCodes: ['in'] });
     autocomplete.id = id;
     autocomplete.setAttribute('aria-label', label || 'Search location');
@@ -30,16 +31,17 @@ export const PlaceAutocomplete: React.FC<PlaceAutocompleteProps> = ({ id, label,
     autocompleteRef.current = autocomplete;
     const handleError = () => { if (active) { setSelecting(false); setError('Location search is unavailable. Try again or choose a point on the map.'); } };
     const handleSelect = async (event: google.maps.places.PlacePredictionSelectEvent) => {
+      const currentSelection = ++selection;
       setSelecting(true);
       setError('');
       try {
         const place = event.placePrediction.toPlace();
         await place.fetchFields({ fields: ['displayName', 'formattedAddress', 'location'] });
-        if (!active) return;
+        if (!active || currentSelection !== selection) return;
         if (!place.location || !place.formattedAddress) { handleError(); return; }
         callbackRef.current({ address: place.formattedAddress, lat: place.location.lat(), lng: place.location.lng(), name: place.displayName || undefined });
-      } catch { handleError(); }
-      finally { if (active) setSelecting(false); }
+      } catch { if (currentSelection === selection) handleError(); }
+      finally { if (active && currentSelection === selection) setSelecting(false); }
     };
     autocomplete.addEventListener('gmp-select', handleSelect);
     autocomplete.addEventListener('gmp-error', handleError);
