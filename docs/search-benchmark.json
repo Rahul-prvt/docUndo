@@ -1,0 +1,514 @@
+{
+  "backend": {
+    "before": {
+      "empty": {
+        "fixture": "configured Supabase, Palakkad 10km, no specialty, read-only",
+        "runs": 7,
+        "cold": {
+          "db_roundtrip_ms": 1082.2324000000663,
+          "db_requests": 1,
+          "db_bytes": 7010,
+          "candidate_rows": 8,
+          "distance_ms": 0.05549999696086161,
+          "distance_calls": 3,
+          "store_ms": 1088.3356999984244,
+          "serialization_ms": 0.0895000011951197,
+          "api_bytes": 2,
+          "results": 0
+        },
+        "median": {
+          "db_roundtrip_ms": 81.029,
+          "db_requests": 1,
+          "db_bytes": 7010,
+          "candidate_rows": 8,
+          "distance_ms": 0.025,
+          "distance_calls": 3,
+          "store_ms": 81.799,
+          "serialization_ms": 0.024,
+          "api_bytes": 2,
+          "results": 0
+        },
+        "samples": [
+          {
+            "db_roundtrip_ms": 120.6620999982988,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.02809999932651408,
+            "distance_calls": 3,
+            "store_ms": 122.93780000254628,
+            "serialization_ms": 0.026900001103058457,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 75.33259999763686,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.029000002541579306,
+            "distance_calls": 3,
+            "store_ms": 79.00180000069668,
+            "serialization_ms": 0.029899998480686918,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 75.73699999920791,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.02540000423323363,
+            "distance_calls": 3,
+            "store_ms": 77.06390000021202,
+            "serialization_ms": 0.024099997972371057,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 110.66169999685371,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.03819999983534217,
+            "distance_calls": 3,
+            "store_ms": 112.37189999883412,
+            "serialization_ms": 0.032800002372823656,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 71.45010000022012,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.012699998478638008,
+            "distance_calls": 3,
+            "store_ms": 72.50379999823053,
+            "serialization_ms": 0.011600001016631722,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 81.02880000296864,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.018300001102034003,
+            "distance_calls": 3,
+            "store_ms": 81.79889999883017,
+            "serialization_ms": 0.015400000847876072,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 81.30380000147852,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.016500001947861165,
+            "distance_calls": 3,
+            "store_ms": 82.30609999736771,
+            "serialization_ms": 0.014100001862971112,
+            "api_bytes": 2,
+            "results": 0
+          }
+        ]
+      },
+      "near_clinic": {
+        "fixture": "configured Supabase, active clinic 10km, no specialty, read-only",
+        "runs": 7,
+        "cold": {
+          "db_roundtrip_ms": 67.44959999923594,
+          "db_requests": 1,
+          "db_bytes": 7010,
+          "candidate_rows": 8,
+          "distance_ms": 0.05980000059935264,
+          "distance_calls": 3,
+          "store_ms": 68.64050000149291,
+          "serialization_ms": 2.0296000002417713,
+          "api_bytes": 1372,
+          "results": 2
+        },
+        "median": {
+          "db_roundtrip_ms": 70.356,
+          "db_requests": 1,
+          "db_bytes": 7010,
+          "candidate_rows": 8,
+          "distance_ms": 0.019,
+          "distance_calls": 3,
+          "store_ms": 71.603,
+          "serialization_ms": 0.248,
+          "api_bytes": 1372,
+          "results": 2
+        },
+        "samples": [
+          {
+            "db_roundtrip_ms": 72.66470000104164,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.021500000002561137,
+            "distance_calls": 3,
+            "store_ms": 77.18849999946542,
+            "serialization_ms": 0.2477000016369857,
+            "api_bytes": 1372,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 70.35639999958221,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.03140000262646936,
+            "distance_calls": 3,
+            "store_ms": 71.60270000167657,
+            "serialization_ms": 0.42580000081215985,
+            "api_bytes": 1372,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 69.55910000033327,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.030400002287933603,
+            "distance_calls": 3,
+            "store_ms": 71.184299999004,
+            "serialization_ms": 0.3591999993659556,
+            "api_bytes": 1372,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 59.80389999967883,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.013700002455152571,
+            "distance_calls": 3,
+            "store_ms": 60.99760000142851,
+            "serialization_ms": 0.15949999942677096,
+            "api_bytes": 1372,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 67.43750000168802,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.01880000127130188,
+            "distance_calls": 3,
+            "store_ms": 68.2502999989083,
+            "serialization_ms": 0.252499998168787,
+            "api_bytes": 1372,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 74.2649000021629,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.01599999814061448,
+            "distance_calls": 3,
+            "store_ms": 75.08980000056908,
+            "serialization_ms": 0.1694999991741497,
+            "api_bytes": 1372,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 83.69490000040969,
+            "db_requests": 1,
+            "db_bytes": 7010,
+            "candidate_rows": 8,
+            "distance_ms": 0.014799999917158857,
+            "distance_calls": 3,
+            "store_ms": 84.39050000015413,
+            "serialization_ms": 0.1745000008668285,
+            "api_bytes": 1372,
+            "results": 2
+          }
+        ]
+      }
+    },
+    "after": {
+      "empty": {
+        "fixture": "configured Supabase, Palakkad 10km, no specialty, read-only",
+        "runs": 7,
+        "cold": {
+          "db_roundtrip_ms": 532.5001999990491,
+          "db_requests": 1,
+          "db_bytes": 2,
+          "candidate_rows": 0,
+          "distance_ms": 0,
+          "distance_calls": 0,
+          "store_ms": 537.3982999990403,
+          "serialization_ms": 0.0351999988197349,
+          "api_bytes": 2,
+          "results": 0
+        },
+        "median": {
+          "db_roundtrip_ms": 76.413,
+          "db_requests": 1,
+          "db_bytes": 2,
+          "candidate_rows": 0,
+          "distance_ms": 0,
+          "distance_calls": 0,
+          "store_ms": 77.614,
+          "serialization_ms": 0.021,
+          "api_bytes": 2,
+          "results": 0
+        },
+        "samples": [
+          {
+            "db_roundtrip_ms": 68.7895999981265,
+            "db_requests": 1,
+            "db_bytes": 2,
+            "candidate_rows": 0,
+            "distance_ms": 0,
+            "distance_calls": 0,
+            "store_ms": 70.14329999947222,
+            "serialization_ms": 0.0197000008483883,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 227.0027000013215,
+            "db_requests": 1,
+            "db_bytes": 2,
+            "candidate_rows": 0,
+            "distance_ms": 0,
+            "distance_calls": 0,
+            "store_ms": 229.39559999940684,
+            "serialization_ms": 0.014500001270789653,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 328.3216000018001,
+            "db_requests": 1,
+            "db_bytes": 2,
+            "candidate_rows": 0,
+            "distance_ms": 0,
+            "distance_calls": 0,
+            "store_ms": 329.17559999987134,
+            "serialization_ms": 0.020600000425474718,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 76.41320000038831,
+            "db_requests": 1,
+            "db_bytes": 2,
+            "candidate_rows": 0,
+            "distance_ms": 0,
+            "distance_calls": 0,
+            "store_ms": 77.61430000027758,
+            "serialization_ms": 0.02710000262595713,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 76.69329999771435,
+            "db_requests": 1,
+            "db_bytes": 2,
+            "candidate_rows": 0,
+            "distance_ms": 0,
+            "distance_calls": 0,
+            "store_ms": 78.02870000159601,
+            "serialization_ms": 0.021200001356191933,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 74.15800000308082,
+            "db_requests": 1,
+            "db_bytes": 2,
+            "candidate_rows": 0,
+            "distance_ms": 0,
+            "distance_calls": 0,
+            "store_ms": 75.49190000281669,
+            "serialization_ms": 0.02359999780310318,
+            "api_bytes": 2,
+            "results": 0
+          },
+          {
+            "db_roundtrip_ms": 75.69789999979548,
+            "db_requests": 1,
+            "db_bytes": 2,
+            "candidate_rows": 0,
+            "distance_ms": 0,
+            "distance_calls": 0,
+            "store_ms": 77.12259999971138,
+            "serialization_ms": 0.03600000127335079,
+            "api_bytes": 2,
+            "results": 0
+          }
+        ]
+      },
+      "near_clinic": {
+        "fixture": "configured Supabase, active clinic 10km, no specialty, read-only",
+        "runs": 7,
+        "cold": {
+          "db_roundtrip_ms": 71.53269999980694,
+          "db_requests": 1,
+          "db_bytes": 1822,
+          "candidate_rows": 3,
+          "distance_ms": 0.050900001951958984,
+          "distance_calls": 3,
+          "store_ms": 73.04959999964922,
+          "serialization_ms": 0.4830999969271943,
+          "api_bytes": 883,
+          "results": 2
+        },
+        "median": {
+          "db_roundtrip_ms": 73.819,
+          "db_requests": 1,
+          "db_bytes": 1822,
+          "candidate_rows": 3,
+          "distance_ms": 0.017,
+          "distance_calls": 3,
+          "store_ms": 74.999,
+          "serialization_ms": 0.202,
+          "api_bytes": 883,
+          "results": 2
+        },
+        "samples": [
+          {
+            "db_roundtrip_ms": 71.50149999870337,
+            "db_requests": 1,
+            "db_bytes": 1822,
+            "candidate_rows": 3,
+            "distance_ms": 0.028200003725942224,
+            "distance_calls": 3,
+            "store_ms": 75.11840000006487,
+            "serialization_ms": 0.29659999927389435,
+            "api_bytes": 883,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 71.54950000040117,
+            "db_requests": 1,
+            "db_bytes": 1822,
+            "candidate_rows": 3,
+            "distance_ms": 0.04229999831295572,
+            "distance_calls": 3,
+            "store_ms": 73.05239999914193,
+            "serialization_ms": 0.2530999990995042,
+            "api_bytes": 883,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 74.02369999908842,
+            "db_requests": 1,
+            "db_bytes": 1822,
+            "candidate_rows": 3,
+            "distance_ms": 0.01679999695625156,
+            "distance_calls": 3,
+            "store_ms": 74.99930000267341,
+            "serialization_ms": 0.17149999985122122,
+            "api_bytes": 883,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 76.02400000178022,
+            "db_requests": 1,
+            "db_bytes": 1822,
+            "candidate_rows": 3,
+            "distance_ms": 0.01460000203223899,
+            "distance_calls": 3,
+            "store_ms": 76.87479999731295,
+            "serialization_ms": 0.2024000023084227,
+            "api_bytes": 883,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 73.81879999957164,
+            "db_requests": 1,
+            "db_bytes": 1822,
+            "candidate_rows": 3,
+            "distance_ms": 0.015000001440057531,
+            "distance_calls": 3,
+            "store_ms": 74.60549999814248,
+            "serialization_ms": 0.15350000103353523,
+            "api_bytes": 883,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 70.5437999968126,
+            "db_requests": 1,
+            "db_bytes": 1822,
+            "candidate_rows": 3,
+            "distance_ms": 0.024000000848900527,
+            "distance_calls": 3,
+            "store_ms": 71.42509999903268,
+            "serialization_ms": 0.31999999919207767,
+            "api_bytes": 883,
+            "results": 2
+          },
+          {
+            "db_roundtrip_ms": 80.33579999755602,
+            "db_requests": 1,
+            "db_bytes": 1822,
+            "candidate_rows": 3,
+            "distance_ms": 0.01309999788645655,
+            "distance_calls": 3,
+            "store_ms": 81.53630000015255,
+            "serialization_ms": 0.13730000137002207,
+            "api_bytes": 883,
+            "results": 2
+          }
+        ]
+      }
+    }
+  },
+  "browser": {
+    "before": {
+      "desktop": {
+        "project": "desktop",
+        "providers": "GPS held 200ms; API held 300ms; map fixture",
+        "locationWaitMs": 246.39999999850988,
+        "apiWaitMs": 315.6000000014901,
+        "responseToCardsMs": 28,
+        "responseToMapFixtureMs": 28.100000001490116,
+        "renderedCards": 30,
+        "cardsDuringGps": 0,
+        "cardsDuringApi": 0
+      },
+      "mobile": {
+        "project": "mobile",
+        "providers": "GPS held 200ms; API held 300ms; map fixture",
+        "locationWaitMs": 255.60000000149012,
+        "apiWaitMs": 336.5,
+        "responseToCardsMs": 33.599999997764826,
+        "responseToMapFixtureMs": 33.69999999925494,
+        "renderedCards": 30,
+        "cardsDuringGps": 0,
+        "cardsDuringApi": 0
+      }
+    },
+    "after": {
+      "desktop": {
+        "project": "desktop",
+        "providers": "GPS held 200ms; API held 300ms; map fixture",
+        "locationWaitMs": 245.5,
+        "apiWaitMs": 322.1000000014901,
+        "responseToCardsMs": 52.69999999925494,
+        "responseToMapFixtureMs": 52.69999999925494,
+        "renderedCards": 30,
+        "cardsDuringGps": 30,
+        "cardsDuringApi": 30
+      },
+      "mobile": {
+        "project": "mobile",
+        "providers": "GPS held 200ms; API held 300ms; map fixture",
+        "locationWaitMs": 256.69999999925494,
+        "apiWaitMs": 337.30000000074506,
+        "responseToCardsMs": 34.29999999701977,
+        "responseToMapFixtureMs": 34.399999998509884,
+        "renderedCards": 30,
+        "cardsDuringGps": 30,
+        "cardsDuringApi": 30
+      }
+    }
+  }
+}
