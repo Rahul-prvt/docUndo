@@ -36,3 +36,22 @@ These fixtures do not verify real browser permission dialogs, GPS hardware, Goog
 restrictions, map tiles, or backend search/ranking behavior. Those require separate
 deployment/device checks. This suite covers location UX; it does not exercise backend
 business behavior.
+
+The suite also covers retaining card DOM nodes during refresh, HTTP cancellation,
+native request timeout recovery, AI filters during GPS/HTTP work, out-of-order
+place detail responses, map failure isolation, and public search request headers.
+Initial GPS may use a browser reading up to 30 seconds old; Search still requests
+maximumAge=0. Native XHR timeout recovery uses a bounded wait for the UI outcome,
+not an assertion about elapsed milliseconds.
+
+To record a controlled browser performance sample:
+
+```powershell
+$env:SEARCH_PROFILE_LABEL='after'
+npx playwright test --config playwright.profile.config.ts
+```
+
+Aggregates are written to `../.pytest_cache/search-browser-after-*.json`.
+This runs real React/DOM with 30 fixture cards, 200ms held GPS, 300ms held API,
+and a map SDK fixture. It measures response-to-DOM time and retained-card counts;
+it does not measure hardware GPS, real Google maps, SQL time or production latency.

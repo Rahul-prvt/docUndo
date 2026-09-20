@@ -85,3 +85,44 @@ def test_schedule_round_trip_and_validation(fake_supabase):
         "opening_hours_schedule": [{"day": "Monday", "is_open": True, "start": "17:00", "end": "09:00"}],
     })
     assert invalid.status_code == 422
+
+
+def test_search_normalizes_specialty_and_omits_profile_and_duplicate_schedule(fake_supabase):
+    create_doctor(fake_supabase, 'normalized', verified=True, live=False)
+    result = search('   general   Practitioner   ')[0]
+    assert result['name'] == 'Dr. Normalized'
+    assert 'email' not in result and 'bio' not in result and 'license_no' not in result
+    assert 'opening_hours_schedule' not in result['clinic']
+    assert result['clinic']['opening_hours'] == 'Mon 09:00–17:00'
+
+
+@pytest.mark.parametrize('lat,lng', [(91, 0), (-91, 0), (0, 181), (0, -181), ('NaN', 0), (0, 'inf')])
+def test_invalid_search_coordinates_are_rejected(lat, lng):
+    response = client.get('/api/v1/search', params={'lat': lat, 'lng': lng})
+    assert response.status_code == 422
+
+
+def test_database_failure_returns_retryable_error(fake_supabase, monkeypatch):
+    from httpx import ConnectError
+    def fail(*args):
+        raise ConnectError('private connection details')
+    monkeypatch.setattr(fake_supabase, 'search_doctors', fail)
+    response = client.get('/api/v1/search', params={'lat': 10, 'lng': 76})
+    assert response.status_code == 503
+    assert 'private' not in response.text
+
+
+@pytest.mark.asyncio
+async def test_synchronous_store_runs_outside_the_event_loop(fake_supabase, monkeypatch):
+    import threading
+    import httpx
+    event_loop_thread = threading.get_ident()
+    threads = []
+    def record(*args):
+        threads.append(threading.get_ident())
+        return []
+    monkeypatch.setattr(fake_supabase, 'search_doctors', record)
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='http://fixture') as http:
+        response = await http.get('/api/v1/search', params={'lat': 10, 'lng': 76})
+    assert response.status_code == 200
+    assert len(threads) == 1 and threads[0] != event_loop_thread

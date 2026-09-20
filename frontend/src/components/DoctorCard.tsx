@@ -56,7 +56,7 @@ export const DoctorCard: React.FC<DoctorCardProps> = ({ doctor, onClick, isDetai
   const address = doctor?.clinic?.address || "Clinic address to be confirmed";
   const distance = doctor?.distance_km != null ? `${doctor.distance_km.toFixed(1)} km` : "Nearby";
   const phone = doctor?.clinic?.phone || null;
-  const openingHours = formatOpeningHours(doctor?.clinic?.opening_hours);
+  const openingHours = isDetailView ? formatOpeningHours(doctor?.clinic?.opening_hours) : '';
 
   return (
     <article
