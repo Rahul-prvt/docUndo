@@ -1,6 +1,8 @@
 """Supabase-backed persistence helpers for doctors, clinics, and availability."""
 
 import logging
+import math
+from threading import Lock
 
 from typing import Any, Optional
 
@@ -8,6 +10,27 @@ from app.config import settings
 from app.db import get_supabase_client
 
 logger = logging.getLogger(__name__)
+
+SEARCH_FIELDS = (
+    "id,name,specialty,consult_fee,license_verified,"
+    "clinics!inner(id,doctor_id,name,address,lat,lng,opening_hours,phone),"
+    "availability(available)"
+)
+
+
+def search_bounds(lat: float, lng: float, radius_km: float) -> tuple[float, float, float | None, float | None]:
+    """Conservative spherical bounds, including poles and the antimeridian."""
+    angle = radius_km / 6371.0
+    latitude = math.radians(lat)
+    south, north = max(-90.0, lat - math.degrees(angle)), min(90.0, lat + math.degrees(angle))
+    if south <= -90 or north >= 90:
+        return south, north, None, None
+    delta = math.degrees(math.asin(min(1.0, math.sin(angle) / math.cos(latitude))))
+    return south, north, (lng - delta + 180) % 360 - 180, (lng + delta + 180) % 360 - 180
+
+
+def normalize_specialty(value: Optional[str]) -> Optional[str]:
+    return " ".join((value or "").split()) or None
 
 
 def _first_related(value: Any) -> Optional[dict[str, Any]]:
@@ -21,6 +44,7 @@ def _first_related(value: Any) -> Optional[dict[str, Any]]:
 class SupabaseStore:
     def __init__(self) -> None:
         self._client: Any | None = None
+        self._client_lock = Lock()
 
     def is_configured(self) -> bool:
         return bool(settings.supabase_url and settings.supabase_service_role)
@@ -30,8 +54,10 @@ class SupabaseStore:
         if not self.is_configured():
             raise RuntimeError("Supabase is not configured")
         if self._client is None:
-            logger.info("Creating Supabase client")
-            self._client = get_supabase_client()
+            with self._client_lock:
+                if self._client is None:
+                    logger.info("Creating Supabase client")
+                    self._client = get_supabase_client()
         return self._client
 
     def create_doctor(self, payload: dict[str, Any]) -> dict[str, Any]:
@@ -105,37 +131,67 @@ class SupabaseStore:
 
     def search_doctors(self, lat: float, lng: float, specialty: Optional[str] = None, radius_km: float = 10.0) -> list[dict[str, Any]]:
         logger.info("Supabase search doctors specialty=%s radius_km=%s", specialty or "all", radius_km)
-        query = self.client.table("doctors").select("*, clinics(*), availability(*)")
-        if specialty:
-            query = query.ilike("specialty", f"%{specialty}%")
-        response = query.execute()
-        if not response.data:
-            return []
-
+        specialty = normalize_specialty(specialty)
+        south, north, west, east = search_bounds(lat, lng, radius_km)
+        # Keep pages below Supabase's default 1000-row cap. Filter candidates in
+        # the database before accurate distance/ranking; never limit final matches
+        # before computing distance. No availability constraint: offline is active.
+        candidates = []
+        page_size = 200
+        offset = 0
+        while True:
+            query = (self.client.table("doctors").select(SEARCH_FIELDS)
+                     .eq("license_verified", True)
+                     .gte("clinics.lat", south).lte("clinics.lat", north)
+                     .order("id").range(offset, offset + page_size - 1))
+            if west is not None and east is not None:
+                if west > east:
+                    query = query.or_(f"lng.gte.{west},lng.lte.{east}", reference_table="clinics")
+                else:
+                    query = query.gte("clinics.lng", west).lte("clinics.lng", east)
+            if specialty:
+                # Preserve case-insensitive partial matching, treating SQL wildcards
+                # as literal input. The product uses a specialty selector, not SQL.
+                literal = specialty.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+                query = query.ilike("specialty", f"%{literal}%")
+            rows = query.execute().data or []
+            candidates.extend(rows)
+            if len(rows) < page_size:
+                break
+            offset += len(rows)
         results: list[dict[str, Any]] = []
-        for doctor in response.data:
-            clinic = _first_related(doctor.get("clinics"))
+        for doctor in candidates:
             availability = _first_related(doctor.get("availability"))
-            # A verified doctor is active and remains discoverable when offline.
-            if not doctor.get("license_verified", False) or not clinic:
+            if not doctor.get("license_verified", False):
                 continue
-            if clinic.get("lat") is None or clinic.get("lng") is None:
-                logger.warning("Search skipped doctor with missing clinic coordinates doctor_id=%s", doctor.get("id"))
+            clinics = doctor.get("clinics") or []
+            if isinstance(clinics, dict):
+                clinics = [clinics]
+            located = []
+            for clinic in clinics:
+                if clinic.get("lat") is None or clinic.get("lng") is None:
+                    continue
+                distance = self._haversine_distance(lat, lng, clinic["lat"], clinic["lng"])
+                if distance <= radius_km:
+                    located.append((distance, str(clinic["id"]), clinic))
+            if not located:
                 continue
-            distance_km = self._haversine_distance(lat, lng, clinic["lat"], clinic["lng"])
-            if distance_km <= radius_km:
-                results.append({
-                    "id": doctor["id"],
-                    "name": doctor["name"],
-                    "specialty": doctor["specialty"],
-                    "consult_fee": doctor.get("consult_fee"),
-                    "available": bool(availability and availability.get("available", False)),
-                    "distance_km": round(distance_km, 2),
-                    "clinic": clinic,
-                })
+            distance_km, _, clinic = min(located, key=lambda item: (item[0], item[1]))
+            results.append({
+                "id": doctor["id"],
+                "name": doctor["name"],
+                "specialty": doctor["specialty"],
+                "consult_fee": doctor.get("consult_fee"),
+                "available": bool(availability and availability.get("available", False)),
+                "distance_km": distance_km,
+                "clinic": clinic,
+            })
 
-        # Live doctors get a modest ranking preference without hiding offline doctors.
-        results = sorted(results, key=lambda item: (not item["available"], item["distance_km"]))
+        # Nearby search prioritizes distance; live status breaks distance ties.
+        # A final ID tie-breaker keeps cards stable across identical refreshes.
+        results.sort(key=lambda item: (item["distance_km"], not item["available"], str(item["id"])))
+        for item in results:
+            item["distance_km"] = round(item["distance_km"], 2)
         logger.info("Supabase search doctors completed result_count=%s", len(results))
         return results
 
@@ -166,7 +222,6 @@ class SupabaseStore:
         return response.data[0] if response.data else None
 
     def _haversine_distance(self, lat1: float, lng1: float, lat2: float, lng2: float) -> float:
-        import math
         radius = 6371.0
         lat1_rad = math.radians(lat1)
         lat2_rad = math.radians(lat2)
@@ -176,6 +231,7 @@ class SupabaseStore:
             math.sin(delta_lat / 2) ** 2
             + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(delta_lng / 2) ** 2
         )
+        a = min(1.0, max(0.0, a))
         c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
         return radius * c
 

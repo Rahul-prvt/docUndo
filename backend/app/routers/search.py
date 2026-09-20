@@ -3,25 +3,28 @@ import logging
 
 from fastapi import APIRouter, Query, HTTPException
 from typing import List
+from httpx import HTTPError
+from postgrest.exceptions import APIError
 from app.models.schemas import SearchResult, ClinicLocationResponse
 from app.routers.doctors import parse_opening_hours
-from app.services.supabase_store import supabase_store
+from app.services.supabase_store import supabase_store, normalize_specialty
 
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
 
-@router.get("/search", response_model=List[SearchResult])
-async def search_doctors(
-    lat: float = Query(..., description="Patient latitude"),
-    lng: float = Query(..., description="Patient longitude"),
-    specialty: str = Query(None, description="Optional specialty filter"),
+@router.get("/search", response_model=List[SearchResult],
+            response_model_exclude={"__all__": {"clinic": {"opening_hours_schedule"}}})
+def search_doctors(
+    lat: float = Query(..., ge=-90, le=90, description="Patient latitude"),
+    lng: float = Query(..., ge=-180, le=180, description="Patient longitude"),
+    specialty: str = Query(None, max_length=100, description="Optional specialty filter"),
     radius_km: float = Query(10.0, ge=1, le=100, description="Search radius in km"),
 ):
     """
-    Search for available doctors by location and specialty.
-    Uses Supabase as the only persistence layer.
+    Search active doctors, including offline doctors, by location and specialty.
+    Run synchronous Supabase I/O in FastAPI's worker pool, not the event loop.
     """
     if lat is None or lng is None:
         raise HTTPException(status_code=400, detail="Latitude and longitude are required")
@@ -30,8 +33,13 @@ async def search_doctors(
         logger.error("Search rejected: Supabase is not configured")
         raise HTTPException(status_code=503, detail="Supabase is not configured")
 
+    specialty = normalize_specialty(specialty)
     logger.info("Doctor search requested specialty=%s radius_km=%s", specialty or "all", radius_km)
-    remote_results = supabase_store.search_doctors(lat, lng, specialty, radius_km)
+    try:
+        remote_results = supabase_store.search_doctors(lat, lng, specialty, radius_km)
+    except (HTTPError, APIError) as error:
+        logger.warning("Search store unavailable error_type=%s", type(error).__name__)
+        raise HTTPException(status_code=503, detail="Doctor search is temporarily unavailable") from error
     logger.info("Doctor search completed result_count=%s", len(remote_results))
     return [
         SearchResult(
